@@ -18,6 +18,9 @@
   * **smartlinklib_7x**      
   wifi配网静态库
   
+  * **IOS-Pods-DFU-Library-master**      
+  Nordic DFU .Framework
+
 * BLETools
 
   Iwown内部BLE4.0固件&App开发调试工具
