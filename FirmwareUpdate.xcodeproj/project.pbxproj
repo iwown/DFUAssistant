@@ -1,0 +1,811 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		17AC9863173BA3D7B7E4831B /* libPods-FirmwareUpdate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA0A5D4CAC1E2C8BFEE5337 /* libPods-FirmwareUpdate.a */; };
+		48BF68A71DDC44A60026F5C5 /* NetWorkHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BF68A61DDC44A60026F5C5 /* NetWorkHandle.m */; };
+		48BF68AA1DDC49780026F5C5 /* IVFirmwareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BF68A91DDC49780026F5C5 /* IVFirmwareModel.m */; };
+		48C61DFA1DF9900D006E1A6F /* DCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C61DF91DF9900D006E1A6F /* DCViewController.m */; };
+		48E227AE1DD08C6F00B6737C /* BluetoothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 48E227A41DD08C6F00B6737C /* BluetoothManager.m */; };
+		48E227AF1DD08C6F00B6737C /* DeviceStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 48E227A71DD08C6F00B6737C /* DeviceStorage.m */; };
+		48E227B01DD08C6F00B6737C /* GenericServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 48E227A91DD08C6F00B6737C /* GenericServiceManager.m */; };
+		48E227B11DD08C6F00B6737C /* ParamaterStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 48E227AB1DD08C6F00B6737C /* ParamaterStorage.m */; };
+		48E227B21DD08C6F00B6737C /* SUOTAServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 48E227AD1DD08C6F00B6737C /* SUOTAServiceManager.m */; };
+		48E227C01DD0A33700B6737C /* IVRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48E227BF1DD0A33700B6737C /* IVRootViewController.m */; };
+		48E227C31DD0A7B100B6737C /* DUViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48E227C21DD0A7B100B6737C /* DUViewController.m */; };
+		48EA13C31DC746F200FDEB36 /* BlueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EA13C21DC746F200FDEB36 /* BlueViewController.m */; };
+		48F1FAE21DD1DAC800B55AAE /* DownLoadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F1FAE11DD1DAC800B55AAE /* DownLoadViewController.m */; };
+		5713B1211D92377B00D4274C /* PercentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5713B1201D92377B00D4274C /* PercentView.m */; };
+		5749155A1D8FCA63006F01C3 /* BLEOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 5749153E1D8FCA63006F01C3 /* BLEOperations.m */; };
+		5749155B1D8FCA63006F01C3 /* DFUHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 574915401D8FCA63006F01C3 /* DFUHelper.m */; };
+		5749155C1D8FCA63006F01C3 /* DFUOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 574915421D8FCA63006F01C3 /* DFUOperations.m */; };
+		5749155D1D8FCA63006F01C3 /* DFUOperationsDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 574915441D8FCA63006F01C3 /* DFUOperationsDetails.m */; };
+		5749155E1D8FCA63006F01C3 /* FileOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 574915461D8FCA63006F01C3 /* FileOperations.m */; };
+		5749155F1D8FCA63006F01C3 /* AccessFileSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 574915491D8FCA63006F01C3 /* AccessFileSystem.m */; };
+		574915601D8FCA63006F01C3 /* IntelHex2BinConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5749154B1D8FCA63006F01C3 /* IntelHex2BinConverter.m */; };
+		574915611D8FCA63006F01C3 /* InitData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5749154E1D8FCA63006F01C3 /* InitData.m */; };
+		574915621D8FCA63006F01C3 /* JsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 574915501D8FCA63006F01C3 /* JsonParser.m */; };
+		574915631D8FCA63006F01C3 /* ScannedPeripheral.m in Sources */ = {isa = PBXBuildFile; fileRef = 574915531D8FCA63006F01C3 /* ScannedPeripheral.m */; };
+		574915641D8FCA63006F01C3 /* UnzipFirmware.m in Sources */ = {isa = PBXBuildFile; fileRef = 574915571D8FCA63006F01C3 /* UnzipFirmware.m */; };
+		574915651D8FCA63006F01C3 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 574915591D8FCA63006F01C3 /* Utility.m */; };
+		574915A11D8FD6F2006F01C3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 574915A01D8FD6F2006F01C3 /* UIKit.framework */; };
+		574915A31D8FD6FB006F01C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 574915A21D8FD6FB006F01C3 /* Foundation.framework */; };
+		574915A51D8FD8A3006F01C3 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 574915A41D8FD8A3006F01C3 /* libz.tbd */; };
+		5751D71F1D8F7DA00096D96C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5751D71E1D8F7DA00096D96C /* main.m */; };
+		5751D7221D8F7DA00096D96C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5751D7211D8F7DA00096D96C /* AppDelegate.m */; };
+		5751D72A1D8F7DA00096D96C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5751D7291D8F7DA00096D96C /* Assets.xcassets */; };
+		57B84E601D90CD4A00BD46AF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57B84E5F1D90CD4A00BD46AF /* ViewController.m */; };
+		57B84E631D90CD8100BD46AF /* FileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 57B84E621D90CD8100BD46AF /* FileManager.m */; };
+		57B84E671D90E58E00BD46AF /* FirmwareListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57B84E661D90E58E00BD46AF /* FirmwareListController.m */; };
+		57B84E6A1D91108800BD46AF /* DeviceConectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57B84E691D91108800BD46AF /* DeviceConectController.m */; };
+		D650D2041F70E953006DD133 /* DFUAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = D650D2011F70E953006DD133 /* DFUAlertView.m */; };
+		D650D2051F70E953006DD133 /* DFUOverView.m in Sources */ = {isa = PBXBuildFile; fileRef = D650D2031F70E953006DD133 /* DFUOverView.m */; };
+		D650D23F1F710162006DD133 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = D650D23B1F710162006DD133 /* Toast.m */; };
+		D650D2401F710162006DD133 /* ToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = D650D23D1F710162006DD133 /* ToastView.m */; };
+		D650D2411F710162006DD133 /* 加载成功青蛙@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D650D23E1F710162006DD133 /* 加载成功青蛙@2x.png */; };
+		D650D25C1F710AD1006DD133 /* IVHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D650D2551F710AD1006DD133 /* IVHttpClient.m */; };
+		D650D25D1F710AD1006DD133 /* IVHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D650D2571F710AD1006DD133 /* IVHttpRequest.m */; };
+		D68D571F1F6FCEF500CC1DCB /* BaseDFUController.m in Sources */ = {isa = PBXBuildFile; fileRef = D68D571A1F6FCEF500CC1DCB /* BaseDFUController.m */; };
+		D68D57201F6FCEF500CC1DCB /* DFUViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D68D571C1F6FCEF500CC1DCB /* DFUViewController.m */; };
+		D68D57211F6FCEF500CC1DCB /* SUOTA_DFUController.m in Sources */ = {isa = PBXBuildFile; fileRef = D68D571E1F6FCEF500CC1DCB /* SUOTA_DFUController.m */; };
+		D68D57241F6FCF3F00CC1DCB /* libBtNotify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D68D57231F6FCF3F00CC1DCB /* libBtNotify.a */; };
+		D68D57271F6FD09D00CC1DCB /* FUHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = D68D57261F6FD09D00CC1DCB /* FUHandle.m */; };
+		D6A351431F72528100D3D562 /* FOTA_DFUController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A351421F72528100D3D562 /* FOTA_DFUController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		48BF68A51DDC44A60026F5C5 /* NetWorkHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkHandle.h; sourceTree = "<group>"; };
+		48BF68A61DDC44A60026F5C5 /* NetWorkHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetWorkHandle.m; sourceTree = "<group>"; };
+		48BF68A81DDC49780026F5C5 /* IVFirmwareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVFirmwareModel.h; sourceTree = "<group>"; };
+		48BF68A91DDC49780026F5C5 /* IVFirmwareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVFirmwareModel.m; sourceTree = "<group>"; };
+		48C61DF81DF9900D006E1A6F /* DCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCViewController.h; sourceTree = "<group>"; };
+		48C61DF91DF9900D006E1A6F /* DCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCViewController.m; sourceTree = "<group>"; };
+		48E227A31DD08C6F00B6737C /* BluetoothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothManager.h; sourceTree = "<group>"; };
+		48E227A41DD08C6F00B6737C /* BluetoothManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BluetoothManager.m; sourceTree = "<group>"; };
+		48E227A51DD08C6F00B6737C /* Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
+		48E227A61DD08C6F00B6737C /* DeviceStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceStorage.h; sourceTree = "<group>"; };
+		48E227A71DD08C6F00B6737C /* DeviceStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceStorage.m; sourceTree = "<group>"; };
+		48E227A81DD08C6F00B6737C /* GenericServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericServiceManager.h; sourceTree = "<group>"; };
+		48E227A91DD08C6F00B6737C /* GenericServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericServiceManager.m; sourceTree = "<group>"; };
+		48E227AA1DD08C6F00B6737C /* ParamaterStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParamaterStorage.h; sourceTree = "<group>"; };
+		48E227AB1DD08C6F00B6737C /* ParamaterStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParamaterStorage.m; sourceTree = "<group>"; };
+		48E227AC1DD08C6F00B6737C /* SUOTAServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUOTAServiceManager.h; sourceTree = "<group>"; };
+		48E227AD1DD08C6F00B6737C /* SUOTAServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUOTAServiceManager.m; sourceTree = "<group>"; };
+		48E227BE1DD0A33700B6737C /* IVRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVRootViewController.h; sourceTree = "<group>"; };
+		48E227BF1DD0A33700B6737C /* IVRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVRootViewController.m; sourceTree = "<group>"; };
+		48E227C11DD0A7B100B6737C /* DUViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DUViewController.h; sourceTree = "<group>"; };
+		48E227C21DD0A7B100B6737C /* DUViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DUViewController.m; sourceTree = "<group>"; };
+		48EA13C11DC746F200FDEB36 /* BlueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlueViewController.h; sourceTree = "<group>"; };
+		48EA13C21DC746F200FDEB36 /* BlueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlueViewController.m; sourceTree = "<group>"; };
+		48EA13C41DC7587200FDEB36 /* 加载成功青蛙@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "加载成功青蛙@2x.png"; path = "Classes/Controllers/加载成功青蛙@2x.png"; sourceTree = "<group>"; };
+		48F1FAE01DD1DAC800B55AAE /* DownLoadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownLoadViewController.h; sourceTree = "<group>"; };
+		48F1FAE11DD1DAC800B55AAE /* DownLoadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownLoadViewController.m; sourceTree = "<group>"; };
+		5713B11F1D92377B00D4274C /* PercentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PercentView.h; sourceTree = "<group>"; };
+		5713B1201D92377B00D4274C /* PercentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PercentView.m; sourceTree = "<group>"; };
+		5749153D1D8FCA63006F01C3 /* BLEOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEOperations.h; sourceTree = "<group>"; };
+		5749153E1D8FCA63006F01C3 /* BLEOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEOperations.m; sourceTree = "<group>"; };
+		5749153F1D8FCA63006F01C3 /* DFUHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFUHelper.h; sourceTree = "<group>"; };
+		574915401D8FCA63006F01C3 /* DFUHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFUHelper.m; sourceTree = "<group>"; };
+		574915411D8FCA63006F01C3 /* DFUOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFUOperations.h; sourceTree = "<group>"; };
+		574915421D8FCA63006F01C3 /* DFUOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFUOperations.m; sourceTree = "<group>"; };
+		574915431D8FCA63006F01C3 /* DFUOperationsDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFUOperationsDetails.h; sourceTree = "<group>"; };
+		574915441D8FCA63006F01C3 /* DFUOperationsDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFUOperationsDetails.m; sourceTree = "<group>"; };
+		574915451D8FCA63006F01C3 /* FileOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileOperations.h; sourceTree = "<group>"; };
+		574915461D8FCA63006F01C3 /* FileOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileOperations.m; sourceTree = "<group>"; };
+		574915481D8FCA63006F01C3 /* AccessFileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessFileSystem.h; sourceTree = "<group>"; };
+		574915491D8FCA63006F01C3 /* AccessFileSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessFileSystem.m; sourceTree = "<group>"; };
+		5749154A1D8FCA63006F01C3 /* IntelHex2BinConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntelHex2BinConverter.h; sourceTree = "<group>"; };
+		5749154B1D8FCA63006F01C3 /* IntelHex2BinConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntelHex2BinConverter.m; sourceTree = "<group>"; };
+		5749154D1D8FCA63006F01C3 /* InitData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitData.h; sourceTree = "<group>"; };
+		5749154E1D8FCA63006F01C3 /* InitData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitData.m; sourceTree = "<group>"; };
+		5749154F1D8FCA63006F01C3 /* JsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonParser.h; sourceTree = "<group>"; };
+		574915501D8FCA63006F01C3 /* JsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonParser.m; sourceTree = "<group>"; };
+		574915521D8FCA63006F01C3 /* ScannedPeripheral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScannedPeripheral.h; sourceTree = "<group>"; };
+		574915531D8FCA63006F01C3 /* ScannedPeripheral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannedPeripheral.m; sourceTree = "<group>"; };
+		574915541D8FCA63006F01C3 /* ScannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScannerDelegate.h; sourceTree = "<group>"; };
+		574915561D8FCA63006F01C3 /* UnzipFirmware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnzipFirmware.h; sourceTree = "<group>"; };
+		574915571D8FCA63006F01C3 /* UnzipFirmware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnzipFirmware.m; sourceTree = "<group>"; };
+		574915581D8FCA63006F01C3 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		574915591D8FCA63006F01C3 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
+		574915A01D8FD6F2006F01C3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		574915A21D8FD6FB006F01C3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		574915A41D8FD8A3006F01C3 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		5751D71A1D8F7DA00096D96C /* FirmwareUpdate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirmwareUpdate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5751D71E1D8F7DA00096D96C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5751D7201D8F7DA00096D96C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		5751D7211D8F7DA00096D96C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		5751D7291D8F7DA00096D96C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5751D72E1D8F7DA00096D96C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		57B84E5E1D90CD4A00BD46AF /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		57B84E5F1D90CD4A00BD46AF /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		57B84E611D90CD8100BD46AF /* FileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManager.h; sourceTree = "<group>"; };
+		57B84E621D90CD8100BD46AF /* FileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManager.m; sourceTree = "<group>"; };
+		57B84E641D90E35400BD46AF /* FirmwarePrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirmwarePrefixHeader.pch; sourceTree = "<group>"; };
+		57B84E651D90E58E00BD46AF /* FirmwareListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirmwareListController.h; sourceTree = "<group>"; };
+		57B84E661D90E58E00BD46AF /* FirmwareListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirmwareListController.m; sourceTree = "<group>"; };
+		57B84E681D91108800BD46AF /* DeviceConectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceConectController.h; sourceTree = "<group>"; };
+		57B84E691D91108800BD46AF /* DeviceConectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceConectController.m; sourceTree = "<group>"; };
+		6B00A63A719EFF8349856480 /* Pods-FirmwareUpdate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirmwareUpdate.release.xcconfig"; path = "Pods/Target Support Files/Pods-FirmwareUpdate/Pods-FirmwareUpdate.release.xcconfig"; sourceTree = "<group>"; };
+		87BDC8D0B886036C8A3CAC4F /* Pods-FirmwareUpdate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirmwareUpdate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FirmwareUpdate/Pods-FirmwareUpdate.debug.xcconfig"; sourceTree = "<group>"; };
+		9DA0A5D4CAC1E2C8BFEE5337 /* libPods-FirmwareUpdate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FirmwareUpdate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D650D2001F70E953006DD133 /* DFUAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFUAlertView.h; sourceTree = "<group>"; };
+		D650D2011F70E953006DD133 /* DFUAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFUAlertView.m; sourceTree = "<group>"; };
+		D650D2021F70E953006DD133 /* DFUOverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFUOverView.h; sourceTree = "<group>"; };
+		D650D2031F70E953006DD133 /* DFUOverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFUOverView.m; sourceTree = "<group>"; };
+		D650D2121F70F00B006DD133 /* FirmwareUpdate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirmwareUpdate.h; sourceTree = "<group>"; };
+		D650D23A1F710162006DD133 /* Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Toast.h; sourceTree = "<group>"; };
+		D650D23B1F710162006DD133 /* Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toast.m; sourceTree = "<group>"; };
+		D650D23C1F710162006DD133 /* ToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToastView.h; sourceTree = "<group>"; };
+		D650D23D1F710162006DD133 /* ToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToastView.m; sourceTree = "<group>"; };
+		D650D23E1F710162006DD133 /* 加载成功青蛙@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "加载成功青蛙@2x.png"; sourceTree = "<group>"; };
+		D650D2541F710AD1006DD133 /* IVHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVHttpClient.h; sourceTree = "<group>"; };
+		D650D2551F710AD1006DD133 /* IVHttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVHttpClient.m; sourceTree = "<group>"; };
+		D650D2561F710AD1006DD133 /* IVHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVHttpRequest.h; sourceTree = "<group>"; };
+		D650D2571F710AD1006DD133 /* IVHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVHttpRequest.m; sourceTree = "<group>"; };
+		D650D2581F710AD1006DD133 /* IVNetAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVNetAPI.h; sourceTree = "<group>"; };
+		D650D2601F710B86006DD133 /* IVNetHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IVNetHeader.h; sourceTree = "<group>"; };
+		D68D57191F6FCEF500CC1DCB /* BaseDFUController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseDFUController.h; sourceTree = "<group>"; };
+		D68D571A1F6FCEF500CC1DCB /* BaseDFUController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseDFUController.m; sourceTree = "<group>"; };
+		D68D571B1F6FCEF500CC1DCB /* DFUViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFUViewController.h; sourceTree = "<group>"; };
+		D68D571C1F6FCEF500CC1DCB /* DFUViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFUViewController.m; sourceTree = "<group>"; };
+		D68D571D1F6FCEF500CC1DCB /* SUOTA_DFUController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUOTA_DFUController.h; sourceTree = "<group>"; };
+		D68D571E1F6FCEF500CC1DCB /* SUOTA_DFUController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUOTA_DFUController.m; sourceTree = "<group>"; };
+		D68D57221F6FCF3F00CC1DCB /* BtNotify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtNotify.h; sourceTree = "<group>"; };
+		D68D57231F6FCF3F00CC1DCB /* libBtNotify.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBtNotify.a; sourceTree = "<group>"; };
+		D68D57251F6FD09D00CC1DCB /* FUHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUHandle.h; sourceTree = "<group>"; };
+		D68D57261F6FD09D00CC1DCB /* FUHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUHandle.m; sourceTree = "<group>"; };
+		D6A351411F72528100D3D562 /* FOTA_DFUController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FOTA_DFUController.h; sourceTree = "<group>"; };
+		D6A351421F72528100D3D562 /* FOTA_DFUController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FOTA_DFUController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5751D7171D8F7DA00096D96C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				574915A51D8FD8A3006F01C3 /* libz.tbd in Frameworks */,
+				574915A31D8FD6FB006F01C3 /* Foundation.framework in Frameworks */,
+				574915A11D8FD6F2006F01C3 /* UIKit.framework in Frameworks */,
+				D68D57241F6FCF3F00CC1DCB /* libBtNotify.a in Frameworks */,
+				17AC9863173BA3D7B7E4831B /* libPods-FirmwareUpdate.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		48E227A21DD08C6F00B6737C /* SUOTA_DFU */ = {
+			isa = PBXGroup;
+			children = (
+				48E227A31DD08C6F00B6737C /* BluetoothManager.h */,
+				48E227A41DD08C6F00B6737C /* BluetoothManager.m */,
+				48E227A51DD08C6F00B6737C /* Defines.h */,
+				48E227A61DD08C6F00B6737C /* DeviceStorage.h */,
+				48E227A71DD08C6F00B6737C /* DeviceStorage.m */,
+				48E227A81DD08C6F00B6737C /* GenericServiceManager.h */,
+				48E227A91DD08C6F00B6737C /* GenericServiceManager.m */,
+				48E227AA1DD08C6F00B6737C /* ParamaterStorage.h */,
+				48E227AB1DD08C6F00B6737C /* ParamaterStorage.m */,
+				48E227AC1DD08C6F00B6737C /* SUOTAServiceManager.h */,
+				48E227AD1DD08C6F00B6737C /* SUOTAServiceManager.m */,
+			);
+			path = SUOTA_DFU;
+			sourceTree = "<group>";
+		};
+		48E227BC1DD0A30400B6737C /* DFUvcs */ = {
+			isa = PBXGroup;
+			children = (
+				48C61DF81DF9900D006E1A6F /* DCViewController.h */,
+				48C61DF91DF9900D006E1A6F /* DCViewController.m */,
+				57B84E5E1D90CD4A00BD46AF /* ViewController.h */,
+				57B84E5F1D90CD4A00BD46AF /* ViewController.m */,
+				57B84E651D90E58E00BD46AF /* FirmwareListController.h */,
+				57B84E661D90E58E00BD46AF /* FirmwareListController.m */,
+				57B84E681D91108800BD46AF /* DeviceConectController.h */,
+				57B84E691D91108800BD46AF /* DeviceConectController.m */,
+			);
+			name = DFUvcs;
+			sourceTree = "<group>";
+		};
+		48E227BD1DD0A31800B6737C /* SUOTAvcs */ = {
+			isa = PBXGroup;
+			children = (
+				48EA13C11DC746F200FDEB36 /* BlueViewController.h */,
+				48EA13C21DC746F200FDEB36 /* BlueViewController.m */,
+				48E227C11DD0A7B100B6737C /* DUViewController.h */,
+				48E227C21DD0A7B100B6737C /* DUViewController.m */,
+				48F1FAE01DD1DAC800B55AAE /* DownLoadViewController.h */,
+				48F1FAE11DD1DAC800B55AAE /* DownLoadViewController.m */,
+			);
+			name = SUOTAvcs;
+			sourceTree = "<group>";
+		};
+		5704C2481EC1B14A005A7BCC /* Fota */ = {
+			isa = PBXGroup;
+			children = (
+				D68D57221F6FCF3F00CC1DCB /* BtNotify.h */,
+				D68D57231F6FCF3F00CC1DCB /* libBtNotify.a */,
+			);
+			path = Fota;
+			sourceTree = "<group>";
+		};
+		5749153B1D8FCA63006F01C3 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				D68D57251F6FD09D00CC1DCB /* FUHandle.h */,
+				D68D57261F6FD09D00CC1DCB /* FUHandle.m */,
+				D650D2121F70F00B006DD133 /* FirmwareUpdate.h */,
+				D650D2531F710AD1006DD133 /* Network */,
+				D68D57181F6FCEEC00CC1DCB /* Controller */,
+				5704C2481EC1B14A005A7BCC /* Fota */,
+				48E227A21DD08C6F00B6737C /* SUOTA_DFU */,
+				57B84E5D1D90CD3300BD46AF /* Controllers */,
+				57B84E5C1D90CD2C00BD46AF /* Utills */,
+				57B84E6B1D913C9500BD46AF /* View */,
+				5749153C1D8FCA63006F01C3 /* DFU */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		5749153C1D8FCA63006F01C3 /* DFU */ = {
+			isa = PBXGroup;
+			children = (
+				5749153D1D8FCA63006F01C3 /* BLEOperations.h */,
+				5749153E1D8FCA63006F01C3 /* BLEOperations.m */,
+				5749153F1D8FCA63006F01C3 /* DFUHelper.h */,
+				574915401D8FCA63006F01C3 /* DFUHelper.m */,
+				574915411D8FCA63006F01C3 /* DFUOperations.h */,
+				574915421D8FCA63006F01C3 /* DFUOperations.m */,
+				574915431D8FCA63006F01C3 /* DFUOperationsDetails.h */,
+				574915441D8FCA63006F01C3 /* DFUOperationsDetails.m */,
+				574915451D8FCA63006F01C3 /* FileOperations.h */,
+				574915461D8FCA63006F01C3 /* FileOperations.m */,
+				574915471D8FCA63006F01C3 /* FileSelection */,
+				5749154A1D8FCA63006F01C3 /* IntelHex2BinConverter.h */,
+				5749154B1D8FCA63006F01C3 /* IntelHex2BinConverter.m */,
+				5749154C1D8FCA63006F01C3 /* JSONParser */,
+				574915511D8FCA63006F01C3 /* Scanner */,
+				574915551D8FCA63006F01C3 /* Unzip */,
+				574915581D8FCA63006F01C3 /* Utility.h */,
+				574915591D8FCA63006F01C3 /* Utility.m */,
+			);
+			path = DFU;
+			sourceTree = "<group>";
+		};
+		574915471D8FCA63006F01C3 /* FileSelection */ = {
+			isa = PBXGroup;
+			children = (
+				574915481D8FCA63006F01C3 /* AccessFileSystem.h */,
+				574915491D8FCA63006F01C3 /* AccessFileSystem.m */,
+			);
+			path = FileSelection;
+			sourceTree = "<group>";
+		};
+		5749154C1D8FCA63006F01C3 /* JSONParser */ = {
+			isa = PBXGroup;
+			children = (
+				5749154D1D8FCA63006F01C3 /* InitData.h */,
+				5749154E1D8FCA63006F01C3 /* InitData.m */,
+				5749154F1D8FCA63006F01C3 /* JsonParser.h */,
+				574915501D8FCA63006F01C3 /* JsonParser.m */,
+			);
+			path = JSONParser;
+			sourceTree = "<group>";
+		};
+		574915511D8FCA63006F01C3 /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				574915521D8FCA63006F01C3 /* ScannedPeripheral.h */,
+				574915531D8FCA63006F01C3 /* ScannedPeripheral.m */,
+				574915541D8FCA63006F01C3 /* ScannerDelegate.h */,
+			);
+			path = Scanner;
+			sourceTree = "<group>";
+		};
+		574915551D8FCA63006F01C3 /* Unzip */ = {
+			isa = PBXGroup;
+			children = (
+				574915561D8FCA63006F01C3 /* UnzipFirmware.h */,
+				574915571D8FCA63006F01C3 /* UnzipFirmware.m */,
+			);
+			path = Unzip;
+			sourceTree = "<group>";
+		};
+		5749159F1D8FD6F2006F01C3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				574915A41D8FD8A3006F01C3 /* libz.tbd */,
+				574915A21D8FD6FB006F01C3 /* Foundation.framework */,
+				574915A01D8FD6F2006F01C3 /* UIKit.framework */,
+				9DA0A5D4CAC1E2C8BFEE5337 /* libPods-FirmwareUpdate.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5751D7111D8F7DA00096D96C = {
+			isa = PBXGroup;
+			children = (
+				5751D71C1D8F7DA00096D96C /* FirmwareUpdate */,
+				5751D71B1D8F7DA00096D96C /* Products */,
+				5749159F1D8FD6F2006F01C3 /* Frameworks */,
+				A8452974D47C8FE722D385A1 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		5751D71B1D8F7DA00096D96C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5751D71A1D8F7DA00096D96C /* FirmwareUpdate.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5751D71C1D8F7DA00096D96C /* FirmwareUpdate */ = {
+			isa = PBXGroup;
+			children = (
+				5751D7201D8F7DA00096D96C /* AppDelegate.h */,
+				5751D7211D8F7DA00096D96C /* AppDelegate.m */,
+				5749153B1D8FCA63006F01C3 /* Classes */,
+				5751D71D1D8F7DA00096D96C /* Supporting Files */,
+			);
+			path = FirmwareUpdate;
+			sourceTree = "<group>";
+		};
+		5751D71D1D8F7DA00096D96C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				48EA13C41DC7587200FDEB36 /* 加载成功青蛙@2x.png */,
+				5751D7291D8F7DA00096D96C /* Assets.xcassets */,
+				5751D72E1D8F7DA00096D96C /* Info.plist */,
+				5751D71E1D8F7DA00096D96C /* main.m */,
+				57B84E641D90E35400BD46AF /* FirmwarePrefixHeader.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		57B84E5C1D90CD2C00BD46AF /* Utills */ = {
+			isa = PBXGroup;
+			children = (
+				57B84E611D90CD8100BD46AF /* FileManager.h */,
+				57B84E621D90CD8100BD46AF /* FileManager.m */,
+				48BF68A51DDC44A60026F5C5 /* NetWorkHandle.h */,
+				48BF68A61DDC44A60026F5C5 /* NetWorkHandle.m */,
+				48BF68A81DDC49780026F5C5 /* IVFirmwareModel.h */,
+				48BF68A91DDC49780026F5C5 /* IVFirmwareModel.m */,
+			);
+			path = Utills;
+			sourceTree = "<group>";
+		};
+		57B84E5D1D90CD3300BD46AF /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				48E227BE1DD0A33700B6737C /* IVRootViewController.h */,
+				48E227BF1DD0A33700B6737C /* IVRootViewController.m */,
+				48E227BD1DD0A31800B6737C /* SUOTAvcs */,
+				48E227BC1DD0A30400B6737C /* DFUvcs */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		57B84E6B1D913C9500BD46AF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D650D2391F710162006DD133 /* Toast */,
+				D650D2001F70E953006DD133 /* DFUAlertView.h */,
+				D650D2011F70E953006DD133 /* DFUAlertView.m */,
+				D650D2021F70E953006DD133 /* DFUOverView.h */,
+				D650D2031F70E953006DD133 /* DFUOverView.m */,
+				5713B11F1D92377B00D4274C /* PercentView.h */,
+				5713B1201D92377B00D4274C /* PercentView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A8452974D47C8FE722D385A1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				87BDC8D0B886036C8A3CAC4F /* Pods-FirmwareUpdate.debug.xcconfig */,
+				6B00A63A719EFF8349856480 /* Pods-FirmwareUpdate.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D650D2391F710162006DD133 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				D650D23A1F710162006DD133 /* Toast.h */,
+				D650D23B1F710162006DD133 /* Toast.m */,
+				D650D23C1F710162006DD133 /* ToastView.h */,
+				D650D23D1F710162006DD133 /* ToastView.m */,
+				D650D23E1F710162006DD133 /* 加载成功青蛙@2x.png */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
+		D650D2531F710AD1006DD133 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				D650D2541F710AD1006DD133 /* IVHttpClient.h */,
+				D650D2551F710AD1006DD133 /* IVHttpClient.m */,
+				D650D2561F710AD1006DD133 /* IVHttpRequest.h */,
+				D650D2571F710AD1006DD133 /* IVHttpRequest.m */,
+				D650D2581F710AD1006DD133 /* IVNetAPI.h */,
+				D650D2601F710B86006DD133 /* IVNetHeader.h */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		D68D57181F6FCEEC00CC1DCB /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D68D57191F6FCEF500CC1DCB /* BaseDFUController.h */,
+				D68D571A1F6FCEF500CC1DCB /* BaseDFUController.m */,
+				D68D571B1F6FCEF500CC1DCB /* DFUViewController.h */,
+				D68D571C1F6FCEF500CC1DCB /* DFUViewController.m */,
+				D68D571D1F6FCEF500CC1DCB /* SUOTA_DFUController.h */,
+				D68D571E1F6FCEF500CC1DCB /* SUOTA_DFUController.m */,
+				D6A351411F72528100D3D562 /* FOTA_DFUController.h */,
+				D6A351421F72528100D3D562 /* FOTA_DFUController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5751D7191D8F7DA00096D96C /* FirmwareUpdate */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5751D7471D8F7DA00096D96C /* Build configuration list for PBXNativeTarget "FirmwareUpdate" */;
+			buildPhases = (
+				EF2F0226A3F476032A54FC0D /* [CP] Check Pods Manifest.lock */,
+				5751D7161D8F7DA00096D96C /* Sources */,
+				5751D7171D8F7DA00096D96C /* Frameworks */,
+				5751D7181D8F7DA00096D96C /* Resources */,
+				EEB506201176794BEA97962D /* [CP] Embed Pods Frameworks */,
+				D8CB665CB6DA045163DCDADA /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FirmwareUpdate;
+			productName = FirmwareUpdate;
+			productReference = 5751D71A1D8F7DA00096D96C /* FirmwareUpdate.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5751D7121D8F7DA00096D96C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = west;
+				TargetAttributes = {
+					5751D7191D8F7DA00096D96C = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = L855ZMKEYR;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 5751D7151D8F7DA00096D96C /* Build configuration list for PBXProject "FirmwareUpdate" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5751D7111D8F7DA00096D96C;
+			productRefGroup = 5751D71B1D8F7DA00096D96C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5751D7191D8F7DA00096D96C /* FirmwareUpdate */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5751D7181D8F7DA00096D96C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D650D2411F710162006DD133 /* 加载成功青蛙@2x.png in Resources */,
+				5751D72A1D8F7DA00096D96C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D8CB665CB6DA045163DCDADA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FirmwareUpdate/Pods-FirmwareUpdate-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EEB506201176794BEA97962D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FirmwareUpdate/Pods-FirmwareUpdate-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EF2F0226A3F476032A54FC0D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FirmwareUpdate-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5751D7161D8F7DA00096D96C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5749155D1D8FCA63006F01C3 /* DFUOperationsDetails.m in Sources */,
+				5749155B1D8FCA63006F01C3 /* DFUHelper.m in Sources */,
+				48E227C01DD0A33700B6737C /* IVRootViewController.m in Sources */,
+				D68D57211F6FCEF500CC1DCB /* SUOTA_DFUController.m in Sources */,
+				48E227AF1DD08C6F00B6737C /* DeviceStorage.m in Sources */,
+				5749155C1D8FCA63006F01C3 /* DFUOperations.m in Sources */,
+				48E227B01DD08C6F00B6737C /* GenericServiceManager.m in Sources */,
+				5749155A1D8FCA63006F01C3 /* BLEOperations.m in Sources */,
+				D68D571F1F6FCEF500CC1DCB /* BaseDFUController.m in Sources */,
+				57B84E6A1D91108800BD46AF /* DeviceConectController.m in Sources */,
+				48F1FAE21DD1DAC800B55AAE /* DownLoadViewController.m in Sources */,
+				D650D2051F70E953006DD133 /* DFUOverView.m in Sources */,
+				48BF68AA1DDC49780026F5C5 /* IVFirmwareModel.m in Sources */,
+				48C61DFA1DF9900D006E1A6F /* DCViewController.m in Sources */,
+				574915611D8FCA63006F01C3 /* InitData.m in Sources */,
+				48E227AE1DD08C6F00B6737C /* BluetoothManager.m in Sources */,
+				48EA13C31DC746F200FDEB36 /* BlueViewController.m in Sources */,
+				574915621D8FCA63006F01C3 /* JsonParser.m in Sources */,
+				D650D2401F710162006DD133 /* ToastView.m in Sources */,
+				D650D25D1F710AD1006DD133 /* IVHttpRequest.m in Sources */,
+				574915651D8FCA63006F01C3 /* Utility.m in Sources */,
+				5713B1211D92377B00D4274C /* PercentView.m in Sources */,
+				574915641D8FCA63006F01C3 /* UnzipFirmware.m in Sources */,
+				D68D57201F6FCEF500CC1DCB /* DFUViewController.m in Sources */,
+				D650D2041F70E953006DD133 /* DFUAlertView.m in Sources */,
+				57B84E671D90E58E00BD46AF /* FirmwareListController.m in Sources */,
+				5751D7221D8F7DA00096D96C /* AppDelegate.m in Sources */,
+				5749155F1D8FCA63006F01C3 /* AccessFileSystem.m in Sources */,
+				D650D23F1F710162006DD133 /* Toast.m in Sources */,
+				48E227B11DD08C6F00B6737C /* ParamaterStorage.m in Sources */,
+				5751D71F1D8F7DA00096D96C /* main.m in Sources */,
+				D650D25C1F710AD1006DD133 /* IVHttpClient.m in Sources */,
+				574915601D8FCA63006F01C3 /* IntelHex2BinConverter.m in Sources */,
+				48BF68A71DDC44A60026F5C5 /* NetWorkHandle.m in Sources */,
+				D68D57271F6FD09D00CC1DCB /* FUHandle.m in Sources */,
+				48E227C31DD0A7B100B6737C /* DUViewController.m in Sources */,
+				57B84E601D90CD4A00BD46AF /* ViewController.m in Sources */,
+				48E227B21DD08C6F00B6737C /* SUOTAServiceManager.m in Sources */,
+				574915631D8FCA63006F01C3 /* ScannedPeripheral.m in Sources */,
+				D6A351431F72528100D3D562 /* FOTA_DFUController.m in Sources */,
+				57B84E631D90CD8100BD46AF /* FileManager.m in Sources */,
+				5749155E1D8FCA63006F01C3 /* FileOperations.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		5751D7451D8F7DA00096D96C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5751D7461D8F7DA00096D96C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5751D7481D8F7DA00096D96C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87BDC8D0B886036C8A3CAC4F /* Pods-FirmwareUpdate.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = L855ZMKEYR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/FirmwareUpdate/FirmwarePrefixHeader.pch";
+				INFOPLIST_FILE = FirmwareUpdate/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/FirmwareUpdate/Classes/IVBLE",
+					"$(PROJECT_DIR)/FirmwareUpdate/Classes/Fota",
+				);
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iwown.FirmwareUpdate;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		5751D7491D8F7DA00096D96C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6B00A63A719EFF8349856480 /* Pods-FirmwareUpdate.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = L855ZMKEYR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/FirmwareUpdate/FirmwarePrefixHeader.pch";
+				INFOPLIST_FILE = FirmwareUpdate/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/FirmwareUpdate/Classes/IVBLE",
+					"$(PROJECT_DIR)/FirmwareUpdate/Classes/Fota",
+				);
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iwown.FirmwareUpdate;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5751D7151D8F7DA00096D96C /* Build configuration list for PBXProject "FirmwareUpdate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5751D7451D8F7DA00096D96C /* Debug */,
+				5751D7461D8F7DA00096D96C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5751D7471D8F7DA00096D96C /* Build configuration list for PBXNativeTarget "FirmwareUpdate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5751D7481D8F7DA00096D96C /* Debug */,
+				5751D7491D8F7DA00096D96C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5751D7121D8F7DA00096D96C /* Project object */;
+}
