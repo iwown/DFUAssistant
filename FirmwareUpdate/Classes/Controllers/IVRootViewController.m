@@ -28,7 +28,9 @@
     
     UIButton *btnB = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnB setFrame:CGRectMake((SCREEN_WIDTH-200)*0.67 + 100,SCREEN_HEIGHT*0.2, 100, 100)];
-    [btnB setTitle:@"LightBLE" forState:UIControlStateNormal];
+    btnB.titleLabel.numberOfLines = 0;
+    btnB.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [btnB setTitle:@"DFU升级\n彩屏" forState:UIControlStateNormal];
     [btnB setBackgroundColor:[UIColor colorWithRed:65/255.0 green:173/255.0 blue:229/255.0 alpha:1]];
     [btnB addTarget:self action:@selector(lightBlueBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnB];
@@ -50,7 +52,7 @@
 }
 
 - (void)lightBlueBtnClick {
-    [self.navigationController pushViewController:[DCViewController new] animated:YES];
+  
 }
 
 - (void)dfuBtnClick {

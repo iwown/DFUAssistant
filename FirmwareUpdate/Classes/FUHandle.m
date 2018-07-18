@@ -9,19 +9,22 @@
 #import "DFUViewController.h"
 #import "SUOTA_DFUController.h"
 #import "FOTA_DFUController.h"
+#import "ZGDFUController.h"
 #import "Toast.h"
 #import "FirmwareUpdate.h"
 #import <IVBaseKit/IVBaseKit.h>
 #import "FUHandle.h"
 
 @interface FUHandle ()<NotifyCustomDelegate>
-
+{
+    NSString *_fwName;
+}
 @end
 
 @implementation FUHandle
 static FUHandle *__fuhdle = nil;
 
-+ (FUHandle *)shareInstance {
++ (FUHandle *)handle {
     @synchronized(__fuhdle)
     {
         if (!__fuhdle)
@@ -48,7 +51,7 @@ static FUHandle *__fuhdle = nil;
     }
     
     UIViewController *dfuVC = nil;
-    switch ([[FUHandle shareInstance].deviceInfo platformForDfu]) {
+    switch ([[FUHandle handle].deviceInfo platformForDfu]) {
         case DFUPlatformNortic:
         {
             dfuVC = [[DFUViewController alloc]init];
@@ -66,6 +69,7 @@ static FUHandle *__fuhdle = nil;
             break;
             
         default:
+            dfuVC = [[ZGDFUController alloc]init];
             break;
     }
     return dfuVC;
@@ -76,24 +80,24 @@ static FUHandle *__fuhdle = nil;
      * 进入手环升级页面前判断当前是否符合升级条件
      * 1.蓝牙打开&&手环连接
      * 2.设备信息完整
-     * 3.电量大于50%
+     * 3.电量大于30%
      */
     
-    if ([[BLELib3 shareInstance] state] != kBLEstateDidConnected)
+    if ([[BLEShareInstance shareInstance] state] != kBLEstateDidConnected)
     {
         [Toast makeToast:NSLocalizedString(@"设备未连接，请连接设备",nil)];
         return NO;
     }
     
-    ZeronerDeviceInfo *df = self.deviceInfo;
+    ZRDeviceInfo *df = self.deviceInfo;
     
     if (df == nil) {
         [Toast makeToast:NSLocalizedString(@"设备信息读取中，请稍后",nil)];
         return NO;
     }
     
-    if ([df batLevel] < 50) {
-        [Toast makeToast:NSLocalizedString(@"电池电量低于50%，请连接充电器。",nil)];
+    if ([df batLevel] < 30) {
+        [Toast makeToast:NSLocalizedString(@"电池电量低于30%，请连接充电器。",nil)];
         return NO;
     }
     return YES;
@@ -167,29 +171,8 @@ static FUHandle *__fuhdle = nil;
     }
 }
 
-- (NSString *)getFWPathFromModel:(NSString *)model {
-    NSString *firmwareName = nil;
-    NSString *_suffixStr = nil;
-    if ([self.delegate respondsToSelector:@selector(fuHandleReturnFileSuffixName)]) {
-        _suffixStr = [self.delegate fuHandleReturnFileSuffixName];
-    }
-    
-    if (_suffixStr && !_suffixStr.judgeForStrIsEqualToNull) {
-        firmwareName = [NSString stringWithFormat:@"%@%@",model,_suffixStr];
-    }else {
-        if ([model hasPrefix:@"I5+"]) {
-            firmwareName = [NSString stringWithFormat:@"%@.hex",model];
-        }
-        else if ([model hasPrefix:@"I6HR"] || [model hasPrefix:@"I6PB"] || [model hasPrefix:@"I6NH"]) {
-            firmwareName = [NSString stringWithFormat:@"%@.img",model];
-        }
-        else {
-            firmwareName = [NSString stringWithFormat:@"%@.zip",model];
-        }
-    }
-    
-    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:firmwareName];
-    return fullPath;
+- (NSString *)getFWName {
+    return _fwName;
 }
 
 - (NSString *)getDeivceAlias {
@@ -204,7 +187,7 @@ static FUHandle *__fuhdle = nil;
         }
     }
 
-    return [[BLELib3 shareInstance] getDeivceAlias];
+    return @"NO ALIAS";
 }
 
 - (NSString *)braceletName:(NSString *)nName {
@@ -212,6 +195,87 @@ static FUHandle *__fuhdle = nil;
         return [self.delegate fuHandleReplaceBroadcastName:nName];
     }
     return nName;
+}
+
+
+- (NSString *)saveFileName:(NSString *)fileUrl {
+    NSArray *mArr = [fileUrl componentsSeparatedByString:@"/"];
+    NSString *name = [mArr lastObject];
+    _fwName = name;
+    return name;
+}
+
+- (BOOL)deleteFW {
+    
+    NSString *firmwareName = [self getFWName];
+    if (!firmwareName) {
+        return YES;
+    }
+    
+    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:firmwareName];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    __autoreleasing NSError *err;
+    if ([fileManager fileExistsAtPath:fullPath]){
+        return [fileManager removeItemAtPath:fullPath error:&err];
+    }
+    return YES;
+}
+
+- (NSString *)getFWPath {
+    
+    NSString *firmwareName = [self getFWName];
+    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:firmwareName];
+    return fullPath;
+}
+
+- (BOOL)dfuFileIsExist:(NSString *)url {
+    
+    [self saveFileName:url];
+    NSString *fullPath = [self getFWPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    if (![fileManager fileExistsAtPath:fullPath]) {
+        return NO;
+    }else{
+        return YES;
+    }
+}
+
+- (BOOL)downFWFromURL:(NSString *)fileURL {
+    NSLog(@"执行固件下载函数: %@",fileURL);
+    [self deleteFW];
+    NSString *firmwareName = [self saveFileName:fileURL];
+    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:firmwareName];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    if (![fileManager fileExistsAtPath:fullPath]) {
+        NSError *error = nil;
+        fileURL = [fileURL stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        NSURL *url = [NSURL URLWithString:fileURL];
+        NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
+        if (error) {
+            NSLog(@"%@",error);
+            return NO;
+        }
+        @try {
+            [fileManager createFileAtPath:fullPath contents:data attributes:nil];
+        } @catch (NSException *exception) {
+            NSLog(@"NSException: %@",exception);
+        } @finally {
+            
+        }
+        
+        if ([[fileManager contentsAtPath:fullPath] length] == 0) {
+            return NO;
+        } else {
+            NSLog(@"固件下载完成");
+            return YES;
+        }
+    } else {
+        NSLog(@"固件已存在");
+        return YES;
+    }
 }
 
 #pragma mark- UI
@@ -222,12 +286,12 @@ static FUHandle *__fuhdle = nil;
         return FU_NORAML_BUTTON_COLOR;
     }
 }
+
 #pragma mark- BTNotify
 - (void)setEpoParamsIfNeed {
-    CBPeripheral *p = [BLELib3 shareInstance].peripheral;
-//    if (![p.name containsString:@"watch"]) {
-//        return;
-//    }
+    
+    CBPeripheral *p = [[BLEShareInstance shareInstance] getConnectedPeriphral];
+
     CBCharacteristic *wCh = nil;
     CBCharacteristic *rCh = nil;
     for (CBService *s in p.services) {
@@ -265,7 +329,7 @@ static FUHandle *__fuhdle = nil;
     NSString *dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"%s:%@ data: %@ - String: %@",__func__,receiver,data,dataStr);
     if ([dataStr isEqualToString:@"epo_download"]) {
-        [[FUHandle shareInstance] epoUpdateStart];
+        [[FUHandle handle] epoUpdateStart];
     }
 }
 

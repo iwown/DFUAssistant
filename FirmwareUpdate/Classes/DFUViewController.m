@@ -5,13 +5,14 @@
 //  Created by Jackie on 15/1/13.
 //  Copyright (c) 2015年 Jackie. All rights reserved.
 //
+#define DFU_MODEl_IDENTIFIER  @"com.zeroner.dfumode"
 
 /*
  * 进入手环升级页面前
  * 1.蓝牙打开
  * 2.手环连接
  * 3.判断固件是否可为升级，
- * 4.电量大于50%
+ * 4.电量足够
  
  * 进入页面后
  * 1.判断固件是TI还是Nordic的
@@ -36,8 +37,8 @@ typedef enum{
     DFUErrorUnknow ,
 
 }DFUError;
-#import "IVNetHeader.h"
-#import <IVBaseKit/IVBaseKit.h>
+#import "UploadFirmwareUpdateInfoApi.h"
+#import "DownloadFirmwareUpdateInfoApi.h"
 #import "FUHandle.h"
 #import "DFUViewController.h"
 #import "DFUHelper.h"
@@ -49,7 +50,6 @@ typedef enum{
 
     NSMutableArray      *peripherals;
     int                 _percentage;
-
     
     DfuFirmwareTypes    _dfuFWType;
     DFUHelper           *_dfuHelper;
@@ -58,7 +58,6 @@ typedef enum{
     BOOL                _error_State;
     
     NSDictionary        *_saveInfoDict;
-    NSString            *_cfName;
 }
 
 @end
@@ -67,14 +66,14 @@ typedef enum{
 
 @synthesize bluetoothManager;
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = YES;
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
+    
     [super viewWillDisappear:animated];
     if (self.isDFU) {
         self.tabBarController.tabBar.hidden = NO;
@@ -82,24 +81,33 @@ typedef enum{
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(didUpdateCenterState:) name:@"didUpdateCenterState" object:nil];
     [self setupParam];
     if (self.isDFU) {
         [self requestInfoForDFUHelper];
     }else {
-        [self requestForCheckDFU:DFUDevice_Bracelet];
+        [self requestForCheckDFU];
     }
 }
 
 - (void)signOffDelegate {
+    
+    [super signOffDelegate];
     [_dfuOperations cancelDFU];
     _dfuOperations.dfuDelegate = nil;
     bluetoothManager.delegate = nil;
 }
 
-- (void)setupParam
-{
+- (void)dealloc {
+    NSLog(@"%s",__func__);
+    _dfuOperations.dfuDelegate = nil;
+    bluetoothManager.delegate = nil;
+}
+
+- (void)setupParam {
+    
     PACKETS_NOTIFICATION_INTERVAL = 10;
     _dfuOperations = [[DFUOperations alloc] initWithDelegate:self];
     _dfuHelper = [[DFUHelper alloc]initWithData:_dfuOperations];
@@ -110,8 +118,8 @@ typedef enum{
 }
 
 #pragma mark - Action
-- (void)udBtnClicked:(id)sender
-{
+- (void)udBtnClicked:(id)sender {
+    
     [super udBtnClicked:sender];
     switch (self.state) {
         case DFUState_Retry:    //升级
@@ -136,21 +144,16 @@ typedef enum{
             break;
         case DFUState_SaveInfo:
         {
-            [self saveDFUModel];
         }
             break;
-        case DFUState_Start:
-        {
-            
-        }
         default:
             break;
     }
 }
 
 - (void)prepareDFUUpgrade {
-    [super prepareDFUUpgrade];
     
+    [super prepareDFUUpgrade];
     id content = self.fwContent; 
     if (!content) {
         [self updateUINoNeed];
@@ -159,16 +162,17 @@ typedef enum{
     NSString *fwUrl = [content objectForKey:@"download_link"];
     NSString *fwModel = [content objectForKey:@"model"];
     NSString *macAddr = [content objectForKey:@"mac_address"];
-    if (!fwUrl) {
+    if (!fwUrl || !macAddr || !fwModel) {
         [self updateUINoNeed];
         return;
     }
-    NSString *uid = [[FUHandle shareInstance].delegate fuHandleParamsUid];
-    _saveInfoDict = @{@"uid":uid,@"mac":macAddr,@"url":fwUrl,@"model":fwModel};
-    [self saveDFUModel];
+    
+    _saveInfoDict = @{@"uid":@"10000",@"mac":macAddr,@"url":fwUrl,@"model":fwModel};
+    [self nordicDownloadFirmware];
 }
 
 - (void)nordicDownloadFirmware {
+    
     [self downloadFirmware:^{
         [self unzipDFUFileIfNeed];
         [self startDFUUpgrade];
@@ -179,20 +183,16 @@ typedef enum{
     
     NSTimeInterval timeInterval = 0;
     if (!_isDFU) {
-        [[BLELib3 shareInstance] debindFromSystem];
-        [[BLELib3 shareInstance] deviceUpdate];
+        [[BLEShareInstance shareInstance] debindFromSystem];
+        [[BLEShareInstance shareInstance] deviceFWUpdate];
         timeInterval = 5;
-        NSString *model = _fwModel;
-        if ([model hasPrefix:@"I5+"]) {
-            timeInterval = 2.0;
-        }
     }
  
     [self performSelector:@selector(startToScan) withObject:nil afterDelay:timeInterval];
 }
 
-- (void)startToScan
-{
+- (void)startToScan {
+    
     [self updateUIWaiting];
     _dfuError = DFUErrorNull;
     _error_State = NO;
@@ -200,22 +200,34 @@ typedef enum{
     [self performSelector:@selector(deviceConectTimeOut) withObject:nil afterDelay:20.0];
 }
 
+- (BOOL)updateStateAfterConnectDevice {
+    
+    if (_error_State) {
+        return NO;
+    }
+    _dfuError = DFUErrorSuccess;
+    return YES;
+}
+
+- (NSArray *)servicesSids {
+    
+    NSArray *sIDs = [NSArray arrayWithObjects:[CBUUID UUIDWithString:dfuServiceUUIDString], nil];
+    return sIDs;
+}
 /*!
  * @brief Starts scanning for peripherals with rscServiceUUID
  * @param enable If YES, this method will enable scanning for bridge devices, if NO it will stop scanning
  * @return 0 if success, -1 if Bluetooth Manager is not in CBCentralManagerStatePoweredOn state.
  */
-- (int) scanForPeripherals:(BOOL)enable
-{
-    if (bluetoothManager.state != CBCentralManagerStatePoweredOn)
-    {
+- (int)scanForPeripherals:(BOOL)enable {
+    
+    if (bluetoothManager.state != CBCentralManagerStatePoweredOn) {
         return -1;
     }
 
     // Scanner uses other queue to send events. We must edit UI in the main queue
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (enable)
-        {
+        if (enable) {
             if (peripherals == nil) {
                 peripherals = [NSMutableArray arrayWithCapacity:5];
             }
@@ -224,41 +236,30 @@ typedef enum{
                 [peripherals removeAllObjects];
             }
             
-            NSArray *sIDs = [NSArray arrayWithObjects:[CBUUID UUIDWithString:dfuServiceUUIDString], nil];
             NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], CBCentralManagerScanOptionAllowDuplicatesKey, nil];
             
             _dfuError = DFUErrorNoDevice;
             [bluetoothManager setDelegate:self];
-            [bluetoothManager scanForPeripheralsWithServices:sIDs options:options];
-        }
-        else
-        {
+            [bluetoothManager scanForPeripheralsWithServices:[self servicesSids] options:options];
+        }else {
             [bluetoothManager stopScan];
         }
     });
-    
     return 0;
 }
 
 #pragma mark - Central Manage Delegate
-- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
-{
+- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
     // Scanner uses other queue to send events. We must edit UI in the main queue
         // Add the sensor to the list and reload deta set
-    ScannedPeripheral* sensor = [ScannedPeripheral initWithPeripheral:peripheral rssi:RSSI.intValue];
+    ZRBlePeripheral *sensor = [[ZRBlePeripheral alloc] initWith:peripheral andAdvertisementData:advertisementData andRSSINumber:RSSI];
     _dfuFWType = APPLICATION;
     NSLog(@"%@",peripheral.name);
     if (peripheral.name != nil) {
         if ([peripheral.name isEqualToString:@"I5+-DFU"]) {
             _dfuFWType = BOOTLOADER;
-        }else {
-            _cfName = [self getFWNameByPeripheral:peripheral];
         }
         [NSThread sleepForTimeInterval:3.0];
-    }
-    
-    if (_cfName && ![_cfName containsString:_fwModel]) {
-        return;
     }
     
     if (![peripherals containsObject:sensor])
@@ -268,50 +269,28 @@ typedef enum{
     else
     {
         sensor = [peripherals objectAtIndex:[peripherals indexOfObject:sensor]];
-        sensor.RSSI = RSSI.intValue;
+        sensor.RSSI = RSSI;
     }
     
     NSLog(@"didDiscoverPeripheral: %@, %@",advertisementData,peripheral);
     [self performSelectorOnMainThread:@selector(scanForPeripherals:) withObject:(id)NO waitUntilDone:YES];
 
     _dfuError = DFUErrorConnectTimeOut;
+    [self startDfuWithPeripheral:peripheral];
+}
+
+- (void)startDfuWithPeripheral:(CBPeripheral *)peril {
+    
     if (_dfuOperations){
         [_dfuOperations setCentralManager:bluetoothManager];
-        [_dfuOperations connectDevice:peripheral];
+        [_dfuOperations connectDevice:peril];
     }
 }
 
-- (NSString *)getFWNameByPeripheral:(CBPeripheral *)peripheral
-{
-    NSString *cfname = nil;
-    if ([peripheral.name isEqualToString:@"I5+-DFU"]) {
-        
-    }else if ([peripheral.name hasPrefix:@"I5+"]) { //默认i5+5，无i5+5，则为i5+3
-        cfname = @"I5+5.hex";
-        if (![BKUtils isFileExist:cfname]) {
-            cfname = @"I5+3.hex";
-        }
-    }else if ([peripheral.name hasPrefix:@"I7S-"]) { //默认i7s2,无i7s2，则为i7s
-        cfname = @"I7S2.zip";
-        if (![BKUtils isFileExist:cfname]) {
-            cfname = @"I7S.zip";
-        }
-    }else if ([peripheral.name hasPrefix:@"V6"]) {
-        cfname = @"V6.zip";
-    }else if ([peripheral.name hasPrefix:@"R1"]) {
-        cfname = @"R100.zip";
-    }else if ([peripheral.name hasPrefix:@"5P"]) {
-        cfname = @"I5PR.zip";
-    }else if ([peripheral.name hasPrefix:@"I6"]) {
-        cfname = @"I6.zip";
-    }
-    return cfname;
-}
-
--(void)centralManagerDidUpdateState:(CBCentralManager *)central
-{
-    if (central.state == CBCentralManagerStatePoweredOn) {
-        [self scanForPeripherals:NO];
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central {
+    
+    if (central.state == CBCentralManagerStatePoweredOff) {
+        [self updateUIFail];
     }
 }
 
@@ -319,19 +298,17 @@ typedef enum{
 - (void)requestInfoForDFUHelper {
     
     self.state = DFUState_Helper;
-    NSString *model = nil;
-    NSString *url = nil;
-    id obj = [self localSaveModel];
-    if ([obj isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *fwInfo = (NSDictionary *)obj;
-        model = fwInfo[@"model"];
-        url = fwInfo[@"url"];
+    NSDictionary *fwInfo = (NSDictionary *)[self localSaveModel];
+    if (![fwInfo.class isSubclassOfClass:[NSDictionary class]]) {
+        self.state = DFUState_Return;
+        [self updateUINoData];
+        return;
     }
-    BOOL fileExist = [self dfuFileIsExist:model];
-    if (model && url && fileExist) { //model 和url有值，且文件存在于本地
+    NSString *url = fwInfo[@"url"];
+    BOOL fileExist = [[FUHandle handle] dfuFileIsExist:url];
+    if (url && fileExist) { //model 和url有值，且文件存在于本地
         self.state = DFUState_Helper;
         [self updateCheckDFU];
-        _fwModel = model;
         _fwUrl = url;
         [self unzipDFUFileIfNeed]; //已有升级文件和model，解压
         return;
@@ -347,63 +324,48 @@ typedef enum{
 
 - (void)downloadSaveFWInfo {
     
-    IVHttpRequest *request = [IVHttpRequest requestWithService:SERVICE_DEVICE api:API_DOWNLOAD_FWINFO parameters:@{@"uid":[[FUHandle shareInstance].delegate fuHandleParamsUid]}];
-    [IVHttpClient sendAsyncGetRequest:request completion:^(id responseObj, NSError *error) {
-        if (error) {
-            [self updateUINoData];
-        }else if (isSuccess(responseObj)){
-            _fwUrl = responseObj[@"url"];
-            _fwModel = responseObj[@"model"];
-            self.state = DFUState_Helper;
-            [self updateCheckDFU];
-        }else if (errorId(responseObj) == IVSERVICE_ERROR_NoData) {
-            [self updateUINoData];
-        }else {
-            [self prepareNoUpdateView];
-        }
+    DownloadFirmwareUpdateInfoApi *api = [[DownloadFirmwareUpdateInfoApi alloc] initWithUid:@"10000"];
+    __weak typeof(self) weakself = self;
+    [api sendRequestWithCompletionBlockWithSuccess:^(__kindof IWBasicRequest * _Nonnull request) {
+        DownloadFirmwareUpdateInfoApi *res = (DownloadFirmwareUpdateInfoApi *)request;
+        [weakself saveFwInfoDownloadSuccesful:res];
+    } failure:^(__kindof IWBasicRequest * _Nonnull request) {
+        [weakself performSelectorOnMainThread:@selector(prepareNoUpdateView) withObject:nil waitUntilDone:YES];
     }];
 }
 
-- (void)saveDFUModel{
-    __weak typeof(self) weakSelf = self;
-    [self saveDFUModel:_saveInfoDict andSavedSuccessful:^{
-        _fwModel = _saveInfoDict[@"model"];
-        _fwUrl = _saveInfoDict[@"url"];
-        [weakSelf nordicDownloadFirmware];
-    }];
-}
-
-static NSString *DFU_MODEl_IDENTIFIER = @"com.lingyi.dfumode";
-- (void)saveDFUModel:(NSDictionary *)saveInfo andSavedSuccessful:(void(^)())successful{
-
-    [self updateUISaveInfo];
-    [[NSUserDefaults standardUserDefaults] setObject:saveInfo forKey:DFU_MODEl_IDENTIFIER];
+- (void)saveFwInfoDownloadSuccesful:(DownloadFirmwareUpdateInfoApi *)res {
     
-    NSDictionary *params = saveInfo;
-    IVHttpRequest *request = [IVHttpRequest requestWithService:SERVICE_DEVICE api:API_UPLOAD_FWINFO parameters:params];
-    NSDictionary *failState = [self getStateParams:NSLocalizedString(@"保存信息失败", @"保存信息失败") andDFUState:DFUState_SaveInfo];
-    
-    [IVHttpClient sendAsyncPostRequest:request completion:^(id responseObj, NSError *error) {
-        if (isSuccess(responseObj)){
-            [self updateUIReady];
-            successful();
-        }
-        else{
-            [self updateUIState:failState];
-        }
-    }];
+    int retCode = [res.responseJSONObject[@"retCode"] intValue];
+    if (retCode == 0) {
+        _fwUrl = res.url;
+        self.state = DFUState_Helper;
+        [self performSelectorOnMainThread:@selector(updateCheckDFU) withObject:nil waitUntilDone:YES];
+    }else if (retCode == 60001) {
+        [self performSelectorOnMainThread:@selector(updateUINoData) withObject:nil waitUntilDone:YES];
+    }else if (retCode == 10001 ) {
+        [self updateUINoData];
+    }else {
+        [self performSelectorOnMainThread:@selector(prepareNoUpdateView) withObject:nil waitUntilDone:YES];
+    }
 }
 
 - (void)unzipDFUFileIfNeed {
-    
-    NSString *model = _fwModel;
-    //i5+使用非.zip格式文件，不需要解压
-    if (!model || [model hasPrefix:@"I5+"]) {
+
+    NSString *fullPath = [[FUHandle handle] getFWPath];
+    if ([fullPath hasSuffix:@".hex"]) {
         return;
     }
-
-    NSString *fullPath = [[FUHandle shareInstance] getFWPathFromModel:model];
     [self onFileSelected:[NSURL URLWithString:fullPath]];
+}
+
+- (NSURL *)getZipFileUrl {
+
+    NSString *fullPath = [[FUHandle handle] getFWPath];
+    if ([fullPath hasSuffix:@".hex"]) {
+        return nil;
+    }
+    return [NSURL URLWithString:fullPath];
 }
 
 -(void)onFileSelected:(NSURL *)url {
@@ -423,7 +385,7 @@ static NSString *DFU_MODEl_IDENTIFIER = @"com.lingyi.dfumode";
             _dfuHelper.isSelectedFileZipped = NO;
         }
     }else {
-        [Utility showAlert:NSLocalizedString(@"所选文件不存在", nil)];
+        NSLog(@"File does not exist");
     }
 }
 
@@ -433,19 +395,26 @@ static NSString *DFU_MODEl_IDENTIFIER = @"com.lingyi.dfumode";
         return;
     }
     
-    NSString *firmwareURL = [[FUHandle shareInstance] getFWPathFromModel:_fwModel];
+    NSString *firmwareURL = [[FUHandle handle] getFWPath];
     
     [_dfuOperations performDFUOnFile:[NSURL fileURLWithPath:firmwareURL] firmwareType:_dfuFWType];
 }
 
-- (void)updateFWWithVersion
-{
+- (void)updateFWWithVersion {
     NSLog(@"%s",__FUNCTION__);
     if (_dfuFWType != APPLICATION) {
         return;
     }
     
     [_dfuOperations performDFUOnFileWithMetaData:_dfuHelper.applicationURL firmwareMetaDataURL:_dfuHelper.applicationMetaDataURL firmwareType:_dfuFWType];
+}
+
+- (void)didUpdateCenterState:(BOOL)powerOn {
+    if (!powerOn) {
+        [self updateUIFail];
+    }else {
+        [self updateUIReady];
+    }
 }
 
 #pragma mark DFUOperations delegate methods
@@ -461,13 +430,13 @@ static NSString *DFU_MODEl_IDENTIFIER = @"com.lingyi.dfumode";
             break;
         case DFUErrorNoDevice:
         {
-            NSDictionary *failState = [self getStateParams:NSLocalizedString(@"未找到可升级设备", nil) andDFUState:DFUState_Retry];
+            NSDictionary *failState = [self getStateParams:@"找不到升级模式下的设备" andDFUState:DFUState_Retry];
             [self updateUIState:failState];
         }
             break;
         case DFUErrorConnectTimeOut:
         {
-            NSDictionary *failState = [self getStateParams:NSLocalizedString(@"连接超时，请重试", @"连接超时，请重试") andDFUState:DFUState_Retry];
+            NSDictionary *failState = [self getStateParams:@"超时，请重试"  andDFUState:DFUState_Retry];
             [self updateUIState:failState];
         }
             break;
@@ -476,7 +445,7 @@ static NSString *DFU_MODEl_IDENTIFIER = @"com.lingyi.dfumode";
             break;
         case DFUErrorUnknow:
         {
-            NSDictionary *failState = [self getStateParams:NSLocalizedString(@"未知错误，请联系客服", @"未知错误，请联系开发者") andDFUState:DFUState_Return];
+            NSDictionary *failState = [self getStateParams:@"未知错误" andDFUState:DFUState_Return];
             [self updateUIState:failState];
         }
             break;
@@ -486,8 +455,7 @@ static NSString *DFU_MODEl_IDENTIFIER = @"com.lingyi.dfumode";
     }
 }
 
--(void)onDeviceConnected:(CBPeripheral *)peripheral
-{
+- (void)onDeviceConnected:(CBPeripheral *)peripheral {
     NSLog(@"%s %@",__func__,peripheral.name);
     if (_error_State) {
         return;
@@ -505,99 +473,66 @@ static NSString *DFU_MODEl_IDENTIFIER = @"com.lingyi.dfumode";
     [self updateFWWithVersion];
 }
 
-- (void)onDeviceDisconnected:(CBPeripheral *)peripheral
-{
+- (void)onDeviceDisconnected:(CBPeripheral *)peripheral {
     NSLog(@"device disconnected %@",peripheral.name);
 }
 
--(void)onReadDFUVersion:(int)version{
+- (void)onReadDFUVersion:(int)version{
     NSLog(@"onReadDFUVersion %i",version);
 }
 
-- (void)onDFUStarted
-{
+- (void)onDFUStarted {
     NSLog(@"onDFUStarted");
 }
 
-- (void)onDFUCancelled
-{
+- (void)onDFUCancelled {
     NSLog(@"onDFUCancelled");
 }
 
-- (void)onSoftDeviceUploadStarted
-{
+- (void)onSoftDeviceUploadStarted {
     NSLog(@"onSoftDeviceUploadStarted");
 }
 
-- (void)onSoftDeviceUploadCompleted
-{
+- (void)onSoftDeviceUploadCompleted {
     NSLog(@"onSoftDeviceUploadCompleted");
 }
 
-- (void)onBootloaderUploadStarted
-{
+- (void)onBootloaderUploadStarted {
     NSLog(@"onBootloaderUploadStarted");
 }
 
-- (void)onBootloaderUploadCompleted
-{
+- (void)onBootloaderUploadCompleted {
     NSLog(@"onBootloaderUploadCompleted");
 }
 
-- (void)onTransferPercentage:(int)percentage
-{
+- (void)onTransferPercentage:(int)percentage {
     NSLog(@"******onTransferPercentage %d",percentage);
-    if (_percentage == percentage)
-    {
+    if (_percentage == percentage) {
         return;
     }
     _percentage = percentage;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateUIPercent:percentage];
-    });
+    [self updateUIPercent:percentage];
 }
 
-- (void)onSuccessfulFileTranferred
-{
+- (void)onSuccessfulFileTranferred {
     NSLog(@"OnSuccessfulFileTransferred");
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        
         if (_dfuFWType == BOOTLOADER) {
-            [self deleteBootloader];
-            _dfuFWType = APPLICATION;
-            [self updateUIWaiting];
-            [self performSelector:@selector(udBtnClicked:) withObject:(id)_udBtn afterDelay:5.0];
-        }
-        else if (_dfuFWType == APPLICATION)
-        {
+        }else if (_dfuFWType == APPLICATION) {
             [self finallySuccessful];
         }
     });
 }
 
-- (void)onError:(NSString *)errorMessage
-{
+- (void)onError:(NSString *)errorMessage {
     NSLog(@"OnError %@",errorMessage);
-
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:errorMessage preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-        [alert addAction:cancle];
-        [self presentViewController:alert animated:YES completion:nil];
         [self updateUIFail];
     });
-}
-
-- (void)dealloc{
-    _dfuOperations.dfuDelegate = nil;
-    bluetoothManager.delegate = nil;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
 
 @end

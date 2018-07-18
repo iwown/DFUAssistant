@@ -1,0 +1,1 @@
+../../../../BLE3Framework/BLE3Framework/BLEMidAutumn.framework/Headers/BLEMidAutumn.h

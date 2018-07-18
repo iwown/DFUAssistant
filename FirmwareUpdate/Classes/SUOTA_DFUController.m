@@ -5,20 +5,23 @@
 //  Created by caike on 16/8/31.
 //  Copyright © 2016年 Iwown. All rights reserved.
 //
+#import "DFUAlertView.h"
 #import "FUHandle.h"
 #import "SUOTA_DFUController.h"
-//#import "NavigationView.h"
+
 
 #define UIALERTVIEW_TAG_REBOOT 1
 @interface SUOTA_DFUController ()
-
+{
+    NSInteger __progressPercent;
+}
 @end
 
 @implementation SUOTA_DFUController
 @synthesize blockSize;
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didUpdateValueForCharacteristic:)
@@ -31,8 +34,8 @@
                                                object:nil];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
+    
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:GenericServiceManagerDidReceiveValue object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:GenericServiceManagerDidSendValue object:nil];
@@ -43,14 +46,14 @@
     // Do any additional setup after loading the view.
 
     [self setupParam];
-    [self requestForCheckDFU:DFUDevice_Bracelet];
+    [self requestForCheckDFU];
 }
 
 /**
  *  设置升级参数
  */
-- (void)setupParam
-{
+- (void)setupParam {
+    
     self.memoryType = MEM_TYPE_SUOTA_SPI;
     self.spiMOSIAddress = 1;
     self.spiMISOAddress = 2;
@@ -59,15 +62,17 @@
     self.blockSize = 240;
     self.memoryBank = 0;
     
-    CBPeripheral *peripheral = [BLELib3 shareInstance].peripheral;
+    CBPeripheral *peripheral = [[BLEShareInstance shareInstance] getConnectedPeriphral];
     manager = [[SUOTAServiceManager alloc] initWithDevice:peripheral];
     storage = [ParamaterStorage getInstance];
     storage.manager = manager;
 }
 
-- (void)startDFUUpgrade
-{
-    NSString *firmwareURL = [[FUHandle shareInstance] getFWPathFromModel:_fwModel];
+- (void)startDFUUpgrade {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *firmwareURL = [documentsDirectory stringByAppendingPathComponent:[[FUHandle handle] getFWName]];
     NSLog(@"firmwair URL %@",firmwareURL);
     storage.file_url = [NSURL fileURLWithPath:firmwareURL];
     [manager notification:[manager IntToCBUUID:SPOTA_SERVICE_UUID] characteristicUUID:[CBUUID UUIDWithString:SPOTA_SERV_STATUS_UUID] p:manager.device on:YES];
@@ -78,10 +83,29 @@
 }
 
 - (void)prepareDFUUpgrade {
+    
     [super prepareDFUUpgrade];
     NSDictionary *content = self.fwContent;
     if (!content) {
         [self updateUINoNeed];
+        return;
+    }
+    NSString *fwURL = [content objectForKey:@"download_link"];
+    
+    if (!fwURL) {
+        return;
+    }
+    _fwUrl = fwURL;
+    [self downloadFirmware:^{
+        [self startDFUUpgrade];
+    }];
+}
+
+- (void)downloadFirmFailAction {
+    
+    NSDictionary *content = self.fwContent;
+    if (!content) {
+        [self updateUIFail];
         return;
     }
     NSString *fwURL = [content objectForKey:@"download_link"];
@@ -90,7 +114,6 @@
     if (!fwURL || !fwModel) {
         return;
     }
-    _fwModel = fwModel;
     _fwUrl = fwURL;
     [self downloadFirmware:^{
         [self startDFUUpgrade];
@@ -101,14 +124,23 @@
     [super udBtnClicked:sender];
     switch (self.state) {
         case DFUState_Retry:    //升级
+        {
             [self startDFUUpgrade];
+            [self performSelector:@selector(retryTimeOut) withObject:nil afterDelay:15];
+        }
             break;
         case DFUState_Waiting:  //等待
+            
             break;
         case DFUState_DownLoadFial: //下载固件失败
         {
             //重新下载
-            [self prepareDFUUpgrade];
+            [self downloadFirmFailAction];
+        }
+            break;
+        case DFUState_Helper:        //升级助手
+        {
+            [self updateUIWaiting];
         }
             break;
         default:
@@ -116,7 +148,12 @@
     }
 }
 
-
+- (void)retryTimeOut {
+    if (__progressPercent > 0) {
+        return;
+    }
+    [self updateUIUnKnowError];
+}
 #pragma mark SUOTA
 - (void)debug:(NSString*)message {
     
@@ -156,8 +193,17 @@
                 [self doStep];
             } else {
                 // Else display an error message
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [alertView show];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    DFUAlertView *alert = [DFUAlertView createInView:self.view];
+                    alert.titleLabel.text = @"温馨提示";
+                    alert.detailLabel.text = message;
+                    __weak typeof(DFUAlertView) *weakalert = alert;
+                    [alert setLeftTitle:nil leftAction:^{
+                        [weakalert hideWithAnimate:NO];
+                    } andRightTitle:nil rightAction:^{
+                    }];
+                    [alert show];
+                });
                 
                 expectedValue = 0; // Reset
                 [autoscrollTimer invalidate];
@@ -197,6 +243,8 @@
                 _memInfoData = (self.spiMISOAddress << 24) | (self.spiMOSIAddress << 16) | (self.spiCSAddress << 8) | self.spiSCKAddress;
             } else if (self.memoryType == MEM_TYPE_SUOTA_I2C) {
                 _memInfoData = (self.i2cAddress << 16) | (self.i2cSCLAddress << 8) | self.i2cSDAAddress;
+            }else{
+                
             }
             [self debug:[NSString stringWithFormat:@"Sending data: %#10x", _memInfoData]];
             NSData *memInfoData = [NSData dataWithBytes:&_memInfoData length:sizeof(int)];
@@ -224,15 +272,10 @@
             
         case 4: {
             // Set patch length
-            //UInt16 blockSizeLE = (blockSize & 0xFF) << 8 | (((blockSize & 0xFF00) >> 8) & 0xFF);
             
-//            [self debug:[NSString stringWithFormat:@"Sending data: %#6x", blockSize]];
             NSData *patchLengthData = [NSData dataWithBytes:&blockSize length:sizeof(UInt16)];
-            
             step = 5;
-            
             [manager writeValue:[manager IntToCBUUID:SPOTA_SERVICE_UUID] characteristicUUID:[CBUUID UUIDWithString:SPOTA_PATCH_LEN_UUID] p:manager.device data:patchLengthData];
-            //[manager readValue:[manager IntToCBUUID:SPOTA_SERVICE_UUID] characteristicUUID:[CBUUID UUIDWithString:SPOTA_PATCH_LEN_UUID] p:manager.device];
             break;
         }
             
@@ -257,6 +300,7 @@
                 
                 double progress = (double)(blockStartByte + chunkStartByte + chunkSize) / (double)dataLength;
                 NSInteger percent = progress*100;
+                __progressPercent = percent;
                 [self updateUIPercent:percent];
                 // Step 4: Send next n bytes of the patch
                 char bytes[chunkSize];
@@ -302,49 +346,35 @@
             
         case 7: {
             // Wait for user to confirm reboot
-            dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"升级完成", @"Device has been updated") message:NSLocalizedString(@"为了保证所有功能正常使用，请在“设置”->“蓝牙”中忽略设备，并在设备重启后重新绑定连接",@"Do you wish to reboot the device?") delegate:self cancelButtonTitle:NSLocalizedString(@"取消", @"NO") otherButtonTitles:NSLocalizedString(@"重启", @"Yes, reboot"), nil];
-                [alert setTag:UIALERTVIEW_TAG_REBOOT];
-                [alert show];
-            });
-        
+            [self suotaDFUFinished];
             break;
         }
             
         case 8: {
             // Go back to overview of devices
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self updateUIAferComplete];
-                    [self newCompleteAnimationView];
-                });
-            }
+              dispatch_async(dispatch_get_main_queue(), ^{
+                [self updateUIAferComplete];
+                [self newCompleteAnimationView];
+              });
       
             break;
         }
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [autoscrollTimer invalidate];
-    
-    if (alertView.tag == UIALERTVIEW_TAG_REBOOT) {
-        if (buttonIndex != alertView.cancelButtonIndex) {
-            // Send reboot signal to device
-            step = 8;
-            int suotaEnd = 0xFD000000;
-            [self debug:[NSString stringWithFormat:@"Sending data: %#10x", suotaEnd]];
-            NSData *suotaEndData = [NSData dataWithBytes:&suotaEnd length:sizeof(int)];
-            [manager writeValue:[manager IntToCBUUID:SPOTA_SERVICE_UUID] characteristicUUID:[CBUUID UUIDWithString:SPOTA_MEM_DEV_UUID] p:manager.device data:suotaEndData];
-            [self updateUIAferComplete];
-            [self newCompleteAnimationView];
-        }
-    }
+- (void)suotaDFUFinished {
+    step = 8;
+    int suotaEnd = 0xFD000000;
+    [self debug:[NSString stringWithFormat:@"Sending data: %#10x", suotaEnd]];
+    NSData *suotaEndData = [NSData dataWithBytes:&suotaEnd length:sizeof(int)];
+    [manager writeValue:[manager IntToCBUUID:SPOTA_SERVICE_UUID] characteristicUUID:[CBUUID UUIDWithString:SPOTA_MEM_DEV_UUID] p:manager.device data:suotaEndData];
+    [self updateUIAferComplete];
+    [self newCompleteAnimationView];
 }
 
 - (NSString*) getErrorMessage:(SPOTA_STATUS_VALUES)status {
-    NSString *message;
     
+    NSString *message;
     switch (status) {
         case SPOTAR_SRV_STARTED:
             message = @"Valid memory device has been configured by initiator. No sleep state while in this mode";
@@ -419,20 +449,9 @@
     return message;
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

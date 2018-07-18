@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "IVRootViewController.h"
+#import "DCViewController.h"
+#import <YCNetworkLibrary/YCNetworkLibrary.h>
+
 @interface AppDelegate ()
 
 @end
@@ -22,8 +25,21 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[IVRootViewController alloc] init]];
-    self.window.rootViewController = nav;
+    [YCNetworkSetting shareSetting].baseUrl = @"http://betaapi.iwown.com";
+    
+    DCViewController *faseVC = [[DCViewController alloc] init];
+    faseVC.tabBarItem.title = @"快速升级";
+    faseVC.tabBarItem.image=[UIImage imageNamed:@"profile"];
+    UINavigationController *navA = [[UINavigationController alloc] initWithRootViewController:faseVC];
+
+    IVRootViewController *rootVC = [[IVRootViewController alloc] init];
+    rootVC.tabBarItem.title = @"分类升级";
+    rootVC.tabBarItem.image=[UIImage imageNamed:@"device"];
+    UINavigationController *navB = [[UINavigationController alloc] initWithRootViewController:rootVC];
+
+    UITabBarController *tb = [[UITabBarController alloc]init];
+    tb.viewControllers = @[navA,navB];
+    self.window.rootViewController = tb;
     
     [self.window makeKeyAndVisible];
     return YES;

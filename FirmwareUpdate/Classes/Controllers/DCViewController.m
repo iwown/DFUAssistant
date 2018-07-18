@@ -15,10 +15,10 @@ typedef enum{
 #import <IVBaseKit/IVBaseKit.h>
 #import "Toast.h"
 #import "FUHandle.h"
-#import <BLE3Framework/BLE3Framework.h>
+#import <BLEMidAutumn/BLEMidAutumn.h>
 #import "DCViewController.h"
 
-@interface DCViewController ()<UITableViewDataSource,UITableViewDelegate,BLELib3Delegate,BleDiscoverDelegate,BleConnectDelegate,FUHandleDelegate>
+@interface DCViewController ()<UITableViewDataSource,UITableViewDelegate,FUHandleDelegate,BLEShareInstanceDelegate>
 {
     UILabel *_scanState;
     UIImageView *_deviceView;
@@ -27,12 +27,12 @@ typedef enum{
     UIButton *_upgradeBtn;
     
     NSString *_deviceName;
+    UILabel *_textLabel;
 }
 @property (nonatomic ,strong) UITableView *tableView;
 @property (nonatomic ,strong) NSMutableArray *dataSource;
 @property (nonatomic ,strong) UITextView *textView;
 @property (nonatomic ,strong) UIButton *rescan;
-
 
 @end
 
@@ -41,7 +41,12 @@ typedef enum{
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"LightBLE";
+    self.title = @"快速升级";
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDidConnected:) name:@"k_deviceDidConnected" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceInfoDidUpdate:) name:@"kNOTICE_DEVICE_UPDATE" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(batteryInfoDidUpdate:) name:@"kNOTICE_BATTERY_UPDATE" object:nil];
+
+
     [self initParam];
     [self initUI];
 }
@@ -50,20 +55,27 @@ typedef enum{
     [super viewWillAppear:animated];
 }
 
-- (void)initParam{
+- (void)initParam {
     _dataSource = [[NSMutableArray alloc] initWithCapacity:0];
-    [[BLELib3 shareInstance] setDelegate:self];
-    [[BLELib3 shareInstance] setConnectDelegate:self];
-    [[BLELib3 shareInstance] setDiscoverDelegate:self];
-    [[FUHandle shareInstance] setDelegate:self];
+    [BLEShareInstance shareInstance].delegate = self;
+    [[FUHandle handle] setDelegate:self];
 }
 
-- (void)initUI{
+- (void)initUI {
     self.view.backgroundColor = [UIColor whiteColor];
     [self drawScanStateView];
+    [self drawTextLabel];
     [self drawTableView];
     [self drawRescanButton];
     [self drawUpgradeButton];
+}
+
+- (void)drawTextLabel {
+    
+    _textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, FONT(FONT(200)), FONT(200))];
+    _textLabel.numberOfLines = 0;
+    _textLabel.center = self.view.center;
+    [self.view addSubview:_textLabel];
 }
 
 - (void)drawScanStateView{
@@ -88,9 +100,10 @@ typedef enum{
 
 - (void)drawRescanButton{
     _rescan = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_rescan setFrame:CGRectMake(SCREEN_WIDTH * 0.5 - FONT(60), SCREEN_HEIGHT *0.75, FONT(120), FONT(40))];
     [self.view addSubview:_rescan];
     [_rescan setTitle:NSLocalizedString(@"重新搜索", nil) forState:UIControlStateNormal];
-    [_rescan setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_rescan setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [_rescan addTarget:self action:@selector(reScan) forControlEvents:UIControlEventTouchUpInside];
     [_rescan setHidden:YES];
 }
@@ -98,7 +111,7 @@ typedef enum{
 - (void)drawUpgradeButton {
     _upgradeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:_upgradeBtn];
-    [_upgradeBtn setFrame:CGRectMake(0.5*(SCREEN_WIDTH-FONT(100)), SCREEN_HEIGHT - FONT(60), FONT(120),FONT(40))];
+    [_upgradeBtn setFrame:CGRectMake(0.5*(SCREEN_WIDTH-FONT(100)), SCREEN_HEIGHT - FONT(120), FONT(120),FONT(40))];
     [_upgradeBtn setTitle:NSLocalizedString(@"UPGRADE", nil) forState:UIControlStateNormal];
     [_upgradeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_upgradeBtn setBackgroundColor:[UIColor colorWithRed:65/255.0 green:173/255.0 blue:229/255.0 alpha:1]];
@@ -120,7 +133,7 @@ typedef enum{
     if (cell == nil) {
        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
     }
-    ZeronerBlePeripheral *device = _dataSource[indexPath.row];
+    ZRBlePeripheral *device = _dataSource[indexPath.row];
     cell.textLabel.text = device.deviceName;
     if ([_theBleMAC isEqualToString:device.uuidString]) {
         cell.detailTextLabel.text = NSLocalizedString(@"已连接", nil);
@@ -130,21 +143,20 @@ typedef enum{
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return FONT(38);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [Toast makeToastActivityWithViwa:@"正在连接..."];
     [_tableView deselectRowAtIndexPath:indexPath animated:YES];
-    ZeronerBlePeripheral *device = _dataSource[indexPath.row];
-    [[BLELib3 shareInstance] connectDevice:device];
+    ZRBlePeripheral *device = _dataSource[indexPath.row];
+    [[BLEShareInstance shareInstance] connectDevice:device];
 }
 
 #pragma -mark Actions
 - (void)returnButtonClicked:(UIButton *)button{
-    [[BLELib3 shareInstance] stopScan];
+    [[BLEShareInstance shareInstance] stopScan];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -196,7 +208,7 @@ typedef enum{
 }
 
 - (void)reScan{
-    [[FUHandle shareInstance] setDeviceInfo:nil];
+    [[FUHandle handle] setDeviceInfo:nil];
     [self.dataSource removeAllObjects];
     [self.tableView reloadData];
     [self reset];
@@ -205,7 +217,8 @@ typedef enum{
 }
     
 - (void)reset {
-    [[self.view viewWithTag:10001] removeFromSuperview];
+    
+    _textLabel.hidden = YES;
     self.tableView.hidden = NO;
     _upgradeBtn.hidden = YES;
     _theBleMAC = nil;
@@ -269,93 +282,59 @@ typedef enum{
 }
 
 - (void)responseOfMTKBtNotifyData:(CBCharacteristic *)cbc {
-    [[FUHandle shareInstance] responseOfMTKBtNotifyData:cbc];
+    [[FUHandle handle] responseOfMTKBtNotifyData:cbc];
 }
 - (void)responseOfMTKBtWriteData:(CBCharacteristic *)cbc {
-    [[FUHandle shareInstance] responseOfMTKBtWriteData:cbc];
+    [[FUHandle handle] responseOfMTKBtWriteData:cbc];
 }
 
 #pragma mark -delegate
-- (void)syscDataFinishedStateChange:(KSyscDataState)ksdState {
+
+- (void)deviceDidConnected:(NSNotification *)obj {
     
-}
-
-- (void)IWBLEDidDiscoverDeviceWithMAC:(ZeronerBlePeripheral *)iwDevice {
-    if ([iwDevice.deviceName containsString:@"Bracel13-"]) { //i6HR
-        return;
-    }else if ([iwDevice.deviceName containsString:@"Bracel15-"]){ //i6
-        return;
-    }
-    [_dataSource addObject:iwDevice];
-}
-
-- (void)IWBLEDidDisConnectWithDevice:(ZeronerBlePeripheral *)device andError:(NSError *)error {
-    [[FUHandle shareInstance] setState:kBLEstateDisConnected];
-}
-
-- (void)IWBLEDidConnectDevice:(ZeronerBlePeripheral *)device {
-    
-    [[FUHandle shareInstance] setState:kBLEstateDidConnected];
-    [NSThread sleepForTimeInterval:0.5];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [Toast hideToastActivity];
-        _theBleMAC = device.uuidString;
-        
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(20, FONT(150) ,FONT(300),FONT(200))];
-        lab.tag = 10001;
-        lab.numberOfLines = 0;
-        _deviceName = device.deviceName;
-        [lab setText:[NSString stringWithFormat:@"NAME:%@\n\nMODEL:%@\n\nVERSION:%@\n\nPOWER:%lu%%",_deviceName,[FUHandle shareInstance].deviceInfo.model,[FUHandle shareInstance].deviceInfo.version,(long)[FUHandle shareInstance].deviceInfo.batLevel]];
-        [lab setTextColor:[UIColor lightGrayColor]];
-        [lab setUserInteractionEnabled:YES];
-        UITapGestureRecognizer *tapTwice = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapLabTwice)];
-        tapTwice.numberOfTapsRequired = 2;
-        [lab addGestureRecognizer:tapTwice];
-        [self.view addSubview:lab];
-        self.tableView.hidden = YES;
-        [_upgradeBtn setHidden:NO];
-    });
+    [Toast hideToastActivity];
+    ZRBlePeripheral *device = (ZRBlePeripheral *)obj.object;
+    _theBleMAC = device.uuidString;
+    _tableView.hidden = YES;
+    [_upgradeBtn setHidden:NO];
 }
 
 - (BOOL)doNotSyscHealthAtTimes {
-    [[FUHandle shareInstance] setEpoParamsIfNeed];
+    [[FUHandle handle] setEpoParamsIfNeed];
     return YES;
 }
 
 - (void)tapLabTwice {
-    [[BLELib3 shareInstance] getDeviceInfo];
+    [[BLEShareInstance shareInstance] getDeviceInfo];
 }
 
-- (void)setBLEParameterAfterConnect {
-    [[BLELib3 shareInstance] syscTimeAtOnce];
-}
-
-- (void)updateDeviceInfo:(ZeronerDeviceInfo *)deviceInfo {
-    [[FUHandle shareInstance] setDeviceInfo:deviceInfo];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UILabel *lab = (UILabel *)[self.view viewWithTag:10001];
-        [lab setText:[NSString stringWithFormat:@"NAME:%@\n\nMODEL:%@\n\nVERSION:%@\n\nPOWER:%lu%%",_deviceName,[FUHandle shareInstance].deviceInfo.model,[FUHandle shareInstance].deviceInfo.version,(long)[FUHandle shareInstance].deviceInfo.batLevel]];
-    });
-}
-
-- (void)updateBattery:(ZeronerDeviceInfo *)deviceInfo {
+- (void)deviceInfoDidUpdate:(NSNotification *)notice {
+    ZRDeviceInfo *deviceInfo = (ZRDeviceInfo *)notice.object;
     [self updateDeviceInfo:deviceInfo];
 }
 
-- (void)dealloc {
-    [BLELib3 shareInstance].delegate = nil;
-    [BLELib3 shareInstance].connectDelegate = nil;
-    [BLELib3 shareInstance].discoverDelegate = nil;
+- (void)batteryInfoDidUpdate:(NSNotification *)notice {
+    ZRDeviceInfo *deviceInfo = (ZRDeviceInfo *)notice.object;
+    [self updateDeviceInfo:deviceInfo];
+}
+
+- (void)updateDeviceInfo:(ZRDeviceInfo *)deviceInfo {
+    [[FUHandle handle] setDeviceInfo:deviceInfo];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _textLabel.hidden = NO;
+        [_textLabel setText:[NSString stringWithFormat:@"NAME:%@\n\nMODEL:%@\n\nVERSION:%@\n\nPOWER:%lu%%",_deviceName,[FUHandle handle].deviceInfo.model,[FUHandle handle].deviceInfo.version,(long)[FUHandle handle].deviceInfo.batLevel]];
+    });
 }
 
 #pragma mark -BLEaction
 - (void)scanDevice{
     [_dataSource removeAllObjects];
-    [[BLELib3 shareInstance] scanDevice];
+    [[BLEShareInstance shareInstance] scanDevice];
 }
 
-- (void)scanStop{
+- (void)scanStop {
     
+    [_dataSource addObjectsFromArray:[[BLEShareInstance shareInstance] getDevices]];
     if (_dataSource.count != 0) {
         [self setScanState:ScanStateScaned];
     }else{
@@ -365,7 +344,7 @@ typedef enum{
 
 - (void)upgradeBtnClick:(UIButton *)btn {
     
-    UIViewController *fuVC = [[FUHandle shareInstance] getFUVC];
+    UIViewController *fuVC = [[FUHandle handle] getFUVC];
     if (fuVC) {
         [self.navigationController presentViewController:fuVC animated:YES completion:nil];
     }

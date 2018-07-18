@@ -20,7 +20,7 @@
 
 - (void)hideWithAnimate:(BOOL)animate;
 
-- (void)setLeftTitle:(NSString *)tLeft leftAction:(void (^)())left andRightTitle:(NSString *)tRight rightAction:(void (^)())right;
+- (void)setLeftTitle:(NSString *)tLeft leftAction:(void (^)(void))left andRightTitle:(NSString *)tRight rightAction:(void (^)(void))right;
 
 + (instancetype)createInView:(UIView *)view;
 

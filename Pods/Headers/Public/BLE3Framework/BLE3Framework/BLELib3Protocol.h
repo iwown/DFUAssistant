@@ -1,1 +1,0 @@
-../../../../BLE3Framework/BLE3Framework/BLE3Framework.framework/Headers/BLELib3Protocol.h

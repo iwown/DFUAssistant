@@ -17,5 +17,5 @@ Copyright © 2016年 Iwown. All rights reserved.
 + version end
   - 迁移至SDK，作为demo维护
 
-+ version 2.0
++ version 1.2
   - 固件升级独立为project

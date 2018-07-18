@@ -14,28 +14,41 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - BLE3Framework (4.5.7)
+  - BLE3Framework (5.1.0)
   - IVBaseKit (0.0.7)
+  - lottie-ios (2.5.0)
   - Masonry (1.1.0)
   - MBProgressHUD (1.0.0)
   - SSZipArchive (2.0.7)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
-  - BLE3Framework (~> 4.5.6)
+  - BLE3Framework (~> 5.1.0)
   - IVBaseKit (~> 0.0.7)
+  - lottie-ios
   - Masonry
   - MBProgressHUD (~> 1.0.0)
   - SSZipArchive (~> 2.0.7)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFNetworking
+    - BLE3Framework
+    - IVBaseKit
+    - lottie-ios
+    - Masonry
+    - MBProgressHUD
+    - SSZipArchive
+
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  BLE3Framework: 06f01bcfff0b26bc05df08917e5e5d5e3ced6d21
+  BLE3Framework: 6bce9034c1cead4454df6dcd1df07f36d9e728fa
   IVBaseKit: f105f24b9d6cd4e0ce55dc5903b68d73800497c5
+  lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   SSZipArchive: 8c197761d66bd33e7f8b5b51ee57dff303971150
 
-PODFILE CHECKSUM: b474c6ac715982def3137e1c382dd50ad6cb2968
+PODFILE CHECKSUM: 41f05212cd57e03fca701502621589e1342a043b
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.5.3

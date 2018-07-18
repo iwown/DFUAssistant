@@ -5,35 +5,54 @@
 //  Created by A$CE on 2017/9/20.
 //  Copyright © 2017年 west. All rights reserved.
 //
-
-#import "FUHandle.h"
 #import "BtNotify.h"
+#import "FUHandle.h"
+#import "BLEShareInstance.h"
 #import "FOTA_DFUController.h"
 
 @interface FOTA_DFUController ()<NotifyFotaDelegate>
-
+{
+    BOOL _timeOutFlag;
+}
 @end
 
 @implementation FOTA_DFUController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self requestForCheckDFU:DFUDevice_Bracelet];
-    // Do any additional setup after loading the view.
+    [[BLEShareInstance shareInstance] initBtNotifyIfNeed];
+//    [[FUHandle handle] setParamsIsFota:MTK_fota];
+    [self checkReadyForSetFota];
+}
+
+- (void)checkReadyForSetFota {
+    
+    BOOL isReady = [[BtNotify sharedInstance] isReadyToSend];
+    if (isReady) {
+        [self requestForCheckDFU];
+        _timeOutFlag = YES;
+    }else {
+        [self performSelector:@selector(checkReadyForSetFota) withObject:nil afterDelay:1.5];
+    }
 }
 
 - (void)startDFUUpgrade {
-    NSString *firmwareURL = [[FUHandle shareInstance] getFWPathFromModel:_fwModel];
+    
+    NSString *firmwareURL = [[FUHandle handle] getFWPath];
     NSLog(@"firmwair URL %@",firmwareURL);
     [[BtNotify sharedInstance] registerFotaDelegate:self];
     BOOL isReady = [[BtNotify sharedInstance] isReadyToSend];
     
-//    NSString* path = [[NSBundle mainBundle] pathForResource:@"F1_Firmware" ofType:@"bin"];
     NSData* data = [[NSData alloc] initWithContentsOfFile:firmwareURL];
     int response = [[BtNotify sharedInstance] sendFotaData:FBIN_FOTA_UPDATE firmwareData:data];
     
     NSLog(@"isReadyToSend: %d : %d",isReady,response);
-    [self updateUIWaiting];
+    if (isReady == 1 && response != ERROR_CODE_NOT_HANDSHAKE_DONE) {
+        [self updateUIWaiting];
+        [self performSelector:@selector(isFotaUpgradeTimeOut) withObject:nil afterDelay:15];
+    }else {
+        [self updateUIFail];
+    }
 }
 
 - (void)prepareDFUUpgrade {
@@ -44,24 +63,48 @@
         return;
     }
     NSString *fwURL = [content objectForKey:@"download_link"];
-    NSString *fwModel = [content objectForKey:@"model"];
     
-    if (!fwURL || !fwModel) {
+    if (!fwURL) {
+        [self updateUINoNeed];
         return;
     }
-    _fwModel = fwModel;
     _fwUrl = fwURL;
+    
+    __weak typeof(self) weakself = self;
     [self downloadFirmware:^{
-        [self startDFUUpgrade];
+        [weakself startDFUUpgrade];
     }];
 }
 
 -(void)onFotaProgress:(float)progress {
+    
+    if (_timeOutFlag) {_timeOutFlag = NO;}
+    
     int pencent = (int)(progress * 100);
-    [self updateUIPercent:pencent];
     if(pencent == 100) {
         [self updateUIAferComplete];
+        [self newCompleteAnimationView];
+    }else{
+        [self updateUIPercent:pencent];
     }
+}
+
+- (void)udBtnClicked:(id)sender {
+    [super udBtnClicked:sender];
+    switch (self.state) {
+        case DFUState_Retry:    //升级
+        {
+            [self startDFUUpgrade];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)isFotaUpgradeTimeOut {
+    if (!_timeOutFlag) {return;}
+    [self updateUIFail];
 }
 
 - (void)didReceiveMemoryWarning {

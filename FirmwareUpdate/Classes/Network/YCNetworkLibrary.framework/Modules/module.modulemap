@@ -1,0 +1,6 @@
+framework module YCNetworkLibrary {
+  umbrella header "YCNetworkLibrary.h"
+
+  export *
+  module * { export * }
+}
