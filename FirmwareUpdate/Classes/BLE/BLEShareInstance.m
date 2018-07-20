@@ -89,7 +89,15 @@ static BLEShareInstance *shareBLEInstance = nil;
     [_bleautumn stopScan];
 }
 
-- (NSArray *)getDevices{
+- (NSArray *)getDevices {
+    [_deviceArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        ZRBlePeripheral *run1 = obj1;
+        ZRBlePeripheral *run2 = obj2;
+        NSInteger rssiA = run1.RSSI.integerValue;
+        NSInteger rssiB = run2.RSSI.integerValue;
+        return (rssiA < rssiB);
+    }];
+    NSLog(@"%ld >>> %ld",[[(ZRBlePeripheral *)_deviceArray[1] RSSI] integerValue],[[(ZRBlePeripheral *)_deviceArray[5] RSSI] integerValue]);
     return _deviceArray;
 }
 
@@ -121,7 +129,7 @@ static BLEShareInstance *shareBLEInstance = nil;
 }
 
 - (void)setBLEState:(BOOL)connectted {
-    DFUPlatform dPlatform = [self.deviceInfo platformForDfu];
+    DFUPlatform dPlatform = 2;// [self.deviceInfo platformForDfu];
     if (connectted) {
         self.state = kBLEstateDidConnected;
         //update BtNotify state
@@ -276,6 +284,10 @@ static BLEShareInstance *shareBLEInstance = nil;
 }
 
 - (void)solsticeDidDiscoverDeviceWithMAC:(ZRBlePeripheral *)iwDevice {
+
+    if (iwDevice.RSSI.integerValue < -80) {
+        return;
+    }
     NSString *iwdName = iwDevice.uuidString;
     for (ZRBlePeripheral *zrble in _deviceArray) {
         if ([iwdName isEqualToString:zrble.uuidString]) {

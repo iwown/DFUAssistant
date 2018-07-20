@@ -45,12 +45,13 @@ static FUHandle *__fuhdle = nil;
     return self;
 }
 
-- (UIViewController *)getFUVC {
+- (UIViewController *)getFUVC:(NSDictionary *)mContent {
+    
     if (![self dfuCheckFirst]) {
         return nil;
     }
     
-    UIViewController *dfuVC = nil;
+    BaseDFUController *dfuVC = nil;
     switch ([[FUHandle handle].deviceInfo platformForDfu]) {
         case DFUPlatformNortic:
         {
@@ -71,6 +72,9 @@ static FUHandle *__fuhdle = nil;
         default:
             dfuVC = [[ZGDFUController alloc]init];
             break;
+    }
+    if (dfuVC) {
+        dfuVC.fwContent = mContent;
     }
     return dfuVC;
 }
@@ -155,6 +159,10 @@ static FUHandle *__fuhdle = nil;
         return @17;
     }else if ([model isEqualToString:@"I6H9"]){
         return @21;
+    }else if ([model isEqualToString:@"i6HC"]){
+        return @24;
+    }else if ([model isEqualToString:@"I6C2"]){
+        return @36;
     }else if ([model isEqualToString:@"S2"]){
         return @101;
     }
@@ -276,6 +284,29 @@ static FUHandle *__fuhdle = nil;
         NSLog(@"固件已存在");
         return YES;
     }
+}
+
+#pragma mark- API
+- (void)fwUpdateRequestWithPlatform:(NSInteger)platform
+                          andNeedFW:(NSUInteger)needFW
+                   andDeviceVersion:(NSString *)deviceVersion
+                         completion:(RequestFirmwareUpdateCompletion)completion {
+    
+    if (!deviceVersion || deviceVersion.length == 0) {
+        completion(nil, nil);
+        return;
+    }
+
+    NSNumber *modelNum = [self deviceModelNumber];
+    
+    NSNumber *appVersion = @(1000);
+    NSNumber *deviceType = @1; //1->手环 ，2->体重秤 ,3->手表
+    RequestFirmwareUpdateApi *rfuApi = [[RequestFirmwareUpdateApi alloc] initWithDevicePlatform:@(platform) andDeviceType:deviceType andDeviceModel:modelNum andFirmwareVersion:deviceVersion andApp:3 andAppVersion:appVersion];
+    [rfuApi sendRequestWithCompletionBlockWithSuccess:^(__kindof IWBasicRequest * _Nonnull request) {
+        completion(request,request.error);
+    } failure:^(__kindof IWBasicRequest * _Nonnull request) {
+        completion(request,request.error);
+    }];
 }
 
 #pragma mark- UI

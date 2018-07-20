@@ -7,6 +7,7 @@
 //
 #import "BLEShareInstance.h"
 #import <Foundation/Foundation.h>
+#import "RequestFirmwareUpdateApi.h"
 
 @protocol FUHandleDelegate <NSObject>
 
@@ -38,7 +39,7 @@
 
 + (FUHandle *)handle;
 /*firmware upgrade view controller*/
-- (UIViewController *)getFUVC;
+- (UIViewController *)getFUVC:(NSDictionary *)mContent;
 #pragma mark- Public
 - (NSNumber *)devicePlatformNumber;
 - (NSNumber *)deviceModelNumber;
@@ -49,6 +50,11 @@
 - (NSString *)getFWPath;
 - (BOOL)dfuFileIsExist:(NSString *)url;
 - (BOOL)downFWFromURL:(NSString *)fileURL;
+
+- (void)fwUpdateRequestWithPlatform:(NSInteger)platform
+                          andNeedFW:(NSUInteger)needFW
+                   andDeviceVersion:(NSString *)deviceVersion
+                         completion:(RequestFirmwareUpdateCompletion)completion;
 #pragma mark- UI
 /*fuNormalButtonColorInt*/
 - (int)fuNBCI;

@@ -56,8 +56,6 @@ typedef enum{
     
     DFUError            _dfuError;
     BOOL                _error_State;
-    
-    NSDictionary        *_saveInfoDict;
 }
 
 @end
@@ -167,7 +165,7 @@ typedef enum{
         return;
     }
     
-    _saveInfoDict = @{@"uid":@"10000",@"mac":macAddr,@"url":fwUrl,@"model":fwModel};
+    _fwUrl = fwUrl;
     [self nordicDownloadFirmware];
 }
 

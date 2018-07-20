@@ -8,7 +8,7 @@ platform :ios, '8.0'
 target 'FirmwareUpdate'  do
     
     pod 'IVBaseKit', '~> 0.0.7'
-    pod 'BLE3Framework', '~> 5.1.0'
+    pod 'BLE3Framework', '~> 5.1.1'
     pod 'MBProgressHUD', '~> 1.0.0'
     pod 'Masonry'
     pod 'AFNetworking', '~> 3.1.0'

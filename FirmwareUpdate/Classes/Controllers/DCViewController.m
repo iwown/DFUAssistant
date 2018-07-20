@@ -16,6 +16,7 @@ typedef enum{
 #import "Toast.h"
 #import "FUHandle.h"
 #import <BLEMidAutumn/BLEMidAutumn.h>
+#import "RequestFirmwareUpdateApi.h"
 #import "DCViewController.h"
 
 @interface DCViewController ()<UITableViewDataSource,UITableViewDelegate,FUHandleDelegate,BLEShareInstanceDelegate>
@@ -90,7 +91,7 @@ typedef enum{
 
 - (void)drawTableView{
     //tableView的初始化
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, FONT(120), SCREEN_WIDTH, SCREEN_HEIGHT-FONT(150)) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, FONT(120), SCREEN_WIDTH, SCREEN_HEIGHT-FONT(180)) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.bounces = NO;
@@ -111,7 +112,7 @@ typedef enum{
 - (void)drawUpgradeButton {
     _upgradeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:_upgradeBtn];
-    [_upgradeBtn setFrame:CGRectMake(0.5*(SCREEN_WIDTH-FONT(100)), SCREEN_HEIGHT - FONT(120), FONT(120),FONT(40))];
+    [_upgradeBtn setFrame:CGRectMake(0.5*(SCREEN_WIDTH-FONT(120)), SCREEN_HEIGHT - FONT(120), FONT(120),FONT(40))];
     [_upgradeBtn setTitle:NSLocalizedString(@"UPGRADE", nil) forState:UIControlStateNormal];
     [_upgradeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_upgradeBtn setBackgroundColor:[UIColor colorWithRed:65/255.0 green:173/255.0 blue:229/255.0 alpha:1]];
@@ -243,7 +244,7 @@ typedef enum{
     dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
     dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),0.5*NSEC_PER_SEC, 0);
     dispatch_source_set_event_handler(_timer, ^{
-        if (timeNum >10) {
+        if (timeNum >4) {
             dispatch_source_cancel(_timer);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [__safe_self scanStop];
@@ -263,24 +264,6 @@ typedef enum{
 }
 #pragma mark- fuhandleDelegate
 
-- (NSString *)fuHandleParamsUid {
-    return @"123";
-}
-- (NSNumber *)fuHandleParamsAppName {
-    return @3;
-}
-- (NSString *)fuHandleParamsBuildVersion {
-    return @"45343";
-}
-
-- (NSInteger)fuHandleReturnModelDfu {
-    return 32;
-}
-
-- (NSString *)fuHandleReturnFileSuffixName {
-    return @".bin";
-}
-
 - (void)responseOfMTKBtNotifyData:(CBCharacteristic *)cbc {
     [[FUHandle handle] responseOfMTKBtNotifyData:cbc];
 }
@@ -292,11 +275,12 @@ typedef enum{
 
 - (void)deviceDidConnected:(NSNotification *)obj {
     
+    [_scanState setText:NSLocalizedString(@"已连接，正在读取设备信息", nil)];
     [Toast hideToastActivity];
     ZRBlePeripheral *device = (ZRBlePeripheral *)obj.object;
+    _deviceName = device.deviceName;
     _theBleMAC = device.uuidString;
     _tableView.hidden = YES;
-    [_upgradeBtn setHidden:NO];
 }
 
 - (BOOL)doNotSyscHealthAtTimes {
@@ -311,6 +295,7 @@ typedef enum{
 - (void)deviceInfoDidUpdate:(NSNotification *)notice {
     ZRDeviceInfo *deviceInfo = (ZRDeviceInfo *)notice.object;
     [self updateDeviceInfo:deviceInfo];
+    [_upgradeBtn setHidden:NO];
 }
 
 - (void)batteryInfoDidUpdate:(NSNotification *)notice {
@@ -334,6 +319,7 @@ typedef enum{
 
 - (void)scanStop {
     
+    [[BLEShareInstance shareInstance] stopScan];
     [_dataSource addObjectsFromArray:[[BLEShareInstance shareInstance] getDevices]];
     if (_dataSource.count != 0) {
         [self setScanState:ScanStateScaned];
@@ -344,7 +330,46 @@ typedef enum{
 
 - (void)upgradeBtnClick:(UIButton *)btn {
     
-    UIViewController *fuVC = [[FUHandle handle] getFUVC];
+    [self requestForCheckDFU];
+}
+
+- (void)requestForCheckDFU {
+    //校验所需参数
+    ZRDeviceInfo *_dInfo = [BLEShareInstance shareInstance].deviceInfo;
+    NSInteger platform = 2;//[_dInfo platformForDfu];
+    //UI
+    [Toast makeToastActivity];
+    NSString *deviceVersion = [_dInfo version];
+    __weak typeof(self) weakself = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        [[FUHandle handle] fwUpdateRequestWithPlatform:platform andNeedFW:1 andDeviceVersion:deviceVersion completion:^(RequestFirmwareUpdateApi *responce, NSError *error) {
+            NSInteger retCode = [responce.responseJSONObject[@"retCode"] integerValue];
+            if (retCode == 0) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Toast hideToastActivity];
+                    NSDictionary *fwInfo = responce.firmware;
+                    if (fwInfo) {
+                        NSMutableDictionary *mDict = [NSMutableDictionary dictionaryWithDictionary:fwInfo];
+                        [mDict setObject:_dInfo.bleAddr forKey:@"mac_address"];
+                        [mDict setObject:_dInfo.model forKey:@"model"];
+                        [weakself checkFWUpdate:mDict];
+                    }else {
+                        [weakself checkFWUpdate:nil];
+                    }
+                });
+            }else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Toast hideToastActivity];
+                    [weakself checkFWUpdate:nil];
+                });
+            }
+        }];
+    });
+}
+
+- (void)checkFWUpdate:(NSDictionary *)mContent {
+   
+    UIViewController *fuVC = [[FUHandle handle] getFUVC:mContent];
     if (fuVC) {
         [self.navigationController presentViewController:fuVC animated:YES completion:nil];
     }

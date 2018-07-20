@@ -61,6 +61,17 @@
 - (void)initUI {
 
     [self drawBackGroundView];
+    [self addReturnButton];
+}
+
+- (void)addReturnButton {
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setFrame:CGRectMake(20, 40, 80, 30)];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setTitle:@"返回" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(returnBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
 }
 
 static int bgview_tag = 9239;
@@ -75,7 +86,6 @@ static int bgview_tag = 9239;
     [_bgTipLab setTextColor:[UIColor whiteColor]];
     [imgView addSubview:_bgTipLab];
     [[self view] addSubview:imgView];
-    
 }
 
 - (void)drawUpdateCircle {
@@ -101,9 +111,10 @@ static int bgview_tag = 9239;
     _udBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_udBtn setFrame:CGRectMake(0.5*(SCREEN_WIDTH-FONT(230)), SCREEN_HEIGHT-FONT(120), FONT(230), FONT(50))];
     [_udBtn addTarget:self action:@selector(udBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_udBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_udBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_udBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
-    [_udBtn setBackgroundColor:[UIColor colorFromCode:0xFF0021 inAlpha:0.45]];
+
+    [_udBtn setBackgroundColor:[UIColor colorFromCode:0x2C79DA inAlpha:0.8]];
     [_udBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
     [[_udBtn layer] setMasksToBounds:YES];
     [[_udBtn layer] setCornerRadius:FONT(5)];
@@ -117,20 +128,20 @@ static int bgview_tag = 9239;
     _udStateLab = [[UILabel alloc] initWithFrame:CGRectMake(0, NavigationBarHeight + FONT(25), SCREEN_WIDTH, FONT(40))];
     [_udStateLab setText:@"装备升级"];
     [_udStateLab setTextAlignment:NSTextAlignmentCenter];
-    [_udStateLab setTextColor:[UIColor grayColor]];
+    [_udStateLab setTextColor:[UIColor whiteColor]];
     [_udStateLab setNumberOfLines:0];
     [_udStateLab setFont:[UIFont systemFontOfSize:FONT(14)]];
     
     _udProgressLab = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT*0.588 +FONT(30), SCREEN_WIDTH, FONT(30))];
     [_udProgressLab setText:NSLocalizedString(@"- 0% -", nil)];
     [_udProgressLab setTextAlignment:NSTextAlignmentCenter];
-    [_udProgressLab setTextColor:[UIColor grayColor]];
+    [_udProgressLab setTextColor:[UIColor whiteColor]];
     [_udProgressLab setFont:[UIFont systemFontOfSize:FONT(20)]];
     
     _udTimeNoticeLab = [[UILabel alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT*0.588 +FONT(65), SCREEN_WIDTH, FONT(25))];
     [_udTimeNoticeLab setText:@"剩余0分钟"];
     [_udTimeNoticeLab setTextAlignment:NSTextAlignmentCenter];
-    [_udTimeNoticeLab setTextColor:[UIColor grayColor]];
+    [_udTimeNoticeLab setTextColor:[UIColor whiteColor]];
     [_udTimeNoticeLab setFont:[UIFont systemFontOfSize:FONT(14)]];
 
     [[self view] addSubview:_udStateLab];
@@ -144,7 +155,7 @@ static int bgview_tag = 9239;
         return;
     }
     NSString *title = @"请保持设备电量充足";
-    _udTipLab = [UILabel labelWithFrame:CGRectMake(FONT(20), SCREEN_HEIGHT*0.73, SCREEN_WIDTH-FONT(40), FONT(150)) withTitle:title titleFontSize:[UIFont systemFontOfSize:20] textColor:[UIColor grayColor] backgroundColor:[UIColor clearColor] alignment:NSTextAlignmentLeft];
+    _udTipLab = [UILabel labelWithFrame:CGRectMake(FONT(20), SCREEN_HEIGHT*0.73, SCREEN_WIDTH-FONT(40), FONT(150)) withTitle:title titleFontSize:[UIFont systemFontOfSize:20] textColor:[UIColor whiteColor] backgroundColor:[UIColor clearColor] alignment:NSTextAlignmentLeft];
     [_udTipLab setNumberOfLines:0];
     [_udTipLab setAdjustsFontSizeToFitWidth:YES];
 
@@ -248,7 +259,7 @@ static int white_tag = 10299;
     
     [self removeCompleteView];
     [self setUdbtnTitle:nil];
-    [_udView updateProgress:0 color:[UIColor colorFromCode:0x122B6E inAlpha:1]];
+    [_udView updateProgress:0 color:[UIColor colorFromCode:0xFFFFFF inAlpha:1]];
     [_udProgressLab setText:NSLocalizedString(@"- 0% -", nil)];
     [_udTimeNoticeLab setText:@"剩余0分钟"];
     self.state = DFUState_Retry;
@@ -337,7 +348,7 @@ static int white_tag = 10299;
 
 - (void)updateUIAferComplete {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self->_udView updateProgress:1 color:[UIColor colorFromCode:0x122B6E inAlpha:1]];
+        [self->_udView updateProgress:1 color:[UIColor colorFromCode:0xFFFFFF inAlpha:1]];
         [self updateUIState:[self getStateParams:@"升级成功" andDFUState:DFUState_Return]];
     });
 }
@@ -352,19 +363,19 @@ static int white_tag = 10299;
 
 - (void)updateUINoNeed {
     
-    [_udView updateProgress:1 color:[UIColor colorFromCode:0x122B6E inAlpha:1.0]];
+    [_udView updateProgress:1 color:[UIColor colorFromCode:0xFFFFFF inAlpha:1.0]];
     [self updateUIState:[self getStateParams:@"最新版本，无需升级" andDFUState:DFUState_Return]];
 }
 
 - (void)updateUIUnKnowError {
     
-    [_udView updateProgress:0 color:[UIColor colorFromCode:0x122B6E inAlpha:1.0]];
+    [_udView updateProgress:0 color:[UIColor colorFromCode:0xFFFFFF inAlpha:1.0]];
     [self updateUIState:[self getStateParams:@"未知错误，请返回" andDFUState:DFUState_Return]];
 }
 
 - (void)updateUIFail {
     
-    [_udView updateProgress:0.0 color:[UIColor colorFromCode:0x122B6E inAlpha:1.0]];
+    [_udView updateProgress:0.0 color:[UIColor colorFromCode:0xFFFFFF inAlpha:1.0]];
     [self updateUIState:[self getStateParams:@"升级失败" andDFUState:DFUState_Retry]];
 }
 
@@ -388,9 +399,9 @@ static int white_tag = 10299;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self->_udStateLab setText:@"更新中"];
-        [self->_udProgressLab setText:[NSString stringWithFormat:@"[ %li%% ]", (long)percentage+1]];
+        [self->_udProgressLab setText:[NSString stringWithFormat:@"[ %li%% ]", (long)percentage+1]]; 
         [self->_udTimeNoticeLab setText:timeText];
-        [self->_udView updateProgress:((percentage+1)/100.0) color:[UIColor colorFromCode:0x122B6E inAlpha:1]];
+        [self->_udView updateProgress:((percentage+1)/100.0) color:[UIColor colorFromCode:0xFFFFFF inAlpha:1]];
     });
 }
 

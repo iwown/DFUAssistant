@@ -49,6 +49,7 @@
 		D650D23F1F710162006DD133 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = D650D23B1F710162006DD133 /* Toast.m */; };
 		D650D2401F710162006DD133 /* ToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = D650D23D1F710162006DD133 /* ToastView.m */; };
 		D650D2411F710162006DD133 /* 加载成功青蛙@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D650D23E1F710162006DD133 /* 加载成功青蛙@2x.png */; };
+		D680CBCE2101D4F500B536C2 /* RequestFirmwareUpdateApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D680CBCD2101D4F400B536C2 /* RequestFirmwareUpdateApi.m */; };
 		D68D57241F6FCF3F00CC1DCB /* libBtNotify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D68D57231F6FCF3F00CC1DCB /* libBtNotify.a */; };
 		D68D57271F6FD09D00CC1DCB /* FUHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = D68D57261F6FD09D00CC1DCB /* FUHandle.m */; };
 		D6C727FD20F8A71100CBB618 /* iOSDFULibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6C727F820F8A68100CBB618 /* iOSDFULibrary.framework */; };
@@ -64,6 +65,18 @@
 		D6C7281F20F8B41E00CBB618 /* DownloadFirmwareUpdateInfoApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C7281D20F8B41E00CBB618 /* DownloadFirmwareUpdateInfoApi.m */; };
 		D6C7282220F8B42D00CBB618 /* UploadFirmwareUpdateInfoApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C7282120F8B42D00CBB618 /* UploadFirmwareUpdateInfoApi.m */; };
 		D6C7282620F8BF1A00CBB618 /* ZGDFUController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C7282520F8BF1A00CBB618 /* ZGDFUController.m */; };
+		D6E58C8B20FF472200399E8A /* imgd_10.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C7F20FF472200399E8A /* imgd_10.png */; };
+		D6E58C8C20FF472200399E8A /* imgd_8.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8020FF472200399E8A /* imgd_8.png */; };
+		D6E58C8D20FF472200399E8A /* imgd_9.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8120FF472200399E8A /* imgd_9.png */; };
+		D6E58C8E20FF472200399E8A /* imgd_4.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8220FF472200399E8A /* imgd_4.png */; };
+		D6E58C8F20FF472200399E8A /* imgd_5.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8320FF472200399E8A /* imgd_5.png */; };
+		D6E58C9020FF472200399E8A /* imgd_7.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8420FF472200399E8A /* imgd_7.png */; };
+		D6E58C9120FF472200399E8A /* imgd_6.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8520FF472200399E8A /* imgd_6.png */; };
+		D6E58C9220FF472200399E8A /* imgd_2.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8620FF472200399E8A /* imgd_2.png */; };
+		D6E58C9320FF472200399E8A /* imgd_3.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8720FF472200399E8A /* imgd_3.png */; };
+		D6E58C9420FF472200399E8A /* imgd_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8820FF472200399E8A /* imgd_1.png */; };
+		D6E58C9520FF472200399E8A /* imgd_0.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8920FF472200399E8A /* imgd_0.png */; };
+		D6E58C9620FF472200399E8A /* data_dfu.json in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8A20FF472200399E8A /* data_dfu.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -168,6 +181,8 @@
 		D650D23C1F710162006DD133 /* ToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToastView.h; sourceTree = "<group>"; };
 		D650D23D1F710162006DD133 /* ToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToastView.m; sourceTree = "<group>"; };
 		D650D23E1F710162006DD133 /* 加载成功青蛙@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "加载成功青蛙@2x.png"; sourceTree = "<group>"; };
+		D680CBCC2101D4F400B536C2 /* RequestFirmwareUpdateApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestFirmwareUpdateApi.h; sourceTree = "<group>"; };
+		D680CBCD2101D4F400B536C2 /* RequestFirmwareUpdateApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestFirmwareUpdateApi.m; sourceTree = "<group>"; };
 		D68D57221F6FCF3F00CC1DCB /* BtNotify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtNotify.h; sourceTree = "<group>"; };
 		D68D57231F6FCF3F00CC1DCB /* libBtNotify.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBtNotify.a; sourceTree = "<group>"; };
 		D68D57251F6FD09D00CC1DCB /* FUHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUHandle.h; sourceTree = "<group>"; };
@@ -192,6 +207,18 @@
 		D6C7282120F8B42D00CBB618 /* UploadFirmwareUpdateInfoApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadFirmwareUpdateInfoApi.m; sourceTree = "<group>"; };
 		D6C7282420F8BF1900CBB618 /* ZGDFUController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGDFUController.h; sourceTree = "<group>"; };
 		D6C7282520F8BF1A00CBB618 /* ZGDFUController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGDFUController.m; sourceTree = "<group>"; };
+		D6E58C7F20FF472200399E8A /* imgd_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgd_10.png; sourceTree = "<group>"; };
+		D6E58C8020FF472200399E8A /* imgd_8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgd_8.png; sourceTree = "<group>"; };
+		D6E58C8120FF472200399E8A /* imgd_9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgd_9.png; sourceTree = "<group>"; };
+		D6E58C8220FF472200399E8A /* imgd_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgd_4.png; sourceTree = "<group>"; };
+		D6E58C8320FF472200399E8A /* imgd_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgd_5.png; sourceTree = "<group>"; };
+		D6E58C8420FF472200399E8A /* imgd_7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgd_7.png; sourceTree = "<group>"; };
+		D6E58C8520FF472200399E8A /* imgd_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgd_6.png; sourceTree = "<group>"; };
+		D6E58C8620FF472200399E8A /* imgd_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgd_2.png; sourceTree = "<group>"; };
+		D6E58C8720FF472200399E8A /* imgd_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgd_3.png; sourceTree = "<group>"; };
+		D6E58C8820FF472200399E8A /* imgd_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgd_1.png; sourceTree = "<group>"; };
+		D6E58C8920FF472200399E8A /* imgd_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgd_0.png; sourceTree = "<group>"; };
+		D6E58C8A20FF472200399E8A /* data_dfu.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data_dfu.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -387,6 +414,7 @@
 				5751D7201D8F7DA00096D96C /* AppDelegate.h */,
 				5751D7211D8F7DA00096D96C /* AppDelegate.m */,
 				5749153B1D8FCA63006F01C3 /* Classes */,
+				D6E58C7C20FF472200399E8A /* Resource */,
 				5751D71D1D8F7DA00096D96C /* Supporting Files */,
 			);
 			path = FirmwareUpdate;
@@ -513,12 +541,49 @@
 		D6C7282320F8B43800CBB618 /* Api */ = {
 			isa = PBXGroup;
 			children = (
+				D680CBCC2101D4F400B536C2 /* RequestFirmwareUpdateApi.h */,
+				D680CBCD2101D4F400B536C2 /* RequestFirmwareUpdateApi.m */,
 				D6C7282020F8B42C00CBB618 /* UploadFirmwareUpdateInfoApi.h */,
 				D6C7282120F8B42D00CBB618 /* UploadFirmwareUpdateInfoApi.m */,
 				D6C7281E20F8B41E00CBB618 /* DownloadFirmwareUpdateInfoApi.h */,
 				D6C7281D20F8B41E00CBB618 /* DownloadFirmwareUpdateInfoApi.m */,
 			);
 			path = Api;
+			sourceTree = "<group>";
+		};
+		D6E58C7C20FF472200399E8A /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				D6E58C7D20FF472200399E8A /*  DFULottie */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		D6E58C7D20FF472200399E8A /*  DFULottie */ = {
+			isa = PBXGroup;
+			children = (
+				D6E58C7E20FF472200399E8A /* images */,
+				D6E58C8A20FF472200399E8A /* data_dfu.json */,
+			);
+			path = " DFULottie";
+			sourceTree = "<group>";
+		};
+		D6E58C7E20FF472200399E8A /* images */ = {
+			isa = PBXGroup;
+			children = (
+				D6E58C7F20FF472200399E8A /* imgd_10.png */,
+				D6E58C8020FF472200399E8A /* imgd_8.png */,
+				D6E58C8120FF472200399E8A /* imgd_9.png */,
+				D6E58C8220FF472200399E8A /* imgd_4.png */,
+				D6E58C8320FF472200399E8A /* imgd_5.png */,
+				D6E58C8420FF472200399E8A /* imgd_7.png */,
+				D6E58C8520FF472200399E8A /* imgd_6.png */,
+				D6E58C8620FF472200399E8A /* imgd_2.png */,
+				D6E58C8720FF472200399E8A /* imgd_3.png */,
+				D6E58C8820FF472200399E8A /* imgd_1.png */,
+				D6E58C8920FF472200399E8A /* imgd_0.png */,
+			);
+			path = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -583,6 +648,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				D650D2411F710162006DD133 /* 加载成功青蛙@2x.png in Resources */,
+				D6E58C9620FF472200399E8A /* data_dfu.json in Resources */,
+				D6E58C9220FF472200399E8A /* imgd_2.png in Resources */,
+				D6E58C8F20FF472200399E8A /* imgd_5.png in Resources */,
+				D6E58C8D20FF472200399E8A /* imgd_9.png in Resources */,
+				D6E58C9320FF472200399E8A /* imgd_3.png in Resources */,
+				D6E58C9520FF472200399E8A /* imgd_0.png in Resources */,
+				D6E58C8C20FF472200399E8A /* imgd_8.png in Resources */,
+				D6E58C9420FF472200399E8A /* imgd_1.png in Resources */,
+				D6E58C9120FF472200399E8A /* imgd_6.png in Resources */,
+				D6E58C9020FF472200399E8A /* imgd_7.png in Resources */,
+				D6E58C8E20FF472200399E8A /* imgd_4.png in Resources */,
+				D6E58C8B20FF472200399E8A /* imgd_10.png in Resources */,
 				5751D72A1D8F7DA00096D96C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -621,6 +698,7 @@
 				48E227AF1DD08C6F00B6737C /* DeviceStorage.m in Sources */,
 				5749155C1D8FCA63006F01C3 /* DFUOperations.m in Sources */,
 				48E227B01DD08C6F00B6737C /* GenericServiceManager.m in Sources */,
+				D680CBCE2101D4F500B536C2 /* RequestFirmwareUpdateApi.m in Sources */,
 				5749155A1D8FCA63006F01C3 /* BLEOperations.m in Sources */,
 				D6C7281920F8B28800CBB618 /* FOTA_DFUController.m in Sources */,
 				57B84E6A1D91108800BD46AF /* DeviceConectController.m in Sources */,
