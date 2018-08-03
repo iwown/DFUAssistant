@@ -71,10 +71,7 @@ UIKIT_EXTERN NSString *const kNOTICE_SYNC_HEART_RATE_END;
 
 #pragma mark - 6*
 - (void)initBtNotifyIfNeed;
-- (void)requestEpoUpdateAnyWay;
 - (void)requestForStartEpoUpdate;
 - (void)updateEpoLocation:(CLLocation *)location;
-- (void)epoToolsDownloadProgress:(int)state;
-- (void)epoToolsDataProgress:(float)progress;
 
 @end

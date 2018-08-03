@@ -13,7 +13,7 @@
 + (NSArray <IVFirmwareModel *>*)selectFirmwareList {
     
     //第一步，创建URL
-    NSURL *url = [NSURL URLWithString:@"http://devapi.iwown.com/venus/deviceservice/device/firmwareList?type=0"];
+    NSURL *url = [NSURL URLWithString:@"http://betaapi.iwown.com/venus/deviceservice/device/firmwareList?type=0"];
 
     //第二步，创建请求
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];

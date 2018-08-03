@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[BLEShareInstance shareInstance] initBtNotifyIfNeed];
-//    [[FUHandle handle] setParamsIsFota:MTK_fota];
+    [self setBTNotifyParamsIfNeed];
     [self checkReadyForSetFota];
 }
 
@@ -105,6 +105,33 @@
 - (void)isFotaUpgradeTimeOut {
     if (!_timeOutFlag) {return;}
     [self updateUIFail];
+}
+
+static NSString *const kDOGPReadCharUUIDString = @"00002aa0-0000-1000-8000-00805f9b34fb";
+static NSString *const kDOGPWriteCharUUIDString = @"00002aa1-0000-1000-8000-00805f9b34fb";
+- (void)setBTNotifyParamsIfNeed {
+    
+    CBPeripheral *p = [[BLEShareInstance shareInstance] getConnectedPeriphral];
+    
+    CBCharacteristic *wCh = nil;
+    CBCharacteristic *rCh = nil;
+    for (CBService *s in p.services) {
+        if (![s.UUID isEqual:[CBUUID UUIDWithString:PEDOMETER_WATCH_SERVICE_UUID]]) {
+            continue;
+        }
+        for (CBCharacteristic *c in s.characteristics) {
+            if ([c.UUID isEqual:[CBUUID UUIDWithString:kDOGPWriteCharUUIDString]]) {
+                wCh = c;
+            }else if ([c.UUID isEqual:[CBUUID UUIDWithString:kDOGPReadCharUUIDString]]) {
+                rCh = c;
+            }
+        }
+    }
+    if (!wCh && !rCh) {
+        return;
+    }
+    [[BtNotify sharedInstance] setGattParameters:p writeCharacteristic:wCh readCharacteristic:rCh];
+    [[BtNotify sharedInstance] updateConnectionState:CBPeripheralStateConnected];
 }
 
 - (void)didReceiveMemoryWarning {

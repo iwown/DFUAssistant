@@ -13,8 +13,19 @@
 @interface ViewController : UIViewController<DFUOperationsDelegate>
 
 @property (strong, nonatomic) CBCentralManager *bluetoothManager;
+@property (assign, nonatomic) BOOL autoUpgrading;
 
 - (void)handleUrlString:(NSString *)urlString;
+
+- (void)onFileSelected:(NSURL *)url;
+- (void)startDfuWithPeripheral:(CBPeripheral *)peril;
+- (void)cycleUpgrading;
+
+- (void)updateUIPercent:(NSInteger)percentage;
+- (void)updateUIStart;
+- (void)updateUIComplete;
+- (void)updateUIFail;
+
 
 @end
 

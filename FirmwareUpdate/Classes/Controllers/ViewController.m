@@ -45,28 +45,25 @@
 @implementation ViewController
 
 @synthesize bluetoothManager;
-
-
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     [self loadData];
     [self drawUI];
-    
-    
 }
 
-- (void)loadData
-{
+- (void)loadData {
+    
     _dfuOperations = [[DFUOperations alloc] initWithDelegate:self];
     _dfuHelper = [[DFUHelper alloc] initWithData:_dfuOperations];
     _dfuFWType = APPLICATION;
     _percentage = 0;
 }
 
-- (void)drawUI
-{
-    self.title = @"DFU升级";
+- (void)drawUI {
+    
+    self.title = @"DFU";
     self.view.backgroundColor = [UIColor whiteColor];
     
     UIView *firmwareView = [[UIView alloc] initWithFrame:CGRectMake(40, 100, SCREEN_WIDTH - 80, 200)];
@@ -95,59 +92,56 @@
     [firmwareView addSubview:_deviceLabel];
     
     UIButton *selectFirmwareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    selectFirmwareBtn.frame = CGRectMake((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 200, 100, 30);
+    selectFirmwareBtn.frame = CGRectMake((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 230, 100, 30);
     selectFirmwareBtn.backgroundColor = [UIColor whiteColor];
-    [selectFirmwareBtn setTitle:@"选择固件" forState:UIControlStateNormal];
+    [selectFirmwareBtn setTitle:@"Select Files" forState:UIControlStateNormal];
     [selectFirmwareBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [selectFirmwareBtn addTarget:self action:@selector(selectFirmWare) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:selectFirmwareBtn];
     
     UIButton *selectDeviceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    selectDeviceBtn.frame = CGRectMake((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 140, 100, 30);
+    selectDeviceBtn.frame = CGRectMake((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 170, 100, 30);
     selectDeviceBtn.backgroundColor = [UIColor whiteColor];
-    [selectDeviceBtn setTitle:@"搜索设备" forState:UIControlStateNormal];
+    [selectDeviceBtn setTitle:@"Scan Device" forState:UIControlStateNormal];
     [selectDeviceBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [selectDeviceBtn addTarget:self action:@selector(selectDevice) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:selectDeviceBtn];
     
     UIButton *upgradeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    upgradeBtn.frame = CGRectMake((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 80, 100, 30);
+    upgradeBtn.frame = CGRectMake((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 110, 100, 30);
     upgradeBtn.backgroundColor = [UIColor whiteColor];
-    [upgradeBtn setTitle:@"升级" forState:UIControlStateNormal];
+    [upgradeBtn setTitle:@"Upgrade" forState:UIControlStateNormal];
     [upgradeBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [upgradeBtn addTarget:self action:@selector(upgradeDevice) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:upgradeBtn];
     _upgradeBtn = upgradeBtn;
 }
 
-- (void)selectFirmWare
-{
+- (void)selectFirmWare {
     FirmwareListController *con = [[FirmwareListController alloc] init];
     con.delegate = self;
     [self.navigationController pushViewController:con animated:YES];
 }
 
-- (void)selectDevice
-{
+- (void)selectDevice {
+    
     DeviceConectController *con = [[DeviceConectController alloc] init];
+    con.autoUpgrading = self.autoUpgrading;
     con.delegate = self;
     [self.navigationController pushViewController:con animated:YES];
 }
 
-- (void)upgradeDevice
-{
+- (void)upgradeDevice {
     if ([_selectUrlString length] <= 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请选择固件" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Please choose a firmware files" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertView show];
         
         return;
     }
     
-    if (!_canDFUType)
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请连接DFU设备" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    if (!_canDFUType) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Please connect the DFU device" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertView show];
-        
         return;
     }
     
@@ -159,8 +153,7 @@
     }
 }
 
-- (void)handleUrlString:(NSString *)urlString
-{
+- (void)handleUrlString:(NSString *)urlString {
     NSArray *array = [urlString componentsSeparatedByString:@"/"];
     _nameLabel.text = [NSString stringWithFormat:@"Name: %@", array.lastObject];
     array = [urlString componentsSeparatedByString:@"."];
@@ -171,24 +164,37 @@
     [self onFileSelected:[NSURL URLWithString:urlString]];
 }
 
-- (void)updateUIPercent:(NSInteger)percentage
-{
-   // _percentage++;
-    _percentView.percent = _percentage;
+- (void)updateUIPercent:(NSInteger)percentage {
     
-  //  [self performSelector:@selector(updateUIPercent:) withObject:nil afterDelay:0.5];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self->_percentView.percent = percentage;
+    });
+}
+
+- (void)updateUIStart {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self drawPercentView];
+    });
+}
+
+- (void)updateUIComplete {
+    _canDFUType = 0;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self removePercentView];
+    });
+}
+
+- (void)updateUIFail {
+    
 }
 
 #pragma mark - FirmwareListControllerDelegate
-
-- (void)selectFirmware:(NSString *)path
-{
+- (void)selectFirmware:(NSString *)path {
     [self handleUrlString:path];
 }
 
 #pragma mark -  DfuHelper
--(void)onFileSelected:(NSURL *)url
-{
+- (void)onFileSelected:(NSURL *)url {
     NSLog(@"onFileSelected");
     _dfuHelper.selectedFileURL = url;
     if (_dfuHelper.selectedFileURL) {
@@ -207,7 +213,7 @@
             _dfuHelper.isManifestExist = NO;
             [_dfuHelper unzipFiles:_dfuHelper.selectedFileURL];
             if (!_dfuHelper.applicationURL) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"zip文件错误" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Zip file error" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 [alert show];
             }
         }
@@ -222,22 +228,32 @@
     NSLog(@"%@\n%@", _dfuHelper.applicationURL, _dfuHelper.applicationMetaDataURL);
 }
 
+- (void)startDfuWithPeripheral:(CBPeripheral *)peril {
+    [_dfuOperations setCentralManager:bluetoothManager];
+    [_dfuOperations connectDevice:_peripheral];
+}
+
+- (void)cycleUpgrading {
+    
+    if (!self.autoUpgrading) {
+        return;
+    }
+    
+    [self selectDevice];
+}
+
 #pragma mark - DeviceConectControllerDelegate
-- (void)centralManager:(CBCentralManager *)centralManager ConnectSuccessPeripheral:(CBPeripheral *)peripheral
-{
+- (void)centralManager:(CBCentralManager *)centralManager ConnectSuccessPeripheral:(CBPeripheral *)peripheral {
     _peripheral = peripheral;
     bluetoothManager = centralManager;
     _deviceLabel.text = [NSString stringWithFormat:@"Device: %@", _peripheral.name];
     if (_peripheral && bluetoothManager) {
-        [_dfuOperations setCentralManager:bluetoothManager];
-        [_dfuOperations connectDevice:_peripheral];
+        [self startDfuWithPeripheral:_peripheral];
     }
 }
 
-
 #pragma mark - DFUOperations delegate methods
-- (void)onDeviceConnected:(CBPeripheral *)peripheral
-{
+- (void)onDeviceConnected:(CBPeripheral *)peripheral {
     NSLog(@"onDeviceConnected %@",peripheral.name);
     _canDFUType = 1;
 }
@@ -247,90 +263,66 @@
     _canDFUType = 2;
 }
 
-- (void)onDeviceDisconnected:(CBPeripheral *)peripheral
-{
+- (void)onDeviceDisconnected:(CBPeripheral *)peripheral {
     NSLog(@"device disconnected %@",peripheral.name);
     _canDFUType = 0;
 }
 
--(void)onReadDFUVersion:(int)version{
+-(void)onReadDFUVersion:(int)version {
     NSLog(@"onReadDFUVersion %i",version);
 }
 
-- (void)onDFUStarted
-{
+- (void)onDFUStarted {
     NSLog(@"onDFUStarted");
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self drawPercentView];
-    });
-    
+    [self updateUIStart];
 }
 
-- (void)onDFUCancelled
-{
+- (void)onDFUCancelled {
     NSLog(@"onDFUCancelled");
 }
 
-- (void)onSoftDeviceUploadStarted
-{
+- (void)onSoftDeviceUploadStarted {
     NSLog(@"onSoftDeviceUploadStarted");
 }
 
-- (void)onSoftDeviceUploadCompleted
-{
+- (void)onSoftDeviceUploadCompleted {
     NSLog(@"onSoftDeviceUploadCompleted");
 }
 
-- (void)onBootloaderUploadStarted
-{
+- (void)onBootloaderUploadStarted {
     NSLog(@"onBootloaderUploadStarted");
 }
 
-- (void)onBootloaderUploadCompleted
-{
+- (void)onBootloaderUploadCompleted {
     NSLog(@"onBootloaderUploadCompleted");
 }
 
-- (void)onTransferPercentage:(int)percentage
-{
+- (void)onTransferPercentage:(int)percentage {
     NSLog(@"******onTransferPercentage %d",percentage);
-    if (_percentage == percentage)
-    {
+    if (_percentage == percentage) {
         return;
     }
     _percentage = percentage;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateUIPercent:percentage];
-    });
+    [self updateUIPercent:percentage];
 }
 
-- (void)onSuccessfulFileTranferred
-{
+- (void)onSuccessfulFileTranferred {
     NSLog(@"OnSuccessfulFileTransferred");
-    _canDFUType = 0;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self removePercentView];
-    });
+    [self updateUIComplete];
 }
 
-- (void)onError:(NSString *)errorMessage
-{
+- (void)onError:(NSString *)errorMessage {
     NSLog(@"OnError %@",errorMessage);
-    
 }
 
-- (void)drawPercentView
-{
+- (void)drawPercentView {
     [self removePercentView];
     _percentView = [[PercentView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _percentView.backgroundColor = [UIColor colorWithRed:80 / 255.0 green:80 / 255.0 blue:80 / 255.0 alpha:0.4];
     [self.view addSubview:_percentView];
-    
 }
 
-- (void)removePercentView
-{
+- (void)removePercentView {
     if (_percentView) {
         for (UIView *view in _percentView.subviews) {
             [view removeFromSuperview];
@@ -341,8 +333,7 @@
 }
 
 static const CGFloat CSToastActivityWidth       = 50.0;
-- (void)showActView
-{
+- (void)showActView {
     [self actViewHidden];
     _coverView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _coverView.backgroundColor = [UIColor clearColor];
@@ -372,8 +363,7 @@ static const CGFloat CSToastActivityWidth       = 50.0;
     [_coverView addSubview:actView];
 }
 
-- (void)actViewHidden
-{
+- (void)actViewHidden {
     if (_coverView) {
         for (UIView *view in _coverView.subviews) {
             [view removeFromSuperview];
@@ -381,6 +371,10 @@ static const CGFloat CSToastActivityWidth       = 50.0;
         [_coverView removeFromSuperview];
         _coverView = nil;
     }
+}
+
+- (void)dealloc {
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (void)didReceiveMemoryWarning {

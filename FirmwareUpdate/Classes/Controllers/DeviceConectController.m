@@ -5,9 +5,9 @@
 //  Created by west on 16/9/20.
 //  Copyright © 2016年 west. All rights reserved.
 //
-
 #import "DeviceConectController.h"
 
+NSString * const zgDfuServiceUUIDString = @"FE59";
 
 @interface DeviceConectController ()<UITableViewDelegate, UITableViewDataSource>
 {
@@ -27,8 +27,7 @@
 
 @synthesize bluetoothManager;
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self performSelector:@selector(stopScanDevice) withObject:nil afterDelay:5.0];
 }
@@ -36,22 +35,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     [self loadData];
-    
     [self drawUI];
 }
 
-- (void)loadData
-{
+- (void)loadData {
     _dataSource = [[NSMutableArray alloc] initWithCapacity:0];
     dispatch_queue_t centralQueue = dispatch_queue_create("no.nordicsemi.ios.nrftoolbox", DISPATCH_QUEUE_SERIAL);
     bluetoothManager = [[CBCentralManager alloc]initWithDelegate:self queue:centralQueue];
-    
 }
 
-- (void)drawUI
-{
+- (void)drawUI {
     self.title = @"连接设备";
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -66,14 +60,13 @@
     _label.text = @"设备";
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _dataSource.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 44;
+    return FONT(44);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -108,8 +101,7 @@
 
 
 #pragma mark - Central Manage Delegate
-- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
-{
+- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
     for (CBPeripheral *aPer in _dataSource) {
         if (peripheral == aPer) {
             return;
@@ -121,7 +113,6 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [_table reloadData];
     });
-    
 }
 
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central
@@ -146,11 +137,9 @@
         {
             NSLog(@">>>CBCentralManagerStatePoweredOn");
             //开始扫描周围的外设
-            /*
-             第一个参数nil就是扫描周围所有的外设，扫描到外设后会进入
-             - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI;
-             */
-            NSArray *sIDs = [NSArray arrayWithObjects:[CBUUID UUIDWithString:dfuServiceUUIDString], nil];
+            CBUUID *aUuid = [CBUUID UUIDWithString:dfuServiceUUIDString];
+            CBUUID *bUuid = [CBUUID UUIDWithString:zgDfuServiceUUIDString];
+            NSArray *sIDs = @[aUuid, bUuid];
             NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], CBCentralManagerScanOptionAllowDuplicatesKey, nil];
             [central scanForPeripheralsWithServices:sIDs options:options];
           /*  dispatch_async(dispatch_get_main_queue(), ^{
@@ -163,8 +152,7 @@
     }
 }
 
-- (void)stopScanDevice
-{
+- (void)stopScanDevice {
     [bluetoothManager stopScan];
     [self actViewHidden];
     if ([_dataSource count] <= 0) {
@@ -172,6 +160,17 @@
     }
     isRefresh = NO;
     [_table reloadData];
+    
+    if (self.autoUpgrading) {
+        CBPeripheral *peripheral = _dataSource.firstObject;
+        if (peripheral && [_delegate respondsToSelector:@selector(centralManager:ConnectSuccessPeripheral:)]) {
+            [_delegate centralManager:bluetoothManager ConnectSuccessPeripheral:peripheral];
+            [self.navigationController popViewControllerAnimated:YES];
+        }else {
+            [NSThread sleepForTimeInterval:1];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
 }
 
 static const CGFloat CSToastActivityWidth       = 50.0;

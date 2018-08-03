@@ -67,8 +67,9 @@
 - (void)addReturnButton {
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setFrame:CGRectMake(20, 40, 80, 30)];
+    [btn setFrame:CGRectMake(0, 20, 80, 30)];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [btn setTitle:@"返回" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(returnBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];

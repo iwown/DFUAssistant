@@ -19,13 +19,12 @@
 
 @end
 
+
 @interface DeviceConectController : UIViewController<CBCentralManagerDelegate>
 
-
 @property (nonatomic, strong)CBCentralManager *bluetoothManager;
+@property (nonatomic, assign)BOOL autoUpgrading;
 
 @property (nonatomic, unsafe_unretained)id<DeviceConectControllerDelegate> delegate;
-
-
 
 @end

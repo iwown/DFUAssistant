@@ -12,9 +12,9 @@
 
 @interface DownLoadViewController ()<UITableViewDelegate,UITableViewDataSource>
 
-
 @property (nonatomic ,strong)UITableView *tableView;
 @property (nonatomic ,strong)NSMutableArray *dataSource;
+
 @end
 
 
@@ -23,12 +23,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"更多固件";
+    self.title = @"More Firmware";
     _dataSource = [NSMutableArray arrayWithCapacity:0];
     NSArray *array = [NetWorkHandle selectFirmwareList];
     [_dataSource addObjectsFromArray:array];
     [self drawTableView];
-    // Do any additional setup after loading the view.
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -68,12 +67,12 @@
     NSString *download = fModel.downloadLink;
     NSString *firmName = [NSString stringWithFormat:@"%@_%@",fModel.model,[fModel.fwVersion stringByReplacingOccurrencesOfString:@"." withString:@"-"]];
     
-    [Toast makeToastActivityWithViwa:@"正在下载..."];
+    [Toast makeToastActivityWithViwa:@"Downloading..."];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
     dispatch_async(queue, ^{
         if (![self downloadWith:download andFirmwareName:firmName]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [Toast makeToast:@"下载失败"];
+                [Toast makeToast:@"Downlaod Failed"];
                 [Toast hideToastActivity];
             });
             return;
@@ -101,15 +100,13 @@
         if ([[fileManager contentsAtPath:fullPath] length] == 0) {
             return NO;
         }
-        else
-        {
-            NSLog(@"固件下载完成");
+        else {
+            NSLog(@"固件下载完成(Complete)");
             return YES;
         }
     }
-    else
-    {
-        NSLog(@"固件已存在");
+    else {
+        NSLog(@"固件已存在(Exist)");
         return YES;
     }
 }
@@ -118,15 +115,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

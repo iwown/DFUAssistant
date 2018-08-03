@@ -195,7 +195,7 @@
                 // Else display an error message
                 dispatch_async(dispatch_get_main_queue(), ^{
                     DFUAlertView *alert = [DFUAlertView createInView:self.view];
-                    alert.titleLabel.text = @"温馨提示";
+                    alert.titleLabel.text = @"Tips";
                     alert.detailLabel.text = message;
                     __weak typeof(DFUAlertView) *weakalert = alert;
                     [alert setLeftTitle:nil leftAction:^{

@@ -10,41 +10,42 @@
 
 @interface FirmwareListController ()<UITableViewDelegate, UITableViewDataSource>
 {
-    UITableView *_table;
-    
     NSMutableArray *_dataSource;
+    
+    UITableView *_table;
 }
 
 @end
 
+
 @implementation FirmwareListController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [FileManager createDirWithPath:DirectoryPath];
     _dataSource = [[NSMutableArray alloc] initWithCapacity:0];
     [self drawUI];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
     [self loadData];
 }
 
-- (void)loadData
-{
+- (void)loadData {
+    
     [_dataSource removeAllObjects];
     NSArray *directoryContents = [FileManager scanDirWithPath:DirectoryPath];
     [_dataSource addObjectsFromArray:directoryContents];
 }
 
-- (void)drawUI
-{
-    self.title = @"选择固件";
+- (void)drawUI {
+    
+    self.title = @"Select Files";
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"更多固件" style:UIBarButtonItemStylePlain target:self action:@selector(moreFirmware)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"More" style:UIBarButtonItemStylePlain target:self action:@selector(moreFirmware)];
     
     _table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) style:UITableViewStylePlain];
     _table.backgroundColor = [UIColor whiteColor];
@@ -57,18 +58,16 @@
     [self.navigationController pushViewController:[DownLoadViewController new] animated:YES];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _dataSource.count;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 44;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return FONT(44);
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
@@ -78,8 +77,8 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     NSString *path = [NSString stringWithFormat:@"%@/%@", DirectoryPath, [_dataSource objectAtIndex:indexPath.row]];
     if (_delegate && [_delegate respondsToSelector:@selector(selectFirmware:)]) {
         [_delegate selectFirmware:path];
@@ -91,15 +90,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

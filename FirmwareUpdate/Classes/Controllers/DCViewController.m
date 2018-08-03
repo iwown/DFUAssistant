@@ -42,7 +42,7 @@ typedef enum{
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"快速升级";
+    self.title = @"Fasting Upgrade";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDidConnected:) name:@"k_deviceDidConnected" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceInfoDidUpdate:) name:@"kNOTICE_DEVICE_UPDATE" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(batteryInfoDidUpdate:) name:@"kNOTICE_BATTERY_UPDATE" object:nil];
@@ -63,12 +63,21 @@ typedef enum{
 }
 
 - (void)initUI {
-    self.view.backgroundColor = [UIColor whiteColor];
+    
+    [self drawBgView];
     [self drawScanStateView];
     [self drawTextLabel];
     [self drawTableView];
     [self drawRescanButton];
     [self drawUpgradeButton];
+}
+
+- (void)drawBgView {
+    
+    UIImage *bg = [UIImage imageNamed:@"hardware_bg"];
+    UIImageView *bgView = [[UIImageView alloc]initWithImage:bg];
+    [bgView setFrame:self.view.bounds];
+    [self.view addSubview:bgView];
 }
 
 - (void)drawTextLabel {
@@ -90,11 +99,12 @@ typedef enum{
 }
 
 - (void)drawTableView{
-    //tableView的初始化
     self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, FONT(120), SCREEN_WIDTH, SCREEN_HEIGHT-FONT(180)) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.bounces = NO;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView setHidden:YES];
     [self.view addSubview:self.tableView];
 }
@@ -103,7 +113,7 @@ typedef enum{
     _rescan = [UIButton buttonWithType:UIButtonTypeCustom];
     [_rescan setFrame:CGRectMake(SCREEN_WIDTH * 0.5 - FONT(60), SCREEN_HEIGHT *0.75, FONT(120), FONT(40))];
     [self.view addSubview:_rescan];
-    [_rescan setTitle:NSLocalizedString(@"重新搜索", nil) forState:UIControlStateNormal];
+    [_rescan setTitle:NSLocalizedString(@"Rescan", nil) forState:UIControlStateNormal];
     [_rescan setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [_rescan addTarget:self action:@selector(reScan) forControlEvents:UIControlEventTouchUpInside];
     [_rescan setHidden:YES];
@@ -115,7 +125,7 @@ typedef enum{
     [_upgradeBtn setFrame:CGRectMake(0.5*(SCREEN_WIDTH-FONT(120)), SCREEN_HEIGHT - FONT(120), FONT(120),FONT(40))];
     [_upgradeBtn setTitle:NSLocalizedString(@"UPGRADE", nil) forState:UIControlStateNormal];
     [_upgradeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_upgradeBtn setBackgroundColor:[UIColor colorWithRed:65/255.0 green:173/255.0 blue:229/255.0 alpha:1]];
+    [_upgradeBtn setBackgroundColor:[UIColor colorWithRed:65/255.0 green:173/255.0 blue:229/255.0 alpha:0.6]];
     [[_upgradeBtn titleLabel] setFont:[UIFont systemFontOfSize:FONT(16)]];
     [_upgradeBtn addTarget:self action:@selector(upgradeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [_upgradeBtn setHidden:YES];
@@ -136,10 +146,11 @@ typedef enum{
     }
     ZRBlePeripheral *device = _dataSource[indexPath.row];
     cell.textLabel.text = device.deviceName;
+    cell.backgroundColor = [UIColor clearColor];
     if ([_theBleMAC isEqualToString:device.uuidString]) {
-        cell.detailTextLabel.text = NSLocalizedString(@"已连接", nil);
+        cell.detailTextLabel.text = NSLocalizedString(@"connected", nil);
     }else{
-        cell.detailTextLabel.text = NSLocalizedString(@"未绑定", nil);
+        cell.detailTextLabel.text = NSLocalizedString(@"unconnect", nil);
     }
     return cell;
 }
@@ -149,7 +160,7 @@ typedef enum{
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [Toast makeToastActivityWithViwa:@"正在连接..."];
+    [Toast makeToastActivityWithViwa:@"connecting..."];
     [_tableView deselectRowAtIndexPath:indexPath animated:YES];
     ZRBlePeripheral *device = _dataSource[indexPath.row];
     [[BLEShareInstance shareInstance] connectDevice:device];
@@ -171,7 +182,7 @@ typedef enum{
     switch (state) {
         case ScanStateScaning:
         {
-            [_scanState setText:NSLocalizedString(@"正在查找您的设备", nil)];
+            [_scanState setText:NSLocalizedString(@"Scaning", nil)];
             [self scanAnimation];
             [_rescan setHidden:YES];
             [_textView setHidden:NO];
@@ -180,7 +191,7 @@ typedef enum{
         case ScanStateScaned:
         {
             [_scanState setUserInteractionEnabled:YES];
-            [_scanState setText:NSLocalizedString(@"已帮您找到这些设备,双击我重新搜索", nil)];
+            [_scanState setText:NSLocalizedString(@"Found These, Tap Twice To Rescan", nil)];
             [_textView setHidden:YES];
             [_tableView setHidden:NO];
             [self showTableViewAnimation];
@@ -189,7 +200,7 @@ typedef enum{
             break;
         case ScanStateNull:
         {
-            [_scanState setText:NSLocalizedString(@"对不起，并未找到可用设备", nil)];
+            [_scanState setText:NSLocalizedString(@"Sorry, No Aviable Device", nil)];
             [_textView setHidden:YES];
             [_tableView setHidden:YES];
             [_rescan setHidden:NO];
@@ -198,7 +209,7 @@ typedef enum{
         case ScanStateStart:
         {
             [_scanState setUserInteractionEnabled:YES];
-            [_scanState setText:NSLocalizedString(@"双击开始搜索", nil)];
+            [_scanState setText:NSLocalizedString(@"Tap Twice To Scan", nil)];
             [_textView setHidden:YES];
         }
             break;
@@ -226,7 +237,7 @@ typedef enum{
 }
 
 #pragma mark -animation
-- (void)showTableViewAnimation{
+- (void)showTableViewAnimation {
     CGFloat width = _tableView.bounds.size.width;
     CGFloat height = _tableView.bounds.size.height;
     
@@ -236,7 +247,7 @@ typedef enum{
     }];
 }
 
-- (void)scanAnimation{
+- (void)scanAnimation {
     __block int timeNum=0;
     __block UILabel *__safe_scan = _scanState;
     __block DCViewController *__safe_self = self;
@@ -256,36 +267,22 @@ typedef enum{
             }
             timeNum ++;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [__safe_scan setText:[NSLocalizedString(@"正在查找您的设备", nil) stringByAppendingString:str]];
+                [__safe_scan setText:[NSLocalizedString(@"Seraching Device", nil) stringByAppendingString:str]];
             });
         }
     });
     dispatch_resume(_timer);
 }
-#pragma mark- fuhandleDelegate
-
-- (void)responseOfMTKBtNotifyData:(CBCharacteristic *)cbc {
-    [[FUHandle handle] responseOfMTKBtNotifyData:cbc];
-}
-- (void)responseOfMTKBtWriteData:(CBCharacteristic *)cbc {
-    [[FUHandle handle] responseOfMTKBtWriteData:cbc];
-}
-
 #pragma mark -delegate
 
 - (void)deviceDidConnected:(NSNotification *)obj {
     
-    [_scanState setText:NSLocalizedString(@"已连接，正在读取设备信息", nil)];
+    [_scanState setText:NSLocalizedString(@"Connected，Reading device info", nil)];
     [Toast hideToastActivity];
     ZRBlePeripheral *device = (ZRBlePeripheral *)obj.object;
     _deviceName = device.deviceName;
     _theBleMAC = device.uuidString;
     _tableView.hidden = YES;
-}
-
-- (BOOL)doNotSyscHealthAtTimes {
-    [[FUHandle handle] setEpoParamsIfNeed];
-    return YES;
 }
 
 - (void)tapLabTwice {
@@ -334,11 +331,11 @@ typedef enum{
 }
 
 - (void)requestForCheckDFU {
-    //校验所需参数
+    //Checking Required Params
     ZRDeviceInfo *_dInfo = [BLEShareInstance shareInstance].deviceInfo;
-    NSInteger platform = 2;//[_dInfo platformForDfu];
+    NSInteger platform = [_dInfo platformForDfu];
     //UI
-    [Toast makeToastActivity];
+    [Toast makeToastActivityWithViwa:@"Checking Upgrade..."];
     NSString *deviceVersion = [_dInfo version];
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{

@@ -84,14 +84,64 @@
             return @"I6NH";
         }
             break;
-        case 10:
+        case 20:
         {
-            return @"R1";
+            return @"I6H9";
         }
             break;
-        case 11:
+        case 22:
         {
-            return @"I3MI";
+            return @"I6ME";
+        }
+            break;
+        case 24:
+        {
+            return @"i6HC";
+        }
+            break;
+        case 25:
+        {
+            return @"I5H3";
+        }
+            break;
+        case 26:
+        {
+            return @"I5A0";
+        }
+            break;
+        case 32:
+        {
+            return @"P1J";
+        }
+            break;
+        case 34:
+        {
+            return @"R1Y0";
+        }
+            break;
+        case 35:
+        {
+            return @"R1N0";
+        }
+            break;
+        case 36:
+        {
+            return @"i6C2";
+        }
+            break;
+        case 37:
+        {
+            return @"P2J";
+        }
+            break;
+        case 39:
+        {
+            return @"i6H1";
+        }
+            break;
+        case 47:
+        {
+            return @"I7F1";
         }
             break;
             

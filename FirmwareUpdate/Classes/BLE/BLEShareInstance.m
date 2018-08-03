@@ -97,11 +97,10 @@ static BLEShareInstance *shareBLEInstance = nil;
         NSInteger rssiB = run2.RSSI.integerValue;
         return (rssiA < rssiB);
     }];
-    NSLog(@"%ld >>> %ld",[[(ZRBlePeripheral *)_deviceArray[1] RSSI] integerValue],[[(ZRBlePeripheral *)_deviceArray[5] RSSI] integerValue]);
     return _deviceArray;
 }
 
-- (void)unConnectDevice{
+- (void)unConnectDevice {
     
     self.deviceInfo = nil;
     [[ZRDeviceInfo defaultDeviceInfo] updateDeviceInfo:nil];
@@ -109,19 +108,19 @@ static BLEShareInstance *shareBLEInstance = nil;
     [_bleautumn unbind];
 }
 
-- (void)connectDevice:(ZRBlePeripheral *)device{
+- (void)connectDevice:(ZRBlePeripheral *)device {
     NSLog(@"=================== %p == %@",device,device);
     [_bleautumn bindDevice:device];
 }
 
-- (BOOL)isBinded{
+- (BOOL)isBinded {
     if (self.state == kBLEstateDisConnected) {
         return NO;
     }
     return YES;
 }
 
-- (BOOL)isConnected{
+- (BOOL)isConnected {
     if (self.state == kBLEstateDidConnected) {
         return YES;
     }
@@ -129,7 +128,7 @@ static BLEShareInstance *shareBLEInstance = nil;
 }
 
 - (void)setBLEState:(BOOL)connectted {
-    DFUPlatform dPlatform = 2;// [self.deviceInfo platformForDfu];
+    DFUPlatform dPlatform = [self.deviceInfo platformForDfu];
     if (connectted) {
         self.state = kBLEstateDidConnected;
         //update BtNotify state
@@ -152,7 +151,7 @@ static BLEShareInstance *shareBLEInstance = nil;
 - (CBPeripheral *)getConnectedPeriphral {
     return [[BLEShareInstance bleSolstice] getConnectedPeriphral];
 }
-/*
+
 #pragma mark- BTNotifyDelegate
 - (void)initBtNotifyIfNeed {
     [[BtNotify sharedInstance] registerCustomDelegate:self];
@@ -160,30 +159,16 @@ static BLEShareInstance *shareBLEInstance = nil;
 
 -(void)onReadyToSend:(BOOL)ready {
     NSLog(@"%s:%d",__func__,ready);
-    if (DFUTool.mtkType == MTK_epo) {
-        [[BLEShareInstance shareInstance] requestForStartEpoUpdate];
-    }
 }
 
 -(void)onDataArrival:(NSString *)receiver arrivalData:(NSData *)data {
     NSString *dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"----data arrived %s:%@ data: %@ - String: %@",__func__,receiver,data,dataStr);
-    if ([dataStr isEqualToString:@"epo_download"]) {
-        [DFUTool epoUpdateStart];
-    }
 }
 
 -(void)onProgress:(NSString *)sender
       newProgress:(float)progress {
     NSLog(@"%s:%@ : %f",__func__,sender,progress);
-    if([sender isEqualToString:@"epo_update_md5"]) {
-        [self epoToolsDownloadProgress:EPO_SEND_STATE_CHECK_FINISH];
-    }else if([sender isEqualToString:@"epo_update_data"]){
-        int pro = (int)progress;
-        if (pro == 1) {
-            [DFUTool epoProgressContinue];
-        }
-    }
 }
 
 - (void)responseOfMTKBtNotifyData:(CBCharacteristic *)cbc {
@@ -198,49 +183,9 @@ static BLEShareInstance *shareBLEInstance = nil;
     NSLog(@"%s:%@ \nERROR:%@",__func__,cbc,error);
 }
 
-- (void)epoToolsDataProgress:(float)progress {
-    if ([self.delegate respondsToSelector:@selector(epoDataProgress:)]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate epoDataProgress:progress];
-        });
-    }
-}
-
-- (void)epoToolsDownloadProgress:(int)state {
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [NSThread sleepForTimeInterval:4];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"EPO_DOWNLOAD_PROGRESS_STATE" object:@(state)];
-        });
-    });
-
-    if (state == EPO_SEND_STATE_CHECK_FINISH) {
-        [DFUTool epoDownloadFinished];
-        [[BLEShareInstance shareInstance] setSiState:BLEInstanceStateIsReady];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNOTICE_TIME_FOR_CHECK_DFU object:nil];
-        });
-    }else if (state == EPO_SEND_STATE_START) {
-//        [[BLEShareInstance shareInstance] setSiState:BLEInstanceStateIsDFU];
-    }else if (state == EPO_SEND_STATE_GET_ERROR) {
-//        [[BLEShareInstance shareInstance] setSiState:BLEInstanceStateIsReady];
-    }
-}
-
-- (void)requestEpoUpdateAnyWay {
-    [[BLEShareInstance bleSolstice] startEpoUpgrade];
-}
-
 - (void)requestForStartEpoUpdate {
 
-    if ([DFUTool compareWithLastAction]) { //return yes means need update epo
-        [[BLEShareInstance bleSolstice] startEpoUpgrade];
-    } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNOTICE_TIME_FOR_CHECK_DFU object:nil];
-        });
-    }
+    [[BLEShareInstance bleSolstice] startEpoUpgrade];
 }
 
 - (void)updateEpoLocation:(CLLocation *)location {
@@ -257,7 +202,7 @@ static BLEShareInstance *shareBLEInstance = nil;
     gp.longitude = longitude;
     gp.altitude = altitude;
     [[BLEShareInstance bleSolstice] setGNSSParameter:gp];
-}*/
+}
 #pragma mark - blelib3Delegate
 - (void)centralManagerStatePoweredOn {
 }
@@ -339,9 +284,7 @@ static BLEShareInstance *shareBLEInstance = nil;
     [[BLEShareInstance bleSolstice] deviceUpgrade];
 }
 
-- (void)debindFromSystem {
-    
-}
+- (void)debindFromSystem {}
 
 - (void)getDeviceInfo {
     [[BLEShareInstance bleSolstice] readDeviceInfo];

@@ -1,45 +1,34 @@
 //
-//  ZGDFUController.m
-//  linyi
+//  ZGViewController.m
+//  FirmwareUpdate
 //
-//  Created by A$CE on 2017/11/9.
-//  Copyright © 2017年 com.kunekt.healthy. All rights reserved.
+//  Created by A$CE on 2018/8/2.
+//  Copyright © 2018年 west. All rights reserved.
 //
 
-#import "ZGDFUController.h"
+#import "ZGViewController.h"
 #import <iOSDFULibrary/iOSDFULibrary-Swift.h>
 
-NSString * const zg_dfuServiceUUIDString = @"FE59";
-
-@interface ZGDFUController ()<DFUProgressDelegate,DFUServiceDelegate,LoggerDelegate>
-
+@interface ZGViewController ()<DFUProgressDelegate,DFUServiceDelegate,LoggerDelegate>
+{
+    NSURL *_zipUrl;
+}
 @end
 
-@implementation ZGDFUController
+@implementation ZGViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // Do any additional setup after loading the view.
 }
 
-- (void)startDFUUpgrade {
-    
-    NSTimeInterval timeInterval = 0;
-    if (!self.isDFU) {
-        [[BLEShareInstance shareInstance] deviceFWUpdate];
-        timeInterval = 5;
-    }
-    
-    [self performSelector:@selector(startToScan) withObject:nil afterDelay:timeInterval];
-}
-
-- (NSArray *)servicesSids {
-    NSArray *sIDs = [NSArray arrayWithObjects:[CBUUID UUIDWithString:zg_dfuServiceUUIDString], nil];
-    return sIDs;
+- (void)onFileSelected:(NSURL *)url {
+    _zipUrl = url;
 }
 
 - (void)startDfuWithPeripheral:(CBPeripheral *)peril {
-
-    NSURL *url = [self getZipFileUrl];
+    
+    NSURL *url = _zipUrl;
     if (!url) {
         [self updateUIFail];
         return;
@@ -84,15 +73,13 @@ NSString * const zg_dfuServiceUUIDString = @"FE59";
     switch (state) {
         case DFUStateConnecting:
         {
-            [self updateStateAfterConnectDevice];
+            [self updateUIStart];
         }
             break;
         case DFUStateCompleted:
         {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self updateUIAferComplete];
-                [self newCompleteAnimationView];
-            });
+            [self updateUIComplete];
+            [self cycleUpgrading];
         }
         case DFUStateAborted:
         {
@@ -113,6 +100,17 @@ NSString * const zg_dfuServiceUUIDString = @"FE59";
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
 
 @end

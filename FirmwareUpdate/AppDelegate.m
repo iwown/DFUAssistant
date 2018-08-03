@@ -28,12 +28,12 @@
     [YCNetworkSetting shareSetting].baseUrl = @"http://betaapi.iwown.com";
     
     DCViewController *faseVC = [[DCViewController alloc] init];
-    faseVC.tabBarItem.title = @"快速升级";
+    faseVC.tabBarItem.title = @"Fasting Upgrade";
     faseVC.tabBarItem.image=[UIImage imageNamed:@"profile"];
     UINavigationController *navA = [[UINavigationController alloc] initWithRootViewController:faseVC];
 
     IVRootViewController *rootVC = [[IVRootViewController alloc] init];
-    rootVC.tabBarItem.title = @"分类升级";
+    rootVC.tabBarItem.title = @"More Upgrade";
     rootVC.tabBarItem.image=[UIImage imageNamed:@"device"];
     UINavigationController *navB = [[UINavigationController alloc] initWithRootViewController:rootVC];
 

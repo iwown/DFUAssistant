@@ -11,13 +11,12 @@
 
 @protocol FUHandleDelegate <NSObject>
 
-@required
 
+@optional
 - (NSString *)fuHandleParamsUid;
 - (NSNumber *)fuHandleParamsAppName;
 - (NSString *)fuHandleParamsBuildVersion;
 
-@optional
 - (NSInteger)fuHandleReturnModelDfu;
 - (NSString *)fuHandleReturnFileSuffixName;
 - (NSString *)fuHandleReturnAliasByModel:(NSString *)model;
@@ -43,7 +42,6 @@
 #pragma mark- Public
 - (NSNumber *)devicePlatformNumber;
 - (NSNumber *)deviceModelNumber;
-- (NSNumber *)deviceTypeNumber;
 - (NSString *)getDeivceAlias;
 - (NSString *)braceletName:(NSString *)nName;
 - (NSString *)getFWName;
@@ -59,11 +57,4 @@
 /*fuNormalButtonColorInt*/
 - (int)fuNBCI;
 
-#pragma mark- EPO
-- (void)setState:(kBLEstate)state;
-- (void)setEpoParamsIfNeed;
-- (void)epoUpdateStart;
-
-- (void)responseOfMTKBtNotifyData:(CBCharacteristic *)cbc;
-- (void)responseOfMTKBtWriteData:(CBCharacteristic *)cbc;
 @end

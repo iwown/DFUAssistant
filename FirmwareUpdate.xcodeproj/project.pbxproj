@@ -44,6 +44,9 @@
 		57B84E6A1D91108800BD46AF /* DeviceConectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57B84E691D91108800BD46AF /* DeviceConectController.m */; };
 		A98FBF0F32CE8ADBBCDEC95D /* libPods-FirmwareUpdate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA0A5D4CAC1E2C8BFEE5337 /* libPods-FirmwareUpdate.a */; };
 		D630060E20EB837700529427 /* BLEShareInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = D630060D20EB837700529427 /* BLEShareInstance.m */; };
+		D64974A821129B5B00366AA5 /* ZGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D64974A721129B5B00366AA5 /* ZGViewController.m */; };
+		D64974AC2112AEB200366AA5 /* LightBlueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D64974AB2112AEB200366AA5 /* LightBlueViewController.m */; };
+		D64974B02113003500366AA5 /* EPOViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D64974AF2113003500366AA5 /* EPOViewController.m */; };
 		D650D2041F70E953006DD133 /* DFUAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = D650D2011F70E953006DD133 /* DFUAlertView.m */; };
 		D650D2051F70E953006DD133 /* DFUOverView.m in Sources */ = {isa = PBXBuildFile; fileRef = D650D2031F70E953006DD133 /* DFUOverView.m */; };
 		D650D23F1F710162006DD133 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = D650D23B1F710162006DD133 /* Toast.m */; };
@@ -171,6 +174,12 @@
 		9DA0A5D4CAC1E2C8BFEE5337 /* libPods-FirmwareUpdate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FirmwareUpdate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D630060C20EB837700529427 /* BLEShareInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEShareInstance.h; sourceTree = "<group>"; };
 		D630060D20EB837700529427 /* BLEShareInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEShareInstance.m; sourceTree = "<group>"; };
+		D64974A621129B5B00366AA5 /* ZGViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGViewController.h; sourceTree = "<group>"; };
+		D64974A721129B5B00366AA5 /* ZGViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGViewController.m; sourceTree = "<group>"; };
+		D64974AA2112AEB200366AA5 /* LightBlueViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LightBlueViewController.h; sourceTree = "<group>"; };
+		D64974AB2112AEB200366AA5 /* LightBlueViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LightBlueViewController.m; sourceTree = "<group>"; };
+		D64974AE2113003500366AA5 /* EPOViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EPOViewController.h; sourceTree = "<group>"; };
+		D64974AF2113003500366AA5 /* EPOViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EPOViewController.m; sourceTree = "<group>"; };
 		D650D2001F70E953006DD133 /* DFUAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFUAlertView.h; sourceTree = "<group>"; };
 		D650D2011F70E953006DD133 /* DFUAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFUAlertView.m; sourceTree = "<group>"; };
 		D650D2021F70E953006DD133 /* DFUOverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFUOverView.h; sourceTree = "<group>"; };
@@ -265,6 +274,8 @@
 				48C61DF91DF9900D006E1A6F /* DCViewController.m */,
 				57B84E5E1D90CD4A00BD46AF /* ViewController.h */,
 				57B84E5F1D90CD4A00BD46AF /* ViewController.m */,
+				D64974A621129B5B00366AA5 /* ZGViewController.h */,
+				D64974A721129B5B00366AA5 /* ZGViewController.m */,
 				57B84E651D90E58E00BD46AF /* FirmwareListController.h */,
 				57B84E661D90E58E00BD46AF /* FirmwareListController.m */,
 				57B84E681D91108800BD46AF /* DeviceConectController.h */,
@@ -450,6 +461,8 @@
 			children = (
 				48E227BE1DD0A33700B6737C /* IVRootViewController.h */,
 				48E227BF1DD0A33700B6737C /* IVRootViewController.m */,
+				D64974AD2113002400366AA5 /* EPO */,
+				D64974A92112ADE500366AA5 /* LightBlue */,
 				48E227BD1DD0A31800B6737C /* SUOTAvcs */,
 				48E227BC1DD0A30400B6737C /* DFUvcs */,
 			);
@@ -488,6 +501,24 @@
 				D630060D20EB837700529427 /* BLEShareInstance.m */,
 			);
 			path = BLE;
+			sourceTree = "<group>";
+		};
+		D64974A92112ADE500366AA5 /* LightBlue */ = {
+			isa = PBXGroup;
+			children = (
+				D64974AA2112AEB200366AA5 /* LightBlueViewController.h */,
+				D64974AB2112AEB200366AA5 /* LightBlueViewController.m */,
+			);
+			path = LightBlue;
+			sourceTree = "<group>";
+		};
+		D64974AD2113002400366AA5 /* EPO */ = {
+			isa = PBXGroup;
+			children = (
+				D64974AE2113003500366AA5 /* EPOViewController.h */,
+				D64974AF2113003500366AA5 /* EPOViewController.m */,
+			);
+			path = EPO;
 			sourceTree = "<group>";
 		};
 		D650D2391F710162006DD133 /* Toast */ = {
@@ -701,6 +732,7 @@
 				D680CBCE2101D4F500B536C2 /* RequestFirmwareUpdateApi.m in Sources */,
 				5749155A1D8FCA63006F01C3 /* BLEOperations.m in Sources */,
 				D6C7281920F8B28800CBB618 /* FOTA_DFUController.m in Sources */,
+				D64974B02113003500366AA5 /* EPOViewController.m in Sources */,
 				57B84E6A1D91108800BD46AF /* DeviceConectController.m in Sources */,
 				48F1FAE21DD1DAC800B55AAE /* DownLoadViewController.m in Sources */,
 				D650D2051F70E953006DD133 /* DFUOverView.m in Sources */,
@@ -711,7 +743,9 @@
 				D6C7281020F8A82200CBB618 /* YSProgressView.m in Sources */,
 				574915611D8FCA63006F01C3 /* InitData.m in Sources */,
 				48E227AE1DD08C6F00B6737C /* BluetoothManager.m in Sources */,
+				D64974AC2112AEB200366AA5 /* LightBlueViewController.m in Sources */,
 				48EA13C31DC746F200FDEB36 /* BlueViewController.m in Sources */,
+				D64974A821129B5B00366AA5 /* ZGViewController.m in Sources */,
 				D6C7282620F8BF1A00CBB618 /* ZGDFUController.m in Sources */,
 				574915621D8FCA63006F01C3 /* JsonParser.m in Sources */,
 				D650D2401F710162006DD133 /* ToastView.m in Sources */,
@@ -865,7 +899,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/FirmwareUpdate/FirmwarePrefixHeader.pch";
 				INFOPLIST_FILE = FirmwareUpdate/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -896,7 +930,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/FirmwareUpdate/FirmwarePrefixHeader.pch";
 				INFOPLIST_FILE = FirmwareUpdate/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
