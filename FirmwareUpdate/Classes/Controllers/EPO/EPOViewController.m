@@ -410,13 +410,17 @@ static const int TOTAL_PACK = 218;
     static dispatch_queue_t _bleQueue = nil;
     if (_bleQueue == nil) {
         _bleQueue = dispatch_queue_create("ble-central-mtk-epo-queue", 0);}
-    return _bleQueue;}
+    return _bleQueue;
+}
+
 static int DATA_LEN = 1024;
 #define EPO_URL [NSURL URLWithString:@"https://search.iwown.com/epo_download/EPO_GPS_3_1.DAT"]
 #define EPO_PATH [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"EPO_GPS_3_1.dat"]
 #define EPO_PATH_TMP [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"EPO_GPS_3_1_tmp.dat"]
 #define EPO_DATE @"EPO_DATE_MARK"
+
 - (void)epoUpdateStart {
+    
     if (![self downlaodEpoFile]) {
         return;
     }

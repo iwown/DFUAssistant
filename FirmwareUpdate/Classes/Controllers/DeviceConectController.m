@@ -64,13 +64,11 @@ NSString * const zgDfuServiceUUIDString = @"FE59";
     return _dataSource.count;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return FONT(44);
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc] init];
     
     cell.textLabel.frame = CGRectMake(cell.textLabel.frame.origin.x, cell.textLabel.frame.origin.y, cell.textLabel.frame.size.width + 100, cell.textLabel.frame.size.height);
@@ -80,8 +78,7 @@ NSString * const zgDfuServiceUUIDString = @"FE59";
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CBPeripheral *peripheral = [_dataSource objectAtIndex:indexPath.row];
     if (_delegate && [_delegate respondsToSelector:@selector(centralManager:ConnectSuccessPeripheral:)]) {
         [_delegate centralManager:bluetoothManager ConnectSuccessPeripheral:peripheral];
@@ -89,13 +86,11 @@ NSString * const zgDfuServiceUUIDString = @"FE59";
     }
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return _label;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 40;
 }
 
@@ -115,8 +110,7 @@ NSString * const zgDfuServiceUUIDString = @"FE59";
     });
 }
 
--(void)centralManagerDidUpdateState:(CBCentralManager *)central
-{
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central {
     switch (central.state) {
         case CBCentralManagerStateUnknown:
             NSLog(@">>>CBCentralManagerStateUnknown");
@@ -174,8 +168,7 @@ NSString * const zgDfuServiceUUIDString = @"FE59";
 }
 
 static const CGFloat CSToastActivityWidth       = 50.0;
-- (void)showActView
-{
+- (void)showActView {
     [self actViewHidden];
     _coverView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _coverView.backgroundColor = [UIColor clearColor];
@@ -205,8 +198,7 @@ static const CGFloat CSToastActivityWidth       = 50.0;
     [_coverView addSubview:actView];
 }
 
-- (void)actViewHidden
-{
+- (void)actViewHidden {
     if (_coverView) {
         for (UIView *view in _coverView.subviews) {
             [view removeFromSuperview];
@@ -216,8 +208,7 @@ static const CGFloat CSToastActivityWidth       = 50.0;
     }
 }
 
-- (void)reloadTable
-{
+- (void)reloadTable {
     if (isRefresh) {
         [_table reloadData];
         [self performSelector:@selector(reloadData) withObject:nil afterDelay:1.0];
@@ -228,15 +219,5 @@ static const CGFloat CSToastActivityWidth       = 50.0;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
