@@ -127,6 +127,7 @@
     
     DeviceConectController *con = [[DeviceConectController alloc] init];
     con.autoUpgrading = self.autoUpgrading;
+    con.uuids = self.uuids;
     con.delegate = self;
     [self.navigationController pushViewController:con animated:YES];
 }

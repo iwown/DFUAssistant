@@ -27,4 +27,6 @@
 
 @property (nonatomic, unsafe_unretained)id<DeviceConectControllerDelegate> delegate;
 
+@property (nonatomic, strong) NSArray <CBUUID *>*uuids;
+
 @end

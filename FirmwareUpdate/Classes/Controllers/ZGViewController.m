@@ -76,6 +76,10 @@
             [self updateUIStart];
         }
             break;
+        case DFUStateEnablingDfuMode:
+        {
+            [self updateUIComplete];
+        }
         case DFUStateCompleted:
         {
             [self updateUIComplete];

@@ -133,7 +133,10 @@ NSString * const zgDfuServiceUUIDString = @"FE59";
             //开始扫描周围的外设
             CBUUID *aUuid = [CBUUID UUIDWithString:dfuServiceUUIDString];
             CBUUID *bUuid = [CBUUID UUIDWithString:zgDfuServiceUUIDString];
-            NSArray *sIDs = @[aUuid, bUuid];
+            NSMutableArray *sIDs = [[NSMutableArray alloc] initWithArray:@[aUuid, bUuid]];
+            if (self.uuids.count > 0) {
+                [sIDs addObjectsFromArray:self.uuids];
+            }
             NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], CBCentralManagerScanOptionAllowDuplicatesKey, nil];
             [central scanForPeripheralsWithServices:sIDs options:options];
           /*  dispatch_async(dispatch_get_main_queue(), ^{

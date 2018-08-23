@@ -11,6 +11,7 @@
 #import "DCViewController.h"
 #import "ZGViewController.h"
 #import "EPOViewController.h"
+#import "PBViewController.h"
 #import "LightBlueViewController.h"
 
 @interface IVRootViewController ()
@@ -30,6 +31,7 @@
   @{@"btnTitle":@"SOUTA", @"btnSelectorMethod":@"soutaBtnClick"},
   @{@"btnTitle":@"FOTA", @"btnSelectorMethod":@"fotaBtnClick"},
   @{@"btnTitle":@"EPO", @"btnSelectorMethod":@"epoBtnClick"},
+  @{@"btnTitle":@"PB_DFU", @"btnSelectorMethod":@"pbDfuBtnClick"},
   @{@"btnTitle":@"DFU-L\nColorful", @"btnSelectorMethod":@"dfuLoopCBtnClick"}];
     
     CGFloat width = SCREEN_WIDTH * 0.2;
@@ -82,6 +84,10 @@
 
 - (void)epoBtnClick {
     [self.navigationController pushViewController:[[EPOViewController alloc] init] animated:YES];
+}
+
+- (void)pbDfuBtnClick {
+    [self.navigationController pushViewController:[[PBViewController alloc] init] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -43,6 +43,7 @@
 		57B84E671D90E58E00BD46AF /* FirmwareListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57B84E661D90E58E00BD46AF /* FirmwareListController.m */; };
 		57B84E6A1D91108800BD46AF /* DeviceConectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57B84E691D91108800BD46AF /* DeviceConectController.m */; };
 		A98FBF0F32CE8ADBBCDEC95D /* libPods-FirmwareUpdate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA0A5D4CAC1E2C8BFEE5337 /* libPods-FirmwareUpdate.a */; };
+		D6134EA4212E5627006B90E5 /* PBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6134EA3212E5627006B90E5 /* PBViewController.m */; };
 		D630060E20EB837700529427 /* BLEShareInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = D630060D20EB837700529427 /* BLEShareInstance.m */; };
 		D64974A821129B5B00366AA5 /* ZGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D64974A721129B5B00366AA5 /* ZGViewController.m */; };
 		D64974AC2112AEB200366AA5 /* LightBlueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D64974AB2112AEB200366AA5 /* LightBlueViewController.m */; };
@@ -172,6 +173,8 @@
 		6B00A63A719EFF8349856480 /* Pods-FirmwareUpdate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirmwareUpdate.release.xcconfig"; path = "Pods/Target Support Files/Pods-FirmwareUpdate/Pods-FirmwareUpdate.release.xcconfig"; sourceTree = "<group>"; };
 		87BDC8D0B886036C8A3CAC4F /* Pods-FirmwareUpdate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirmwareUpdate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FirmwareUpdate/Pods-FirmwareUpdate.debug.xcconfig"; sourceTree = "<group>"; };
 		9DA0A5D4CAC1E2C8BFEE5337 /* libPods-FirmwareUpdate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FirmwareUpdate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6134EA2212E5627006B90E5 /* PBViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBViewController.h; sourceTree = "<group>"; };
+		D6134EA3212E5627006B90E5 /* PBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBViewController.m; sourceTree = "<group>"; };
 		D630060C20EB837700529427 /* BLEShareInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEShareInstance.h; sourceTree = "<group>"; };
 		D630060D20EB837700529427 /* BLEShareInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEShareInstance.m; sourceTree = "<group>"; };
 		D64974A621129B5B00366AA5 /* ZGViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGViewController.h; sourceTree = "<group>"; };
@@ -280,6 +283,8 @@
 				57B84E661D90E58E00BD46AF /* FirmwareListController.m */,
 				57B84E681D91108800BD46AF /* DeviceConectController.h */,
 				57B84E691D91108800BD46AF /* DeviceConectController.m */,
+				D6134EA2212E5627006B90E5 /* PBViewController.h */,
+				D6134EA3212E5627006B90E5 /* PBViewController.m */,
 			);
 			name = DFUvcs;
 			sourceTree = "<group>";
@@ -747,6 +752,7 @@
 				48EA13C31DC746F200FDEB36 /* BlueViewController.m in Sources */,
 				D64974A821129B5B00366AA5 /* ZGViewController.m in Sources */,
 				D6C7282620F8BF1A00CBB618 /* ZGDFUController.m in Sources */,
+				D6134EA4212E5627006B90E5 /* PBViewController.m in Sources */,
 				574915621D8FCA63006F01C3 /* JsonParser.m in Sources */,
 				D650D2401F710162006DD133 /* ToastView.m in Sources */,
 				574915651D8FCA63006F01C3 /* Utility.m in Sources */,
