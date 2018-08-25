@@ -92,7 +92,7 @@
     [firmwareView addSubview:_deviceLabel];
     
     UIButton *selectFirmwareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    selectFirmwareBtn.frame = CGRectMake((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 230, 100, 30);
+    selectFirmwareBtn.frame = CGRectMake((SCREEN_WIDTH - 140) / 2, SCREEN_HEIGHT - 230, 140, 30);
     selectFirmwareBtn.backgroundColor = [UIColor whiteColor];
     [selectFirmwareBtn setTitle:@"Select Files" forState:UIControlStateNormal];
     [selectFirmwareBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
@@ -100,7 +100,7 @@
     [self.view addSubview:selectFirmwareBtn];
     
     UIButton *selectDeviceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    selectDeviceBtn.frame = CGRectMake((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 170, 100, 30);
+    selectDeviceBtn.frame = CGRectMake((SCREEN_WIDTH - 140) / 2, SCREEN_HEIGHT - 170, 140, 30);
     selectDeviceBtn.backgroundColor = [UIColor whiteColor];
     [selectDeviceBtn setTitle:@"Scan Device" forState:UIControlStateNormal];
     [selectDeviceBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
@@ -108,7 +108,7 @@
     [self.view addSubview:selectDeviceBtn];
     
     UIButton *upgradeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    upgradeBtn.frame = CGRectMake((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 110, 100, 30);
+    upgradeBtn.frame = CGRectMake((SCREEN_WIDTH - 140) / 2, SCREEN_HEIGHT - 110, 140, 30);
     upgradeBtn.backgroundColor = [UIColor whiteColor];
     [upgradeBtn setTitle:@"Upgrade" forState:UIControlStateNormal];
     [upgradeBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
@@ -134,15 +134,18 @@
 
 - (void)upgradeDevice {
     if ([_selectUrlString length] <= 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Please choose a firmware files" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertView show];
-        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Message" message:@"Please choose a firmware files" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:cancelAction];
+        [self.navigationController presentViewController:alertController animated:YES completion:nil];
         return;
     }
     
     if (!_canDFUType) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Please connect the DFU device" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertView show];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Message" message:@"Please connect the DFU device" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:cancelAction];
+        [self.navigationController presentViewController:alertController animated:YES completion:nil];
         return;
     }
     
@@ -214,8 +217,10 @@
             _dfuHelper.isManifestExist = NO;
             [_dfuHelper unzipFiles:_dfuHelper.selectedFileURL];
             if (!_dfuHelper.applicationURL) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Zip file error" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Message" message:@"Zip file error" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+                [alertController addAction:cancelAction];
+                [self.navigationController presentViewController:alertController animated:YES completion:nil];
             }
         }
         else {
