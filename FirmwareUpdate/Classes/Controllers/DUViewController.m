@@ -48,10 +48,14 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+}
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 
 - (void)dealloc {
@@ -65,8 +69,7 @@
     [self.valueArray addObjectsFromArray:@[@"",@"",@"",@""]];
 }
 
-- (void)setupParam
-{
+- (void)setupParam {
     self.memoryType = MEM_TYPE_SUOTA_SPI;
     self.spiMOSIAddress = 1;
     self.spiMISOAddress = 2;
@@ -84,21 +87,18 @@
 }
 
 - (void)initUI {
-    
     self.view.backgroundColor = [UIColor whiteColor];
     [self drawTableView];
 }
 
-- (void)drawPercentView
-{
+- (void)drawPercentView {
     [self removePercentView];
     _percentView = [[PercentView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _percentView.backgroundColor = [UIColor colorWithRed:80 / 255.0 green:80 / 255.0 blue:80 / 255.0 alpha:0.4];
     [self.view addSubview:_percentView];
 }
 
-- (void)removePercentView
-{
+- (void)removePercentView {
     if (_percentView) {
         for (UIView *view in _percentView.subviews) {
             [view removeFromSuperview];
@@ -140,7 +140,6 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-   
     return _titleArray.count;
 }
 
@@ -175,8 +174,7 @@
     }
 }
 
-- (void)startForDFU
-{
+- (void)startForDFU {
     if (!self.firmwareURL || !self.device) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"找不到设备或文件，无法升级" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"知道了", nil];
         [alert show];
@@ -187,8 +185,7 @@
     [self updateUIWaiting];
 }
 
-- (void)selectFirmware:(NSString *)path
-{
+- (void)selectFirmware:(NSString *)path {
     NSArray *array = [path componentsSeparatedByString:@"/"];
     [_valueArray replaceObjectAtIndex:2 withObject:[array lastObject]];
     [self.tableView reloadData];
@@ -199,26 +196,22 @@
     [manager notification:[manager IntToCBUUID:SPOTA_SERVICE_UUID] characteristicUUID:[CBUUID UUIDWithString:SPOTA_SERV_STATUS_UUID] p:manager.device on:YES];
 }
 
-- (void)updateUIAferComplete
-{
+- (void)updateUIAferComplete {
   
 }
 
-- (void)updateUIWaiting
-{
+- (void)updateUIWaiting {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self drawPercentView];
     });
 }
 
-- (void)updateUIPercent:(NSInteger)percentage
-{
+- (void)updateUIPercent:(NSInteger)percentage {
     _percentView.percent = percentage;
 }
 
 static int nameIndex = 0;
 - (NSString *)getSoutaName {
-  
     nameIndex ++;
     NSArray *arr = @[@"I6HR",@"I6"];
     int index = nameIndex%(arr.count);
@@ -227,7 +220,6 @@ static int nameIndex = 0;
 
 #pragma mark SUOTA
 - (void)debug:(NSString*)message {
-    
     NSLog(@"%@", message);
 }
 
@@ -519,16 +511,5 @@ static int nameIndex = 0;
     
     return message;
 }
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

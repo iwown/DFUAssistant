@@ -86,7 +86,6 @@
 }
 
 - (BOOL)downloadWith:(NSString *)url andFirmwareName:(NSString *)fileName{
-    
     NSString *fileType = [[url componentsSeparatedByString:@"."] lastObject];
     fileName = [[fileName stringByAppendingString:@"."] stringByAppendingString:fileType];
     NSString *fullPath = [DirectoryPath stringByAppendingPathComponent:fileName];

@@ -8,10 +8,8 @@
 #import "DownLoadViewController.h"
 #import "FirmwareListController.h"
 
-@interface FirmwareListController ()<UITableViewDelegate, UITableViewDataSource>
-{
+@interface FirmwareListController ()<UITableViewDelegate, UITableViewDataSource> {
     NSMutableArray *_dataSource;
-    
     UITableView *_table;
 }
 
@@ -21,7 +19,6 @@
 @implementation FirmwareListController
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
     [FileManager createDirWithPath:DirectoryPath];
     _dataSource = [[NSMutableArray alloc] initWithCapacity:0];
@@ -29,24 +26,21 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
     [super viewWillAppear:animated];
     [self loadData];
+    [_table reloadData];
 }
 
 - (void)loadData {
-    
     [_dataSource removeAllObjects];
     NSArray *directoryContents = [FileManager scanDirWithPath:DirectoryPath];
     [_dataSource addObjectsFromArray:directoryContents];
 }
 
 - (void)drawUI {
-    
     self.title = @"Select Files";
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"More" style:UIBarButtonItemStylePlain target:self action:@selector(moreFirmware)];
-    
     _table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) style:UITableViewStylePlain];
     _table.backgroundColor = [UIColor whiteColor];
     _table.delegate = self;
@@ -67,7 +61,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
@@ -77,8 +70,8 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *path = [NSString stringWithFormat:@"%@/%@", DirectoryPath, [_dataSource objectAtIndex:indexPath.row]];
     if (_delegate && [_delegate respondsToSelector:@selector(selectFirmware:)]) {
         [_delegate selectFirmware:path];
@@ -88,7 +81,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

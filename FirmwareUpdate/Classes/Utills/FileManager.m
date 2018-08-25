@@ -92,8 +92,7 @@
 }
 
 //扫描文件夹
-+ (NSArray *)scanDirWithPath:(NSString *)path
-{
++ (NSArray *)scanDirWithPath:(NSString *)path {
     NSError *error;
     NSArray *directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error];
     if (error) {
