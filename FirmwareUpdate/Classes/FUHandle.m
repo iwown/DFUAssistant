@@ -88,7 +88,7 @@ static FUHandle *__fuhdle = nil;
      * Determine whether the current upgrade condition is met before entering the bracelet upgrade page.
      * 1. Bluetooth open & & bracelet connection
      * 2. Complete device information
-     * 3. The power is greater than 30%
+     * 3. The power is greater than 20%
      */
     
     if ([[BLEShareInstance shareInstance] state] != kBLEstateDidConnected) {
@@ -102,7 +102,7 @@ static FUHandle *__fuhdle = nil;
         return NO;
     }
     
-    if ([df batLevel] < 30) {
+    if ([df batLevel] < 20) {
         [Toast makeToast:NSLocalizedString(@"Low power",nil)];
         return NO;
     }
@@ -248,7 +248,7 @@ static FUHandle *__fuhdle = nil;
 
 - (BOOL)downFWFromURL:(NSString *)fileURL {
     NSLog(@"执行固件下载函数（Downloading）: %@",fileURL);
-    [self deleteFW];
+//    [self deleteFW];
     NSString *firmwareName = [self saveFileName:fileURL];
     NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:firmwareName];
     NSFileManager *fileManager = [NSFileManager defaultManager];
