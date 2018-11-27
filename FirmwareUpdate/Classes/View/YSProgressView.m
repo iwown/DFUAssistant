@@ -91,8 +91,8 @@
 - (void)setProgressTintColor:(UIColor *)progressTintColor {
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        _progressTintColor = progressTintColor;
-        self.backgroundColor = _progressTintColor;
+        self->_progressTintColor = progressTintColor;
+        self.backgroundColor = self->_progressTintColor;
     });
 }
 

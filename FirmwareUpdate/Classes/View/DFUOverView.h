@@ -6,7 +6,7 @@
 //  Copyright © 2017年 Iwown. All rights reserved.
 //
 
-typedef void(^DFUAction)();
+typedef void(^DFUAction)(void);
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 

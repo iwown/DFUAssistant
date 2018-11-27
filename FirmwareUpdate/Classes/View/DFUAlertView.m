@@ -10,8 +10,8 @@
 #import "DFUAlertView.h"
 
 @interface DFUAlertView ()
-@property (nonatomic,copy)void (^leftClicked)();
-@property (nonatomic,copy)void (^rightClicked)();
+@property (nonatomic,copy)void (^leftClicked)(void);
+@property (nonatomic,copy)void (^rightClicked)(void);
 @end
 
 @implementation DFUAlertView

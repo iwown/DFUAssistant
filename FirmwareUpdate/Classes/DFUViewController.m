@@ -218,29 +218,28 @@ typedef enum{
  * @return 0 if success, -1 if Bluetooth Manager is not in CBCentralManagerStatePoweredOn state.
  */
 - (int)scanForPeripherals:(BOOL)enable {
-    
-    if (bluetoothManager.state != CBCentralManagerStatePoweredOn) {
+    if (bluetoothManager.state != CBManagerStatePoweredOn) {
         return -1;
     }
 
     // Scanner uses other queue to send events. We must edit UI in the main queue
     dispatch_async(dispatch_get_main_queue(), ^{
         if (enable) {
-            if (peripherals == nil) {
-                peripherals = [NSMutableArray arrayWithCapacity:5];
+            if (self->peripherals == nil) {
+                self->peripherals = [NSMutableArray arrayWithCapacity:5];
             }
             else
             {
-                [peripherals removeAllObjects];
+                [self->peripherals removeAllObjects];
             }
             
             NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], CBCentralManagerScanOptionAllowDuplicatesKey, nil];
             
-            _dfuError = DFUErrorNoDevice;
-            [bluetoothManager setDelegate:self];
-            [bluetoothManager scanForPeripheralsWithServices:[self servicesSids] options:options];
+            self->_dfuError = DFUErrorNoDevice;
+            [self->bluetoothManager setDelegate:self];
+            [self->bluetoothManager scanForPeripheralsWithServices:[self servicesSids] options:options];
         }else {
-            [bluetoothManager stopScan];
+            [self->bluetoothManager stopScan];
         }
     });
     return 0;
@@ -278,7 +277,6 @@ typedef enum{
 }
 
 - (void)startDfuWithPeripheral:(CBPeripheral *)peril {
-    
     if (_dfuOperations){
         [_dfuOperations setCentralManager:bluetoothManager];
         [_dfuOperations connectDevice:peril];
@@ -286,8 +284,7 @@ typedef enum{
 }
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
-    
-    if (central.state == CBCentralManagerStatePoweredOff) {
+    if (central.state == CBManagerStatePoweredOff) {
         [self updateUIFail];
     }
 }
@@ -424,7 +421,6 @@ typedef enum{
 
     switch (_dfuError) {
         case DFUErrorNull:
-            
             break;
         case DFUErrorNoDevice:
         {
@@ -515,8 +511,8 @@ typedef enum{
 - (void)onSuccessfulFileTranferred {
     NSLog(@"OnSuccessfulFileTransferred");
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (_dfuFWType == BOOTLOADER) {
-        }else if (_dfuFWType == APPLICATION) {
+        if (self->_dfuFWType == BOOTLOADER) {
+        }else if (self->_dfuFWType == APPLICATION) {
             [self finallySuccessful];
         }
     });

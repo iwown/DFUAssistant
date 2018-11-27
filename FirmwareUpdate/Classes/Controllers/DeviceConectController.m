@@ -106,30 +106,30 @@ NSString * const zgDfuServiceUUIDString = @"FE59";
     NSLog(@"%@", peripheral);
     NSLog(@"%@", _dataSource);
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_table reloadData];
+        [self->_table reloadData];
     });
 }
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
     switch (central.state) {
-        case CBCentralManagerStateUnknown:
-            NSLog(@">>>CBCentralManagerStateUnknown");
+        case CBManagerStateUnknown:
+            NSLog(@">>>CBManagerStateUnknown");
             break;
-        case CBCentralManagerStateResetting:
-            NSLog(@">>>CBCentralManagerStateResetting");
+        case CBManagerStateResetting:
+            NSLog(@">>>CBManagerStateResetting");
             break;
-        case CBCentralManagerStateUnsupported:
-            NSLog(@">>>CBCentralManagerStateUnsupported");
+        case CBManagerStateUnsupported:
+            NSLog(@">>>CBManagerStateUnsupported");
             break;
-        case CBCentralManagerStateUnauthorized:
-            NSLog(@">>>CBCentralManagerStateUnauthorized");
+        case CBManagerStateUnauthorized:
+            NSLog(@">>>CBManagerStateUnauthorized");
             break;
-        case CBCentralManagerStatePoweredOff:
-            NSLog(@">>>CBCentralManagerStatePoweredOff");
+        case CBManagerStatePoweredOff:
+            NSLog(@">>>CBManagerStatePoweredOff");
             break;
-        case CBCentralManagerStatePoweredOn:
+        case CBManagerStatePoweredOn:
         {
-            NSLog(@">>>CBCentralManagerStatePoweredOn");
+            NSLog(@">>>CBManagerStatePoweredOn");
             //开始扫描周围的外设
             CBUUID *aUuid = [CBUUID UUIDWithString:dfuServiceUUIDString];
             CBUUID *bUuid = [CBUUID UUIDWithString:zgDfuServiceUUIDString];

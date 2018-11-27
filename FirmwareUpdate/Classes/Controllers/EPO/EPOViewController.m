@@ -203,7 +203,7 @@ static NSString *const kDOGPWriteCharUUIDString = @"00002aa1-0000-1000-8000-0080
     }
     [_dataSource addObject:peripheral];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_table reloadData];
+        [self->_table reloadData];
     });
 }
 
@@ -215,24 +215,24 @@ static NSString *const kDOGPWriteCharUUIDString = @"00002aa1-0000-1000-8000-0080
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
     switch (central.state) {
-        case CBCentralManagerStateUnknown:
-            NSLog(@">>>CBCentralManagerStateUnknown");
+        case CBManagerStateUnknown:
+            NSLog(@">>>CBManagerStateUnknown");
             break;
-        case CBCentralManagerStateResetting:
-            NSLog(@">>>CBCentralManagerStateResetting");
+        case CBManagerStateResetting:
+            NSLog(@">>>CBManagerStateResetting");
             break;
-        case CBCentralManagerStateUnsupported:
-            NSLog(@">>>CBCentralManagerStateUnsupported");
+        case CBManagerStateUnsupported:
+            NSLog(@">>>CBManagerStateUnsupported");
             break;
-        case CBCentralManagerStateUnauthorized:
-            NSLog(@">>>CBCentralManagerStateUnauthorized");
+        case CBManagerStateUnauthorized:
+            NSLog(@">>>CBManagerStateUnauthorized");
             break;
-        case CBCentralManagerStatePoweredOff:
-            NSLog(@">>>CBCentralManagerStatePoweredOff");
+        case CBManagerStatePoweredOff:
+            NSLog(@">>>CBManagerStatePoweredOff");
             break;
-        case CBCentralManagerStatePoweredOn:
+        case CBManagerStatePoweredOn:
         {
-            NSLog(@">>>CBCentralManagerStatePoweredOn");
+            NSLog(@">>>CBManagerStatePoweredOn");
             //开始扫描周围的外设
             CBUUID *aUuid = [CBUUID UUIDWithString:PEDOMETER_WATCH_SERVICE_UUID];
             CBUUID *bUuid = [CBUUID UUIDWithString:PEDOMETER_MTK_SERVICE_UUID];

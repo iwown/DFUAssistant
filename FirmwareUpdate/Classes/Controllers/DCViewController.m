@@ -243,7 +243,7 @@ typedef enum{
     
     [_tableView setFrame:CGRectMake(0, SCREEN_HEIGHT, width, height)];
     [UIView animateWithDuration:0.5 animations:^{
-        [_tableView setFrame:CGRectMake(0, FONT(120), width, height)];
+        [self->_tableView setFrame:CGRectMake(0, FONT(120), width, height)];
     }];
 }
 
@@ -303,8 +303,8 @@ typedef enum{
 - (void)updateDeviceInfo:(ZRDeviceInfo *)deviceInfo {
     [[FUHandle handle] setDeviceInfo:deviceInfo];
     dispatch_async(dispatch_get_main_queue(), ^{
-        _textLabel.hidden = NO;
-        [_textLabel setText:[NSString stringWithFormat:@"NAME:%@\n\nMODEL:%@\n\nVERSION:%@\n\nPOWER:%lu%%",_deviceName,[FUHandle handle].deviceInfo.model,[FUHandle handle].deviceInfo.version,(long)[FUHandle handle].deviceInfo.batLevel]];
+        self->_textLabel.hidden = NO;
+        [self->_textLabel setText:[NSString stringWithFormat:@"NAME:%@\n\nMODEL:%@\n\nVERSION:%@\n\nPOWER:%lu%%",self->_deviceName,[FUHandle handle].deviceInfo.model,[FUHandle handle].deviceInfo.version,(long)[FUHandle handle].deviceInfo.batLevel]];
     });
 }
 

@@ -37,7 +37,7 @@ UIKIT_EXTERN NSString *const kNOTICE_SYNC_HEART_RATE_END;
 @property (nonatomic ,strong) id<BLESolstice> solstice;
 @property (nonatomic ,weak) id<BLEShareInstanceDelegate>delegate;
 @property (nonatomic ,assign) kBLEstate state;
-@property (nonatomic ,assign) CBCentralManagerState centralBluetoothState;
+@property (nonatomic ,assign) CBManagerState centralBluetoothState;
 @property (nonatomic ,strong) ZRDeviceInfo *deviceInfo;
 
 @property (nonatomic, assign) NSInteger bleDeviceCategory;
@@ -47,8 +47,6 @@ UIKIT_EXTERN NSString *const kNOTICE_SYNC_HEART_RATE_END;
 + (id<BLESolstice>)bleSolstice ;
 
 - (BLEProtocol)bleProtocol;
-
-- (void)reconnectCheckRunloop;
 
 - (void)scanDevice;
 

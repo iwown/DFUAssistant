@@ -70,7 +70,6 @@
 }
 
 - (void)drawUpgradeButton {
-    
     _upgradeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:_upgradeBtn];
     [_upgradeBtn setFrame:CGRectMake(0.5*(SCREEN_WIDTH-FONT(120)), SCREEN_HEIGHT - FONT(180), FONT(120),FONT(40))];
@@ -85,7 +84,6 @@
 }
 
 - (void)showUpgradeBtn {
-    
     _table.hidden = YES;
     _upgradeBtn.hidden = NO;
 }
@@ -105,7 +103,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc] init];
-    
     cell.textLabel.frame = CGRectMake(cell.textLabel.frame.origin.x, cell.textLabel.frame.origin.y, cell.textLabel.frame.size.width + 100, cell.textLabel.frame.size.height);
     CBPeripheral *peripheral = [_dataSource objectAtIndex:indexPath.row];
     
@@ -128,50 +125,54 @@
 
 #pragma mark - Central Manage Delegate
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
-    
     if (RSSI.integerValue < -80 ||
         peripheral.name == nil ||
         [@"" isEqualToString:peripheral.name]) {
         return;
     }
-    
     for (CBPeripheral *aPer in _dataSource) {
         if (peripheral == aPer) {
             return;
         }
     }
     [_dataSource addObject:peripheral];
+    [_dataSource sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        CBPeripheral *run1 = obj1;
+        CBPeripheral *run2 = obj2;
+        NSInteger rssiA = run1.RSSI.integerValue;
+        NSInteger rssiB = run2.RSSI.integerValue;
+        return (rssiA < rssiB);
+    }];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_table reloadData];
+        [self->_table reloadData];
     });
 }
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
-    
     peripheral.delegate = self;
     [peripheral discoverServices:nil];
 }
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
     switch (central.state) {
-        case CBCentralManagerStateUnknown:
-            NSLog(@">>>CBCentralManagerStateUnknown");
+        case CBManagerStateUnknown:
+            NSLog(@">>>CBManagerStateUnknown");
             break;
-        case CBCentralManagerStateResetting:
-            NSLog(@">>>CBCentralManagerStateResetting");
+        case CBManagerStateResetting:
+            NSLog(@">>>CBManagerStateResetting");
             break;
-        case CBCentralManagerStateUnsupported:
-            NSLog(@">>>CBCentralManagerStateUnsupported");
+        case CBManagerStateUnsupported:
+            NSLog(@">>>CBManagerStateUnsupported");
             break;
-        case CBCentralManagerStateUnauthorized:
-            NSLog(@">>>CBCentralManagerStateUnauthorized");
+        case CBManagerStateUnauthorized:
+            NSLog(@">>>CBManagerStateUnauthorized");
             break;
-        case CBCentralManagerStatePoweredOff:
-            NSLog(@">>>CBCentralManagerStatePoweredOff");
+        case CBManagerStatePoweredOff:
+            NSLog(@">>>CBManagerStatePoweredOff");
             break;
-        case CBCentralManagerStatePoweredOn:
+        case CBManagerStatePoweredOn:
         {
-            NSLog(@">>>CBCentralManagerStatePoweredOn");
+            NSLog(@">>>CBManagerStatePoweredOn");
             //开始扫描周围的外设
             NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], CBCentralManagerScanOptionAllowDuplicatesKey, nil];
             [central scanForPeripheralsWithServices:nil options:options];
@@ -211,14 +212,12 @@
 
 #pragma mark- Delegate
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
-    
     for (CBService *service in peripheral.services) {
         [peripheral discoverCharacteristics:nil forService:service];
     }
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(nullable NSError *)error {
-    
     for (CBCharacteristic *ch in service.characteristics) {
         if (ch.properties == CBCharacteristicPropertyIndicate ||
             ch.properties == CBCharacteristicPropertyNotify) {
@@ -244,7 +243,6 @@
 }
 
 - (void)entryDFUState {
-    
     if ([_writeCharacteristic.UUID isEqual:[CBUUID UUIDWithString:Z4_CHARACTER_ID_WRITE]]) {
         NSString *str = @"0600811001000000000000000000000000000000";
         NSData *data = [self stringToByte:str];
@@ -258,7 +256,6 @@
 }
 
 - (NSData*)stringToByte:(NSString*)string {
-    
     NSString *hexString = [[string uppercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""];
     if ([hexString length]%2!=0) {
         return nil;
@@ -290,7 +287,6 @@
         ///将转化后的数放入Byte数组里
         [bytes appendBytes:tempbyt length:1];
     }
-    
     return bytes;
 }
 

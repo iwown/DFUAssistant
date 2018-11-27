@@ -79,7 +79,7 @@
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             [Toast hideToastActivity];
-            [_dataSource removeObjectAtIndex:indexPath.row];
+            [self->_dataSource removeObjectAtIndex:indexPath.row];
             [tableView reloadData];
         });
     });
