@@ -29,4 +29,5 @@
 + (BOOL)moveFileFrom:(NSString *)fileFrom toAnotherPath:(NSString *)fileTo;
 
 + (NSInteger)addFunction:(NSInteger)a andB:(NSInteger)b;
+
 @end

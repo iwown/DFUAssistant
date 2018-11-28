@@ -46,7 +46,6 @@
 
 @synthesize bluetoothManager;
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     [self loadData];
@@ -54,7 +53,6 @@
 }
 
 - (void)loadData {
-    
     _dfuOperations = [[DFUOperations alloc] initWithDelegate:self];
     _dfuHelper = [[DFUHelper alloc] initWithData:_dfuOperations];
     _dfuFWType = APPLICATION;
@@ -62,7 +60,6 @@
 }
 
 - (void)drawUI {
-    
     self.title = @"DFU";
     self.view.backgroundColor = [UIColor whiteColor];
     

@@ -18,7 +18,6 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
@@ -31,11 +30,13 @@
     faseVC.tabBarItem.title = @"Fasting Upgrade";
     faseVC.tabBarItem.image=[UIImage imageNamed:@"profile"];
     UINavigationController *navA = [[UINavigationController alloc] initWithRootViewController:faseVC];
-
+    navA.navigationBar.barTintColor = [UIColor colorWithWhite:0.99 alpha:0.9];
+    
     IVRootViewController *rootVC = [[IVRootViewController alloc] init];
     rootVC.tabBarItem.title = @"More Upgrade";
     rootVC.tabBarItem.image=[UIImage imageNamed:@"device"];
     UINavigationController *navB = [[UINavigationController alloc] initWithRootViewController:rootVC];
+    navB.navigationBar.barTintColor = [UIColor colorWithWhite:0.99 alpha:0.9];
 
     UITabBarController *tb = [[UITabBarController alloc]init];
     tb.viewControllers = @[navA,navB];
@@ -49,8 +50,7 @@
 #pragma mark Image view
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation
-{
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation {
     UINavigationController *navigation = (UINavigationController *)application.keyWindow.rootViewController;
     ViewController *displayController = (ViewController *)navigation.topViewController;
     NSString *path = [url absoluteString];
@@ -64,8 +64,7 @@
 }
 
 #else
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options
-{
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
     UINavigationController *navigation = (UINavigationController *)application.keyWindow.rootViewController;
     ViewController *displayController ;
     for (UIViewController *vc in navigation.viewControllers) {
@@ -107,22 +106,18 @@
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
 }
 
-
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
-
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
 }
 
-
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
-
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.

@@ -455,4 +455,29 @@ NSString * const CSToastPositionBottom          = @"bottom";
     return wrapperView;
 }
 
++ (UIImage *)imageWithText:(NSString *)text {
+    int length = 150;
+    if (text.length > 20) {
+        length = (int)(150 + ((text.length-20) * 10));
+    }
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 100)];
+    view.backgroundColor = [UIColor clearColor];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:view.bounds];
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [UIColor colorWithRed:0.23 green:0.87 blue:0.34 alpha:0.5];
+    label.font = [UIFont systemFontOfSize:14.0];
+    label.text = text;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.transform = CGAffineTransformMakeRotation(-M_PI/6.0);
+    [view addSubview:label];
+    
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, [UIScreen mainScreen].scale);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image=UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
 @end

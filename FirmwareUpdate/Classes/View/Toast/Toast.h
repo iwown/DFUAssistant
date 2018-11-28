@@ -57,4 +57,5 @@ extern NSString * const CSToastPositionBottom;
 
 + (void)hideToastActivity;
 
++ (UIImage *)imageWithText:(NSString *)text;
 @end

@@ -32,13 +32,11 @@
 
 @implementation BaseDFUController
 - (void)viewWillAppear:(BOOL)animated {
-    
     [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    
     [super viewWillDisappear:animated];
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
@@ -46,7 +44,6 @@
 - (void)signOffDelegate {}
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -77,7 +74,6 @@
 
 static int bgview_tag = 9239;
 - (void)drawBackGroundView {
-    
     UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"upgrade_p_bg"]];
     imgView.tag = bgview_tag;
     [imgView setFrame:self.view.bounds];

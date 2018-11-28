@@ -134,6 +134,8 @@
         [btn setBackgroundColor:[UIColor colorWithRed:92/255.0 green:193/255.0 blue:147/255.0 alpha:1]];
         [btn setTitle:@"升级" forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(startForDFU) forControlEvents:UIControlEventTouchUpInside];
+        [btn.layer setMasksToBounds:YES];
+        [btn.layer setCornerRadius:5];
         [view addSubview:btn];
         view;
     })];

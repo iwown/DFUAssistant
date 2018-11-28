@@ -63,7 +63,6 @@ typedef enum{
 }
 
 - (void)initUI {
-    
     [self drawBgView];
     [self drawScanStateView];
     [self drawTextLabel];
@@ -73,11 +72,10 @@ typedef enum{
 }
 
 - (void)drawBgView {
-    
-    UIImage *bg = [UIImage imageNamed:@"hardware_bg"];
-    UIImageView *bgView = [[UIImageView alloc]initWithImage:bg];
-    [bgView setFrame:self.view.bounds];
-    [self.view addSubview:bgView];
+    self.view.backgroundColor = [UIColor whiteColor];
+    UIView *bg = [[UIView alloc]initWithFrame:self.view.bounds];
+    bg.backgroundColor = [[UIColor alloc] initWithPatternImage:[Toast imageWithText:@"ワンクリックアップグレードの高速トラック"]];
+    [self.view addSubview:bg];
 }
 
 - (void)drawTextLabel {
@@ -125,7 +123,7 @@ typedef enum{
     [_upgradeBtn setFrame:CGRectMake(0.5*(SCREEN_WIDTH-FONT(120)), SCREEN_HEIGHT - FONT(120), FONT(120),FONT(40))];
     [_upgradeBtn setTitle:NSLocalizedString(@"UPGRADE", nil) forState:UIControlStateNormal];
     [_upgradeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_upgradeBtn setBackgroundColor:[UIColor colorWithRed:65/255.0 green:173/255.0 blue:229/255.0 alpha:0.6]];
+    [_upgradeBtn setBackgroundColor:[UIColor colorWithRed:92/255.0 green:193/255.0 blue:147/255.0 alpha:1]];
     [[_upgradeBtn titleLabel] setFont:[UIFont systemFontOfSize:FONT(16)]];
     [_upgradeBtn addTarget:self action:@selector(upgradeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [_upgradeBtn setHidden:YES];
