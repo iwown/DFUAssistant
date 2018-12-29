@@ -97,6 +97,11 @@ NSString * const zgDfuServiceUUIDString = @"FE59";
 
 #pragma mark - Central Manage Delegate
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
+    if (!([peripheral.name containsString:@"DFU"] || [peripheral.name containsString:@"Dfu"]
+          )) {
+        return;
+    }
+    
     for (CBPeripheral *aPer in _dataSource) {
         if (peripheral == aPer) {
             return;

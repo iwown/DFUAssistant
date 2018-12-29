@@ -121,7 +121,6 @@
 }
 
 - (void)selectDevice {
-    
     DeviceConectController *con = [[DeviceConectController alloc] init];
     con.autoUpgrading = self.autoUpgrading;
     con.uuids = self.uuids;
