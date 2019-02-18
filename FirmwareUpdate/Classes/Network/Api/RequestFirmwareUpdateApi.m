@@ -24,7 +24,7 @@
         _dType = deviceType;
         _modelNum = model;
         _deviceVersion = fwVersion;
-        _app = 3;
+        _app = app;
         _appVersion = appVersion;
     }
     return self;

@@ -11,7 +11,7 @@
 #import "YSProgressView.h"
 #import "EPOViewController.h"
 
-@interface EPOViewController ()<CBCentralManagerDelegate ,UITableViewDelegate ,UITableViewDataSource ,CBPeripheralDelegate ,NotifyCustomDelegate>
+@interface EPOViewController ()<CBCentralManagerDelegate ,UITableViewDelegate ,UITableViewDataSource ,CBPeripheralDelegate ,SPC_NotifyCustomDelegate>
 {
     NSMutableArray      *peripherals;
     int                 _percentage;
@@ -434,7 +434,7 @@ static int DATA_LEN = 1024;
         NSString *str = [NSString stringWithFormat:@"%d",packageLength];
         NSData *dataInt = [str dataUsingEncoding:NSUTF8StringEncoding];
         
-        int responeBegan = [[BtNotify sharedInstance] send:@"epo_update_data" receiver:@"epo_update_data" dataAction:0 dataToSend:dataInt needProgress:YES sendPriority:PRIORITY_NORMAL];
+        int responeBegan = [[BtNotify sharedInstance] send:@"epo_update_data" receiver:@"epo_update_data" dataAction:0 dataToSend:dataInt needProgress:YES sendPriority:SPC_PRIORITY_NORMAL];
         if (responeBegan > 0) {
             NSLog(@"ERROR: send start epo_update_data: %d %d-%@-%@",responeBegan,datatemplength,str,dataInt);
             return;
@@ -449,7 +449,7 @@ static int DATA_LEN = 1024;
                 range = NSMakeRange(i, dataEpo.length - i);
             }
             NSData *subData = [dataEpo subdataWithRange:range];
-            int respone = [[BtNotify sharedInstance] send:@"epo_update_data" receiver:@"epo_update_data" dataAction:1 dataToSend:subData needProgress:YES sendPriority:PRIORITY_NORMAL];
+            int respone = [[BtNotify sharedInstance] send:@"epo_update_data" receiver:@"epo_update_data" dataAction:1 dataToSend:subData needProgress:YES sendPriority:SPC_PRIORITY_NORMAL];
             if (respone > 0) {
                 NSLog(@"ERROR: send epo_update_data :%d count:%d cicleNum:%d",respone,i,++cicleNum);
                 return;
@@ -459,7 +459,7 @@ static int DATA_LEN = 1024;
         }
         [NSThread sleepForTimeInterval:0.8];
         
-        int responeEnd = [[BtNotify sharedInstance] send:@"epo_update_data" receiver:@"epo_update_data" dataAction:2 dataToSend:[@"end" dataUsingEncoding:NSUTF8StringEncoding] needProgress:YES sendPriority:PRIORITY_NORMAL];
+        int responeEnd = [[BtNotify sharedInstance] send:@"epo_update_data" receiver:@"epo_update_data" dataAction:2 dataToSend:[@"end" dataUsingEncoding:NSUTF8StringEncoding] needProgress:YES sendPriority:SPC_PRIORITY_NORMAL];
         if (responeEnd > 0) {
             NSLog(@"ERROR: send end epo_update_data: %d ",responeEnd);
             return;
@@ -467,7 +467,7 @@ static int DATA_LEN = 1024;
         NSLog(@"send end epo_update_data: %d",responeEnd);
         [NSThread sleepForTimeInterval:3];
         NSString *md5Data = [BKUtils getFileMD5WithPath:pathEpo];
-        int response = [[BtNotify sharedInstance] send:@"epo_update_md5" receiver:@"epo_update_md5" dataAction:1 dataToSend:[md5Data dataUsingEncoding:NSUTF8StringEncoding] needProgress:YES sendPriority:PRIORITY_NORMAL];
+        int response = [[BtNotify sharedInstance] send:@"epo_update_md5" receiver:@"epo_update_md5" dataAction:1 dataToSend:[md5Data dataUsingEncoding:NSUTF8StringEncoding] needProgress:YES sendPriority:SPC_PRIORITY_NORMAL];
         if (response > 0) {
             NSLog(@"ERROR: send epo_update_md5: %d ",response);
             return;

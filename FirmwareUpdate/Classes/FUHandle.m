@@ -133,7 +133,6 @@ static FUHandle *__fuhdle = nil;
 }
 
 - (NSNumber *)deviceModelNumber {
-    
     if ([self.delegate respondsToSelector:@selector(fuHandleReturnModelDfu)]) {
         return @([self.delegate fuHandleReturnModelDfu]);
     }
@@ -295,9 +294,9 @@ static FUHandle *__fuhdle = nil;
 
     NSNumber *modelNum = [self deviceModelNumber];
     
-    NSNumber *appVersion = @(1000);
+    NSNumber *appVersion = @(1);
     NSNumber *deviceType = @1;
-    RequestFirmwareUpdateApi *rfuApi = [[RequestFirmwareUpdateApi alloc] initWithDevicePlatform:@(platform) andDeviceType:deviceType andDeviceModel:modelNum andFirmwareVersion:deviceVersion andApp:3 andAppVersion:appVersion];
+    RequestFirmwareUpdateApi *rfuApi = [[RequestFirmwareUpdateApi alloc] initWithDevicePlatform:@(platform) andDeviceType:deviceType andDeviceModel:modelNum andFirmwareVersion:deviceVersion andApp:6 andAppVersion:appVersion];
     [rfuApi sendRequestWithCompletionBlockWithSuccess:^(__kindof IWBasicRequest * _Nonnull request) {
         completion(request,request.error);
     } failure:^(__kindof IWBasicRequest * _Nonnull request) {

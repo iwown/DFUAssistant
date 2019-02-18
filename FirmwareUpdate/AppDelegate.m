@@ -24,7 +24,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    [YCNetworkSetting shareSetting].baseUrl = @"http://betaapi.iwown.com";
+    [YCNetworkSetting shareSetting].baseUrl = @"http://hwbetaapi.iwown.com";
     
     DCViewController *faseVC = [[DCViewController alloc] init];
     faseVC.tabBarItem.title = @"Fasting Upgrade";

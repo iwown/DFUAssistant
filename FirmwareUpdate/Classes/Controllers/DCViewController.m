@@ -324,7 +324,6 @@ typedef enum{
 }
 
 - (void)upgradeBtnClick:(UIButton *)btn {
-    
     [self requestForCheckDFU];
 }
 

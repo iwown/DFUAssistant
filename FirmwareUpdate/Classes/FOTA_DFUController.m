@@ -10,7 +10,7 @@
 #import "BLEShareInstance.h"
 #import "FOTA_DFUController.h"
 
-@interface FOTA_DFUController ()<NotifyFotaDelegate>
+@interface FOTA_DFUController ()<SPC_NotifyFotaDelegate>
 {
     BOOL _timeOutFlag;
 }
@@ -44,10 +44,10 @@
     BOOL isReady = [[BtNotify sharedInstance] isReadyToSend];
     
     NSData* data = [[NSData alloc] initWithContentsOfFile:firmwareURL];
-    int response = [[BtNotify sharedInstance] sendFotaData:FBIN_FOTA_UPDATE firmwareData:data];
+    int response = [[BtNotify sharedInstance] sendFotaData:SPC_FBIN_FOTA_UPDATE firmwareData:data];
     
     NSLog(@"isReadyToSend: %d : %d",isReady,response);
-    if (isReady == 1 && response != ERROR_CODE_NOT_HANDSHAKE_DONE) {
+    if (isReady == 1 && response != SPC_ERROR_CODE_NOT_HANDSHAKE_DONE) {
         [self updateUIWaiting];
         [self performSelector:@selector(isFotaUpgradeTimeOut) withObject:nil afterDelay:15];
     }else {
