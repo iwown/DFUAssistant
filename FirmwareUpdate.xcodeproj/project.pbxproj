@@ -43,6 +43,8 @@
 		57B84E671D90E58E00BD46AF /* FirmwareListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57B84E661D90E58E00BD46AF /* FirmwareListController.m */; };
 		57B84E6A1D91108800BD46AF /* DeviceConectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57B84E691D91108800BD46AF /* DeviceConectController.m */; };
 		A98FBF0F32CE8ADBBCDEC95D /* libPods-FirmwareUpdate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA0A5D4CAC1E2C8BFEE5337 /* libPods-FirmwareUpdate.a */; };
+		D600D941221BF9C800690BEC /* libMTKBleManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D600D93F221BF9C800690BEC /* libMTKBleManager.a */; };
+		D600D942221BF9C800690BEC /* otool.txt in Resources */ = {isa = PBXBuildFile; fileRef = D600D940221BF9C800690BEC /* otool.txt */; };
 		D6134EA4212E5627006B90E5 /* PBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6134EA3212E5627006B90E5 /* PBViewController.m */; };
 		D630060E20EB837700529427 /* BLEShareInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = D630060D20EB837700529427 /* BLEShareInstance.m */; };
 		D64974A821129B5B00366AA5 /* ZGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D64974A721129B5B00366AA5 /* ZGViewController.m */; };
@@ -175,6 +177,31 @@
 		6B00A63A719EFF8349856480 /* Pods-FirmwareUpdate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirmwareUpdate.release.xcconfig"; path = "Pods/Target Support Files/Pods-FirmwareUpdate/Pods-FirmwareUpdate.release.xcconfig"; sourceTree = "<group>"; };
 		87BDC8D0B886036C8A3CAC4F /* Pods-FirmwareUpdate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirmwareUpdate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FirmwareUpdate/Pods-FirmwareUpdate.debug.xcconfig"; sourceTree = "<group>"; };
 		9DA0A5D4CAC1E2C8BFEE5337 /* libPods-FirmwareUpdate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FirmwareUpdate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D600D924221BF92E00690BEC /* libc.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libc.tbd; path = usr/lib/libc.tbd; sourceTree = SDKROOT; };
+		D600D928221BF9C800690BEC /* BloodPressureService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BloodPressureService.h; sourceTree = "<group>"; };
+		D600D929221BF9C800690BEC /* DefaultAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultAlert.h; sourceTree = "<group>"; };
+		D600D92A221BF9C800690BEC /* MTKBleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTKBleManager.h; sourceTree = "<group>"; };
+		D600D92B221BF9C800690BEC /* MTKBleProximityService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTKBleProximityService.h; sourceTree = "<group>"; };
+		D600D92C221BF9C800690BEC /* MTKBlePeripheralManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTKBlePeripheralManager.h; sourceTree = "<group>"; };
+		D600D92D221BF9C800690BEC /* FmpGattClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FmpGattClient.h; sourceTree = "<group>"; };
+		D600D92E221BF9C800690BEC /* ControllerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControllerManager.h; sourceTree = "<group>"; };
+		D600D92F221BF9C800690BEC /* BLEClientProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEClientProfile.h; sourceTree = "<group>"; };
+		D600D930221BF9C800690BEC /* IAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAlert.h; sourceTree = "<group>"; };
+		D600D931221BF9C800690BEC /* VolumeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeController.h; sourceTree = "<group>"; };
+		D600D932221BF9C800690BEC /* WearableManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WearableManager.h; sourceTree = "<group>"; };
+		D600D933221BF9C800690BEC /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
+		D600D934221BF9C800690BEC /* AlertService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertService.h; sourceTree = "<group>"; };
+		D600D935221BF9C800690BEC /* DataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataParser.h; sourceTree = "<group>"; };
+		D600D936221BF9C800690BEC /* GATTLinker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GATTLinker.h; sourceTree = "<group>"; };
+		D600D937221BF9C800690BEC /* SOSCallOperator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSCallOperator.h; sourceTree = "<group>"; };
+		D600D938221BF9C800690BEC /* SOSContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSContact.h; sourceTree = "<group>"; };
+		D600D939221BF9C800690BEC /* Linker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Linker.h; sourceTree = "<group>"; };
+		D600D93A221BF9C800690BEC /* BodyTemperatureService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BodyTemperatureService.h; sourceTree = "<group>"; };
+		D600D93B221BF9C800690BEC /* FmpCentral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FmpCentral.h; sourceTree = "<group>"; };
+		D600D93C221BF9C800690BEC /* HealthKitManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HealthKitManager.h; sourceTree = "<group>"; };
+		D600D93D221BF9C800690BEC /* PdmsSleepService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdmsSleepService.h; sourceTree = "<group>"; };
+		D600D93F221BF9C800690BEC /* libMTKBleManager.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMTKBleManager.a; sourceTree = "<group>"; };
+		D600D940221BF9C800690BEC /* otool.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = otool.txt; sourceTree = "<group>"; };
 		D6134EA2212E5627006B90E5 /* PBViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBViewController.h; sourceTree = "<group>"; };
 		D6134EA3212E5627006B90E5 /* PBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBViewController.m; sourceTree = "<group>"; };
 		D630060C20EB837700529427 /* BLEShareInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEShareInstance.h; sourceTree = "<group>"; };
@@ -245,6 +272,7 @@
 				D6C727FF20F8A71100CBB618 /* Zip.framework in Frameworks */,
 				D6C7281B20F8B3B900CBB618 /* YCNetworkLibrary.framework in Frameworks */,
 				574915A51D8FD8A3006F01C3 /* libz.tbd in Frameworks */,
+				D600D941221BF9C800690BEC /* libMTKBleManager.a in Frameworks */,
 				D6C727FD20F8A71100CBB618 /* iOSDFULibrary.framework in Frameworks */,
 				574915A31D8FD6FB006F01C3 /* Foundation.framework in Frameworks */,
 				574915A11D8FD6F2006F01C3 /* UIKit.framework in Frameworks */,
@@ -309,6 +337,7 @@
 		5704C2481EC1B14A005A7BCC /* Fota */ = {
 			isa = PBXGroup;
 			children = (
+				D600D926221BF9C800690BEC /* Mediatek */,
 				D68D57221F6FCF3F00CC1DCB /* BtNotify.h */,
 				D68D57231F6FCF3F00CC1DCB /* libBtNotify.a */,
 			);
@@ -402,6 +431,7 @@
 		5749159F1D8FD6F2006F01C3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D600D924221BF92E00690BEC /* libc.tbd */,
 				574915A41D8FD8A3006F01C3 /* libz.tbd */,
 				574915A21D8FD6FB006F01C3 /* Foundation.framework */,
 				574915A01D8FD6F2006F01C3 /* UIKit.framework */,
@@ -503,6 +533,53 @@
 				6B00A63A719EFF8349856480 /* Pods-FirmwareUpdate.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		D600D926221BF9C800690BEC /* Mediatek */ = {
+			isa = PBXGroup;
+			children = (
+				D600D927221BF9C800690BEC /* include */,
+				D600D93E221BF9C800690BEC /* lib */,
+			);
+			path = Mediatek;
+			sourceTree = "<group>";
+		};
+		D600D927221BF9C800690BEC /* include */ = {
+			isa = PBXGroup;
+			children = (
+				D600D928221BF9C800690BEC /* BloodPressureService.h */,
+				D600D929221BF9C800690BEC /* DefaultAlert.h */,
+				D600D92A221BF9C800690BEC /* MTKBleManager.h */,
+				D600D92B221BF9C800690BEC /* MTKBleProximityService.h */,
+				D600D92C221BF9C800690BEC /* MTKBlePeripheralManager.h */,
+				D600D92D221BF9C800690BEC /* FmpGattClient.h */,
+				D600D92E221BF9C800690BEC /* ControllerManager.h */,
+				D600D92F221BF9C800690BEC /* BLEClientProfile.h */,
+				D600D930221BF9C800690BEC /* IAlert.h */,
+				D600D931221BF9C800690BEC /* VolumeController.h */,
+				D600D932221BF9C800690BEC /* WearableManager.h */,
+				D600D933221BF9C800690BEC /* Controller.h */,
+				D600D934221BF9C800690BEC /* AlertService.h */,
+				D600D935221BF9C800690BEC /* DataParser.h */,
+				D600D936221BF9C800690BEC /* GATTLinker.h */,
+				D600D937221BF9C800690BEC /* SOSCallOperator.h */,
+				D600D938221BF9C800690BEC /* SOSContact.h */,
+				D600D939221BF9C800690BEC /* Linker.h */,
+				D600D93A221BF9C800690BEC /* BodyTemperatureService.h */,
+				D600D93B221BF9C800690BEC /* FmpCentral.h */,
+				D600D93C221BF9C800690BEC /* HealthKitManager.h */,
+				D600D93D221BF9C800690BEC /* PdmsSleepService.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		D600D93E221BF9C800690BEC /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				D600D93F221BF9C800690BEC /* libMTKBleManager.a */,
+				D600D940221BF9C800690BEC /* otool.txt */,
+			);
+			path = lib;
 			sourceTree = "<group>";
 		};
 		D630060B20EB834C00529427 /* BLE */ = {
@@ -694,6 +771,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D600D942221BF9C800690BEC /* otool.txt in Resources */,
 				D650D2411F710162006DD133 /* 加载成功青蛙@2x.png in Resources */,
 				D6E58C9620FF472200399E8A /* data_dfu.json in Resources */,
 				D6E58C9220FF472200399E8A /* imgd_2.png in Resources */,
@@ -928,6 +1006,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FirmwareUpdate/Classes/IVBLE",
 					"$(PROJECT_DIR)/FirmwareUpdate/Classes/Fota",
+					"$(PROJECT_DIR)/FirmwareUpdate/Classes/Fota/Mediatek/lib",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iwown.dfuAssistant;
@@ -959,6 +1038,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FirmwareUpdate/Classes/IVBLE",
 					"$(PROJECT_DIR)/FirmwareUpdate/Classes/Fota",
+					"$(PROJECT_DIR)/FirmwareUpdate/Classes/Fota/Mediatek/lib",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iwown.dfuAssistant;

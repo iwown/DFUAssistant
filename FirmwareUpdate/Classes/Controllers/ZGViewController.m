@@ -27,7 +27,6 @@
 }
 
 - (void)startDfuWithPeripheral:(CBPeripheral *)peril {
-    
     NSURL *url = _zipUrl;
     if (!url) {
         [self updateUIFail];
