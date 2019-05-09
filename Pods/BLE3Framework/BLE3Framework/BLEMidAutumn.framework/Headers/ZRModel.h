@@ -116,6 +116,21 @@
  * 跑行步幅校正 范围 【50，200】
  */
 @property (nonatomic ,assign) NSUInteger distanceSizeRun;
+
+/**! systolic pressure By Band 收缩压，手环测结果*/
+@property (nonatomic ,assign) NSUInteger syoicPsureBand;
+/**! diastolic pressure By Band 舒张压*/
+@property (nonatomic ,assign) NSUInteger dsoicPsureBand;
+
+/**! systolic pressure By Sphygmomanometer 收缩压，血压计测结果*/
+@property (nonatomic ,assign) NSUInteger syoicPsureSmeter;
+/**! diastolic pressure By Sphygmomanometer*/
+@property (nonatomic ,assign) NSUInteger dsoicPsureSmeter;
+
+@property (nonatomic ,assign) NSUInteger difSbp;
+
+@property (nonatomic ,assign) NSUInteger difDbp;
+
 @end
 
 @interface ZRTargetOnceDay : ZRModel
@@ -162,12 +177,7 @@ typedef enum {
 @property(nonatomic,copy)NSString *title;
 @property(nonatomic,copy)NSString *subTitle;
 
-@property(nonatomic,assign)NSInteger year;
-@property(nonatomic,assign)NSInteger month;
-@property(nonatomic,assign)NSInteger day;
-
-@property(nonatomic,assign)NSInteger hour;
-@property(nonatomic,assign)NSInteger minute;
+@property(nonatomic,strong)NSDate *date;
 
 /**
  高3位是铃声 0~7对应不同铃声
@@ -179,9 +189,12 @@ typedef enum {
 
 @property(nonatomic,assign)BLEScheduleState state;
 
-@property(nonatomic,strong)NSDate   *invalidDate;
+@property(nonatomic,strong)NSDate *invalidDate;
 
+/** use initWithTitile:subTitle:andDate: instead*/
 - (instancetype)initWithTitile:(NSString *)title subTitle:(NSString *)subTitle year:(NSInteger)year month:(NSInteger)month day:(NSInteger)day hour:(NSInteger)hour minute:(NSInteger)minute;
+
+- (instancetype)initWithTitile:(NSString *)title subTitle:(NSString *)subTitle andDate:(NSDate *)date;
 @end
 
 typedef NS_ENUM (NSInteger,ShakeType){
@@ -272,7 +285,7 @@ typedef NS_ENUM (NSInteger,DNDType){
 @end
 
 
-typedef NS_ENUM(NSInteger,WeatherType) {
+typedef NS_ENUM(NSInteger,IVWeatherType) {
     WeatherFine = 0,            //晴
     WeatherCloudy = 1,          //多云
     WeatherOvercast = 2,        //阴天
@@ -297,7 +310,7 @@ typedef NS_ENUM(NSInteger,TempUnit) {
 
 @property (nonatomic,assign)NSInteger temp;//温度值
 @property (nonatomic,assign)TempUnit unit;
-@property (nonatomic,assign)WeatherType  type;
+@property (nonatomic,assign)IVWeatherType  type;
 @property (nonatomic,assign)NSInteger pm;
 
 - (NSInteger)celsiusDegree;
@@ -310,7 +323,8 @@ typedef NS_ENUM(NSInteger,TempUnit) {
 
 @property (nonatomic,assign)NSInteger tempMax;
 @property (nonatomic,assign)NSInteger tempMin;
-@property (nonatomic,assign)WeatherType type;
+@property (nonatomic,assign)IVWeatherType type;
+@property (nonatomic,assign)NSInteger pm;
 
 @end
 
@@ -474,13 +488,47 @@ typedef NS_ENUM (NSInteger,ZRRollMsgType){
  */
 @property (nonatomic, strong) NSString *username_data;
 
-/**
- * 13BYTE 备用
- */
-@property (nonatomic, strong) NSString *blank;
 
-- (NSString *)getSetCmdStr;
+@property (nonatomic, assign) NSInteger user_height;
+
+@property (nonatomic, assign) NSInteger user_gender;
+
+@property (nonatomic, assign) NSInteger srcSbp_LB;
+
+@property (nonatomic, assign) NSInteger srcSbp_HB;
+
+@property (nonatomic, assign) NSInteger srcDbp_LB;
+
+@property (nonatomic, assign) NSInteger srcDbp_HB;
+
+@property (nonatomic, assign) NSInteger dstSbp_LB;
+
+@property (nonatomic, assign) NSInteger dstSbp_HB;
+
+@property (nonatomic, assign) NSInteger dstDbp_LB;
+
+@property (nonatomic, assign) NSInteger dstDbp_HB;
+
+@property (nonatomic, assign) NSInteger difSbp;
+
+@property (nonatomic, assign) NSInteger difDbp;
+
+@property (nonatomic, assign) BOOL bp_enable;
+
+/**
+ * 3BYTE 备用
+ */
+@property (nonatomic, strong) NSString *Reseve;
+
+- (NSString *)getSetCmdStrWithIsOldParse:(BOOL)isOld;
 
 @end
 
 
+@interface ZRAfConfModel : ZRModel
+
+@property (nonatomic, assign) BOOL isAutoRun;
+
+@property (nonatomic, assign) NSUInteger interval;
+
+@end

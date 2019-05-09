@@ -84,6 +84,15 @@
             return @"I6NH";
         }
             break;
+        case 15:
+            return @"I5PK";
+            break;
+        case 16:
+            return @"I6J0";
+            break;
+        case 18:
+            return @"I6JA";
+            break;
         case 20:
         {
             return @"I6H9";
@@ -135,14 +144,25 @@
         }
             break;
         case 39:
-        {
             return @"i6H1";
-        }
             break;
         case 47:
-        {
             return @"I7F1";
-        }
+            break;
+        case 60:
+            return @"P5J";
+            break;
+        case 64:
+            return @"I7G1";
+            break;
+        case 66:
+            return @"P1MINI";
+            break;
+        case 70:
+            return @"I7B";
+            break;
+        case 79:
+            return @"I7E";
             break;
             
         default:

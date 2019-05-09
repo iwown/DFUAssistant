@@ -12,7 +12,7 @@
 typedef struct {
     uint16_t seqStart;
     uint16_t seqEnd;
-    RecorDate storeDate;
+    RecortDate storeDate;
 }DateDataInfo;
 
 typedef struct {
@@ -23,10 +23,13 @@ typedef struct {
 
 typedef enum {
     ZRDITypeNormalData = 0x00, //Normal data in Colorful Screen Band.
+    ZRDITypeGPSData = 0x8c, //GPS data in Colorful Screen Band.
     ZRDITypeHbridHealth = 0x28, //0x28,0x29,0x51,0x53. Hbrid data for classical band.
     ZRDITypeNormalHealth = 0x61, //Normal health data for Watch
     ZRDITypeGNSSData = 0x62, // GNSS data in Watch
     ZRDITypeECGHealth = 0x64,// ECG data in Watch
+    ZRDITypePPGHealth = 0x65,// PPG data in Watch
+    ZRDITypeRRIHealth = 0x66,// RRI data in Watch
     ZRDITypeEarPhoneData = 0x68
 } ZRDIType;
 
@@ -36,6 +39,8 @@ typedef enum {
 @property (nonatomic ,strong) NSDate *date;
 @property (nonatomic ,assign) NSInteger seqStart;
 @property (nonatomic ,assign) NSInteger seqEnd;
+@property (nonatomic ,assign) NSInteger gpsStoreBlock;
+@property (nonatomic ,assign) NSInteger gpsStoreSector;
 
 @end
 
@@ -48,6 +53,7 @@ typedef enum {
 + (instancetype)zrDataInfoFromDateStoreInfo:(DateStoreInfo)dsInfo;
 + (instancetype)zrDataInfoFromTDateStoreInfo:(TDateStoreInfo)tdsInfo;
 + (instancetype)zrDataInfoFromZRHealthData:(NSDictionary *)dataDict;
++ (instancetype)zrDataInfoFromGPSDataInfoDict:(NSDictionary *)dataDict;
 
 - (NSArray <NSDate *>*)getDateArray;
 
@@ -64,9 +70,14 @@ typedef enum {
     HDTypeGNSSMinute = 0x62, //GNSS per minuter data
     HDTypeGNSSNow = 0x63,  //GNSS即时数据
     HDTypeECG = 0x64,  //ECG数据
+    HDTypePPG = 0x65,  //PPG数据
+    HDTypeRRI = 0x66,  //房颤数据
     HDTypeEarPhoneHealth = 0x68, //耳机运动数据
     
     HDTypeZGStep = 0x8901,
+    HDTypeZGExercise = 0x8B,
+    HDTypeZGGPS = 0x8C,
+    
 } HDType;
 
 typedef struct {
@@ -179,34 +190,62 @@ typedef struct {
 @end
 
 
-@interface ZRData61Model : ZRHealthData
+typedef struct ZRHealthMdt {
+    float sdnn;
+    float rmssd;
+    float pnn50;
+    float mean;
+    /*
+     HisMdtState_Prepare = 0,
+     HisMdtState_Ongoing = 1,
+     HisMdtState_Relax = 2,
+     */
+    int status;
+    float result;
+    float relax;
+}ZRHealthMdt;
 
+@interface ZRData61Model : ZRHealthData
+//用户id，SDK内不赋值，可忽略
 @property (nonatomic, strong)NSString  *uid;
+//数据来源，设备名
 @property (nonatomic, strong)NSString  *data_from;
+//请忽略，查看recordDate
 @property (nonatomic, strong)NSString  *date;
-@property (nonatomic, assign)NSInteger data_type;//16进制   0010 0001=21
-@property (nonatomic, assign)NSInteger sport_type;  //10进制
+//16进制   0010 0001=21
+@property (nonatomic, assign)NSInteger data_type;
+//10进制 运动类型 sd_sportType
+@property (nonatomic, assign)NSInteger sport_type;
 @property (nonatomic, assign)NSInteger step;
 @property (nonatomic, assign)float     distance;    //单位：米
 @property (nonatomic, assign)float     calorie;     //单位：千卡
+//10进制，运动状态，1-开始，2-结束，3-暂停，4-运动持续中
 @property (nonatomic, assign)NSInteger state_type;
 @property (nonatomic, assign)NSInteger second;      //秒
-@property (nonatomic, assign)NSInteger pre_minute;  //自动识别某项运动，开始前已经运动的一段时间（单位：分钟）
+//自动识别某项运动，开始前已经运动的一段时间（单位：分钟），大于0表示运动为自动识别
+@property (nonatomic, assign)NSInteger pre_minute;
+//心率
 @property (nonatomic, assign)NSInteger min_bpm;
 @property (nonatomic, assign)NSInteger max_bpm;
 @property (nonatomic, assign)NSInteger avg_bpm;
+//hrv相关参数
 @property (nonatomic, assign)NSInteger level;
 @property (nonatomic, assign)NSInteger sdnn;
 @property (nonatomic, assign)NSInteger rmssd;
 @property (nonatomic, assign)NSInteger pnn50;
 @property (nonatomic, assign)NSInteger mean;
+//疲劳度
 @property (nonatomic, assign)NSInteger fatigue;
-//hrv
+//血压，sbp-收缩压 ；dbp-舒张压
 @property (nonatomic, assign)NSInteger sbp;
 @property (nonatomic, assign)NSInteger dbp;
 @property (nonatomic, assign)NSInteger bpm;
 
-@property (nonatomic, strong)NSString  *cmd;
+//mdt
+@property (nonatomic, assign) ZRHealthMdt healthMdt;
+
+//睡眠数据，用于计算睡眠用的，需写入.json文件中
+@property (nonatomic, strong) id sleepCmd;
 
 @end
 
@@ -240,6 +279,26 @@ typedef struct {
 @end
 
 
+/**! PPG*/
+@interface ZRPPGModel : ZRHealthData
+
+@property (nonatomic, strong) NSString  *uid;
+@property (nonatomic, strong) NSString  *data_from;
+@property (nonatomic ,strong) NSArray *dataArray;
+
+@end
+
+
+/**! 房颤*/
+@interface ZRRRIModel : ZRHealthData
+
+@property (nonatomic, strong) NSString  *uid;
+@property (nonatomic, strong) NSString  *data_from;
+@property (nonatomic ,strong) NSArray *dataArray;
+
+@end
+
+
 @interface ZRData68Model : ZRHealthData
 
 @property (nonatomic, strong)NSString  *uid;
@@ -249,8 +308,8 @@ typedef struct {
 @property (nonatomic, assign)NSInteger sport_type;
 @property (nonatomic, assign)NSInteger state_type;
 @property (nonatomic, assign)NSInteger step;
-@property (nonatomic, assign)NSInteger distance;
-@property (nonatomic, assign)NSInteger calorie;
+@property (nonatomic, assign)float distance;
+@property (nonatomic, assign)float calorie;
 @property (nonatomic, assign)NSInteger rateofstride_max;
 @property (nonatomic, assign)NSInteger rateofstride_min;
 @property (nonatomic, assign)NSInteger rateofstride_avg;
@@ -272,3 +331,30 @@ typedef struct {
 @property (nonatomic, strong)NSString  *cmd;
 
 @end
+
+@interface ZRExerciseDataModel : ZRHealthData
+
+@property (nonatomic, assign)NSInteger exerciseSteps;      //训练的步数，实时更新
+@property (nonatomic, assign)NSInteger exerciseCalories;   //训练的卡路里；一分钟更新一次；
+@property (nonatomic, assign)NSInteger exerciseDistance;   //训练的距离；一分钟更新一次；（单位：米）
+@property (nonatomic, assign)NSInteger exerciseMinutes;    //训练的分钟长度；一分钟更新一次；
+@property (nonatomic, assign)NSInteger exerciseLkHeart;    //训练的及时心率， 实时更新
+@property (nonatomic, assign)sd_sportType exerciseMode;    //当前训练的模式
+
+@end
+
+@interface ZRGPSModel : ZRHealthData
+
+@property (strong ,nonatomic)NSArray *detailData;
+
+@end
+
+@interface ZRBloodPressureModel : ZRHealthData
+
+@property (nonatomic, assign)NSInteger sbp;      //训练的步数，实时更新
+@property (nonatomic, assign)NSInteger dbp;   //训练的卡路里；一分钟更新一次；
+
+@end
+
+
+

@@ -5,8 +5,13 @@
 //  Created by A$CE on 2018/8/2.
 //  Copyright © 2018年 west. All rights reserved.
 //
+#define PB_CHARACTER_ID_WRITE          @"2E8C0003-2D91-5533-3117-59380A40AF8F"
 #define Z4_CHARACTER_ID_WRITE          @"6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
 #define CHARACTER_ID_WRITE             @"FF21"
+
+
+#define PROBUFF_SERVICE_DFU_UUID       @"FE59"
+#define PROBUFF_CHARACT_DFU_UUID       @"8EC90003-F315-4F60-9FB8-838830DAEA50"
 
 
 #import <CoreBluetooth/CoreBluetooth.h>
@@ -26,6 +31,7 @@
     
     CBPeripheral        *_writePeripheral;
     CBCharacteristic    *_writeCharacteristic;
+    BOOL                _writeCharacteristicLock;
 }
 @property (nonatomic, strong)CBCentralManager *bluetoothManager;
 
@@ -90,7 +96,6 @@
 
 - (void)dfuBtnClick {
     [self entryDFUState];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -225,8 +230,16 @@
             [peripheral setNotifyValue:YES forCharacteristic:ch];
         }else if ((ch.properties&CBCharacteristicPropertyWrite) > 0 ||
                   (ch.properties&CBCharacteristicPropertyWriteWithoutResponse) > 0) {
+            if (_writeCharacteristicLock) {
+                return;
+            }
+            
             _writePeripheral = peripheral;
             _writeCharacteristic = ch;
+            if ([ch.UUID.UUIDString isEqualToString:PROBUFF_CHARACT_DFU_UUID]) {
+                _writeCharacteristic = ch;
+                _writeCharacteristicLock = YES;
+            }
         }
     }
 }
@@ -239,7 +252,21 @@
         return;
     }
     _writePeripheral = peripheral;
-    [self showUpgradeBtn];
+    if ([characteristic.UUID.UUIDString isEqualToString:PROBUFF_CHARACT_DFU_UUID]) {
+        [NSThread sleepForTimeInterval:3];
+        [self writeUpgradeCmdA];
+    }else {
+        [self showUpgradeBtn];
+    }
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
+    if ([characteristic.UUID.UUIDString isEqualToString:PROBUFF_CHARACT_DFU_UUID]) {
+        [NSThread sleepForTimeInterval:0.2];
+        [self writeUpgradeCmdB];
+        [NSThread sleepForTimeInterval:0.2];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)entryDFUState {
@@ -253,6 +280,30 @@
         NSData *data = [self stringToByte:str];
         [_writePeripheral writeValue:data forCharacteristic:_writeCharacteristic type:CBCharacteristicWriteWithoutResponse];
     }
+    else if ([_writeCharacteristic.UUID isEqual:[CBUUID UUIDWithString:PROBUFF_CHARACT_DFU_UUID]]) {
+        [self deviceUpgrade];
+        return;
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)deviceUpgrade {
+    [_writePeripheral setNotifyValue:YES forCharacteristic:_writeCharacteristic];
+}
+
+- (void)writeUpgradeCmdA {
+    NSLog(@"%s",__func__);
+    NSString *str = @"02084466753236383230";
+    NSData *dataA = [self stringToByte:str];
+    [_writePeripheral writeValue:dataA forCharacteristic:_writeCharacteristic type:CBCharacteristicWriteWithResponse];
+}
+
+- (void)writeUpgradeCmdB {
+    NSLog(@"%s",__func__);
+    NSString *str = @"01";
+    NSData *dataB = [self stringToByte:str];
+    [_writePeripheral writeValue:dataB forCharacteristic:_writeCharacteristic type:CBCharacteristicWriteWithResponse];
 }
 
 - (NSData*)stringToByte:(NSString*)string {

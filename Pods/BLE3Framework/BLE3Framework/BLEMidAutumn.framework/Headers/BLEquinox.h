@@ -86,12 +86,9 @@
    In <BLEProtocol_colorful> device ,these methods would not be invoked when you had implement method responseOfConnectStatus:
  */
 - (void)readRequiredInfoAfterConnect;
-/**
- *  I suggest you here to complete the need for other operations.
- */
-- (void)setBLEParameterAfterConnect;
 
 @optional
+- (void)setBLEParameterAfterConnect DEPRECATED_ATTRIBUTE/*{SDK WILL COMPLEDTED WHEN REVEIVED (readRequiredInfoAfterConnect:). YOU MUST CONTROL ALL CMD YOUR NEED, MESS CMDS MIGHT CAUSE COMMUNICATE BREAKDOWN}*/;
 
 /**
  *  This method would be invoked when the app connected a device who is supportted by protocol2_0
@@ -208,6 +205,64 @@
  @param status (0:SUCCESS, 1:ERROR, 2:NOT_SUPPORTED, 3:INVALID_PARAM, 5:INVALID_STATE, 6:DELAY_REPLAY, 7:NOT_FOUND, 8:IS_BUSY)
  */
 - (void)responseOfExerciseStatus:(NSInteger)status;
+/*
+ @param sportType
+ */
+- (void)responseOfExerciseSport:(sd_sportType)sportType;
+
+#pragma mark- PB_FileUpdate
+- (void)pbFileUpdateDesc:(NSDictionary *)fileDesc;
+/**!
+ type : 0-GPS, 1-FONT
+ status : 0-isOK, 1-Error ,2-Error
+ error : nil mean successful
+ */
+- (void)pbFileUpdateInit:(NSInteger)type andStatus:(NSInteger)status andError:(NSError *)error;
+
+/**!
+ FUDataResponse_Status_Ok = 0,
+ FUDataResponse_Status_ErrorParams = 1,
+ FUDataResponse_Status_ErrorOffsetMismatch = 2,
+ FUDataResponse_Status_ErrorCrc32Mismatch = 3,
+ FUDataResponse_Status_ErrorInner = 4,
+ */
+- (void)pbFileUpdateData:(NSInteger)type andStatus:(NSInteger)status andFileOfSet:(NSInteger)fileOfSet andCrc32AtFileOfSet:(NSInteger)crc32 andError:(NSError *)error;
+
+- (void)pbFileUpdateExitStatus:(NSInteger)status;
+
+
+#pragma mark -
+/**!
+ 检查是否手环是否开启GPS运动
+ */
+- (void)responseOfCheckZgGPSIsOpen:(BOOL)isOpen;
+
+/**!
+ 检查是否手环是否开启AGPS
+ */
+- (void)responseOfCheckZgAGPSIsOpen:(BOOL)isOpen;
+
+/**!
+ AGPS升级校验结果
+ @param status (0:SUCCESS, 1:ERROR)
+ */
+- (void)responseOfZgAGPSUpdatedStatus:(NSInteger)status;
+
+/**!
+ AGPS升级进度
+ Simple progress in Percent
+ */
+- (void)updateAGPSDataProgress:(NSInteger)progress;
+
+/*
+ AGPS升级结束
+ */
+- (void)endUpdateAGPSData;
+
+
+#pragma mark -
+
+- (void)responseOfBloodPressureData:(NSArray *)data;
 
 
 @end

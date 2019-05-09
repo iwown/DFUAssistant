@@ -13,6 +13,7 @@
 @interface ViewController : UIViewController<DFUOperationsDelegate>
 
 @property (strong, nonatomic) CBCentralManager *bluetoothManager;
+
 @property (assign, nonatomic) BOOL autoUpgrading;
 @property (strong, nonatomic) NSArray <CBUUID *>*uuids;
 

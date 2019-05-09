@@ -32,9 +32,11 @@ typedef enum{
     braceletLanguageKorean = 9,
     braceletLanguageArabic = 10,
     braceletLanguageVietnamese = 11,
-    braceletLanguageThai = 12,
-    braceletLanguageTurkish = 13,
+    braceletLanguagePolish = 12,
+    braceletLanguageRomanian = 13,
     braceletLanguageSwedish = 14,
+    braceletLanguageThai = 15,
+    braceletLanguageTurkish = 16,
     braceletLanguageSimpleMarkings = 0xff, //This setting means no char ,all information replaced by figure. show simple icon only.
 }braceletLanguage;
 
@@ -48,9 +50,11 @@ typedef enum{
  */
 @property (nonatomic ,assign) BOOL ledSwitch;
 
-
-//惯用手 默认左手
-@property (nonatomic,assign)BOOL  leftHand;
+/**
+ * switch of strong hand, default is YES, left.
+ * 惯用手 默认YSE, 左手。
+ */
+@property (nonatomic,assign)BOOL leftHand;
 /**
  * switch of wrist ,default is YES.
  * 翻腕开关,默认为YES。
@@ -139,6 +143,11 @@ typedef enum{
  * 佩戴识别开关
  */
 @property (nonatomic ,assign) BOOL wearRecognize;
+
+/** 0[default]: Celsius, 1: Fahrenheit */
+@property (nonatomic ,assign) BOOL temperatureUnit;
+
+@property (nonatomic ,copy) NSString *nickName;
 
 - (void)copyOptionForWatch:(ZRHWOption *)hwOption;
 

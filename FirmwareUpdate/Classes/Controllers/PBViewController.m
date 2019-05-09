@@ -16,8 +16,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"PB_DFU";
-    CBUUID *aUuid = [CBUUID UUIDWithString:@"0001"];
-    self.uuids = @[aUuid];
+    CBUUID *bUuid = [CBUUID UUIDWithString:@"FE59"];
+    self.uuids = @[bUuid];
 }
 /*
 #pragma mark - Navigation

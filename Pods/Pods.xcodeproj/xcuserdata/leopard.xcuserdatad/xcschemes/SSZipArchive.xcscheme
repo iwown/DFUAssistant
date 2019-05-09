@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1000"
+   LastUpgradeVersion = "1020"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C90DFC7206D94E4CC6E2CEEB1677FE29"
-               BuildableName = "libSSZipArchive.a"
+               BlueprintIdentifier = "F434D18F5E246F910B8EF2C2D12F9711"
+               BuildableName = "SSZipArchive.framework"
                BlueprintName = "SSZipArchive"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
@@ -45,8 +45,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C90DFC7206D94E4CC6E2CEEB1677FE29"
-            BuildableName = "libSSZipArchive.a"
+            BlueprintIdentifier = "F434D18F5E246F910B8EF2C2D12F9711"
+            BuildableName = "SSZipArchive.framework"
             BlueprintName = "SSZipArchive"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>

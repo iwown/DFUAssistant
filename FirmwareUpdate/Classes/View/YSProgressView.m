@@ -112,7 +112,7 @@
     double durationValue = (_progressValue/2.0) / maxValue + .5;
     dispatch_async(dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:durationValue animations:^{
-            self.progressView.frame = _rect_progressView;
+            self.progressView.frame = self->_rect_progressView;
         }];
     });
 }

@@ -13,7 +13,6 @@
 #import "DeviceStorage.h"
 #import "FirmwareListController.h"
 
-#define UIALERTVIEW_TAG_REBOOT 1
 @interface DUViewController ()<UITableViewDelegate,UITableViewDataSource,FirmwareListControllerDelegate>
 @property (nonatomic ,strong)PercentView *percentView;
 @property (nonatomic ,strong)UITableView *tableView;
@@ -178,8 +177,10 @@
 
 - (void)startForDFU {
     if (!self.firmwareURL || !self.device) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"找不到设备或文件，无法升级" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"知道了", nil];
-        [alert show];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Message" message:@"找不到设备或文件，无法升级" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:cancelAction];
+        [self.navigationController presentViewController:alertController animated:YES completion:nil];
         return;
     }
     step = 1;
@@ -258,9 +259,10 @@ static int nameIndex = 0;
                 [self doStep];
             } else {
                 // Else display an error message
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [alertView show];
-                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Message" message:message preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+                [alertController addAction:cancelAction];
+                [self.navigationController presentViewController:alertController animated:YES completion:nil];              
                 expectedValue = 0; // Reset
                 [autoscrollTimer invalidate];
             }
@@ -406,9 +408,20 @@ static int nameIndex = 0;
             
             case 7: {
                 // Wait for user to confirm reboot
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"升级完成", @"Device has been updated") message:NSLocalizedString(@"为了保证所有功能正常使用，请在“设置”->“蓝牙”中忽略设备，并在设备重启后重新绑定连接",@"Do you wish to reboot the device?") delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"NO") otherButtonTitles:NSLocalizedString(@"OK", @"Yes, reboot"), nil];
-                [alert setTag:UIALERTVIEW_TAG_REBOOT];
-                [alert show];
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"升级完成" message:@"为了保证所有功能正常使用，请在“设置”->“蓝牙”中忽略设备，并在设备重启后重新绑定连接" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"CANCEL" style:UIAlertActionStyleCancel handler:nil];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    // Send reboot signal to device
+                    self->step = 8;
+                    int suotaEnd = 0xFD000000;
+                    [self debug:[NSString stringWithFormat:@"Sending data: %#10x", suotaEnd]];
+                    NSData *suotaEndData = [NSData dataWithBytes:&suotaEnd length:sizeof(int)];
+                    [self->manager writeValue:[self->manager IntToCBUUID:SPOTA_SERVICE_UUID] characteristicUUID:[CBUUID UUIDWithString:SPOTA_MEM_DEV_UUID] p:self->manager.device data:suotaEndData];
+                    [self updateUIAferComplete];
+                }];
+                [alertController addAction:cancelAction];
+                [alertController addAction:okAction];
+                [self.navigationController presentViewController:alertController animated:YES completion:nil];
                 break;
             }
             
@@ -419,23 +432,6 @@ static int nameIndex = 0;
             }
     }
 }
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [autoscrollTimer invalidate];
-    
-    if (alertView.tag == UIALERTVIEW_TAG_REBOOT) {
-        if (buttonIndex != alertView.cancelButtonIndex) {
-            // Send reboot signal to device
-            step = 8;
-            int suotaEnd = 0xFD000000;
-            [self debug:[NSString stringWithFormat:@"Sending data: %#10x", suotaEnd]];
-            NSData *suotaEndData = [NSData dataWithBytes:&suotaEnd length:sizeof(int)];
-            [manager writeValue:[manager IntToCBUUID:SPOTA_SERVICE_UUID] characteristicUUID:[CBUUID UUIDWithString:SPOTA_MEM_DEV_UUID] p:manager.device data:suotaEndData];
-            [self updateUIAferComplete];
-        }
-    }
-}
-
 
 - (NSString*) getErrorMessage:(SPOTA_STATUS_VALUES)status {
     NSString *message;
