@@ -45,19 +45,15 @@ NSString * const zg_dfuServiceUUIDString = @"FE59";
         return;
     }
     //create a DFUFirmware object using a NSURL to a Distribution Packer(ZIP)
-    DFUFirmware *selectedFirmware = [[DFUFirmware alloc] initWithUrlToZipFile:url];// or
+    DFUFirmware *selectedFirmware = [[DFUFirmware alloc] initWithUrlToZipFile:url];
     //Use the DFUServiceInitializer to initialize the DFU process.
-    DFUServiceInitiator *initiator = [[DFUServiceInitiator alloc] initWithCentralManager:self.bluetoothManager target:peril];
+    dispatch_queue_t mainQueue = dispatch_get_main_queue();
+    DFUServiceInitiator *initiator = [[DFUServiceInitiator alloc] initWithQueue:mainQueue delegateQueue:mainQueue progressQueue:mainQueue loggerQueue:mainQueue];
     DFUServiceInitiator *seInitiator = [initiator withFirmware:selectedFirmware];
-    // Optional:
-    // initiator.forceDfu = YES/NO; // default NO
-    // initiator.packetReceiptNotificationParameter = N; // default is 12
     initiator.logger = self; // - to get log info
     initiator.delegate = self; // - to be informed about current state and errors
     initiator.progressDelegate = self; // - to show progress bar
-    // initiator.peripheralSelector = ... // the default selector is used
-    
-    DFUServiceController *controller = [initiator start];
+    DFUServiceController *controller = [initiator startWithTarget:peril];
     NSLog(@"%@ === %@",seInitiator,controller);
 }
 
