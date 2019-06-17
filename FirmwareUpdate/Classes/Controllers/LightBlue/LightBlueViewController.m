@@ -95,6 +95,7 @@
 }
 
 - (void)dfuBtnClick {
+    _upgradeBtn.backgroundColor = [UIColor colorWithRed:0xDD/255.0 green:0xDD/255.0 blue:0xDD/255.0 alpha:0.2];
     [self entryDFUState];
 }
 
@@ -178,6 +179,8 @@
         case CBManagerStatePoweredOn:
         {
             NSLog(@">>>CBManagerStatePoweredOn");
+            NSArray *peripheralsB = [central retrieveConnectedPeripheralsWithServices:[self searchServiceUUids]];
+            [_dataSource addObjectsFromArray:peripheralsB];
             //开始扫描周围的外设
             NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], CBCentralManagerScanOptionAllowDuplicatesKey, nil];
             [central scanForPeripheralsWithServices:nil options:options];
@@ -186,6 +189,16 @@
         default:
             break;
     }
+}
+
+- (NSArray *)searchServiceUUids {
+    NSArray *uuids = @[@"FEF5", @"180D"];
+    NSMutableArray *sIDs = [NSMutableArray arrayWithCapacity:0];
+    for (NSString *str in uuids) {
+        CBUUID *theService= [CBUUID UUIDWithString:str];
+        [sIDs addObject:theService];
+    }
+    return sIDs;
 }
 
 - (void)stopScanDevice {

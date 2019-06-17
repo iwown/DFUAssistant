@@ -17,7 +17,7 @@
 			<key>CFBundleTypeName</key>
 			<string>public.data</string>
 			<key>LSHandlerRank</key>
-			<string>Owner</string>
+			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.data</string>
@@ -32,7 +32,7 @@
 			<key>CFBundleTypeName</key>
 			<string>img</string>
 			<key>LSHandlerRank</key>
-			<string>Owner</string>
+			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.zeronersoftware.molecules.img</string>
@@ -52,7 +52,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1011</string>
+	<string>1012</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
