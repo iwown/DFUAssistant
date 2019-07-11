@@ -57,7 +57,7 @@ NSString * const zgDfuServiceUUIDString = @"FE59";
     
     _label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
     _label.backgroundColor = [UIColor whiteColor];
-    _label.text = @"设备";
+    _label.text = @"Device";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

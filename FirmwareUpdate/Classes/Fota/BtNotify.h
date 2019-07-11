@@ -9,41 +9,41 @@
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
-#define SPC_ERROR_CODE_STEP                             1
+#define ERROR_CODE_STEP                             1
 
-#define SPC_ERROR_CODE_OK                               0
-#define SPC_ERROR_CODE_WRONG_PARAMETER                  (SPC_ERROR_CODE_OK - SPC_ERROR_CODE_STEP)
-#define SPC_ERROR_CODE_NOT_INITED                       (SPC_ERROR_CODE_WRONG_PARAMETER - SPC_ERROR_CODE_STEP)
-#define SPC_ERROR_CODE_NOT_STARTED                      (SPC_ERROR_CODE_NOT_INITED - SPC_ERROR_CODE_STEP)
-#define SPC_ERROR_CODE_NOT_HANDSHAKE_DONE               (SPC_ERROR_CODE_NOT_STARTED - SPC_ERROR_CODE_STEP)
+#define ERROR_CODE_OK                               0
+#define ERROR_CODE_WRONG_PARAMETER                  (ERROR_CODE_OK - ERROR_CODE_STEP)
+#define ERROR_CODE_NOT_INITED                       (ERROR_CODE_WRONG_PARAMETER - ERROR_CODE_STEP)
+#define ERROR_CODE_NOT_STARTED                      (ERROR_CODE_NOT_INITED - ERROR_CODE_STEP)
+#define ERROR_CODE_NOT_HANDSHAKE_DONE               (ERROR_CODE_NOT_STARTED - ERROR_CODE_STEP)
 
-#define SPC_ERROR_CODE_FOTA_WRONG_TYPE                  (SPC_ERROR_CODE_NOT_HANDSHAKE_DONE - SPC_ERROR_CODE_STEP)
+#define ERROR_CODE_FOTA_WRONG_TYPE                  (ERROR_CODE_NOT_HANDSHAKE_DONE - ERROR_CODE_STEP)
 
 // Send priority
-const static int SPC_PRIORITY_NORMAL = 0;
-const static int SPC_PRIORITY_LOW = 1;
-const static int SPC_PRIORITY_HIGH = 2;
+const static int PRIORITY_NORMAL = 0;
+const static int PRIORITY_LOW = 1;
+const static int PRIORITY_HIGH = 2;
 
 // For FOTA
-const static int SPC_FOTA_UPDATE_VIA_BT_TRANSFER_SUCCESS                   = 2;
-const static int SPC_FOTA_UPDATE_VIA_BT_UPDATE_SUCCESS                     = 3;
+const static int FOTA_UPDATE_VIA_BT_TRANSFER_SUCCESS                   = 2;
+const static int FOTA_UPDATE_VIA_BT_UPDATE_SUCCESS                     = 3;
 
-const static int SPC_FOTA_UPDATE_VIA_BT_COMMON_ERROR                       = -1;
-const static int SPC_FOTA_UPDATE_VIA_BT_WRITE_FILE_FAILED                  = -2;
-const static int SPC_FOTA_UPDATE_VIA_BT_DISK_FULL                          = -3;
-const static int SPC_FOTA_UPDATE_VIA_BT_TRANSFER_FAILED                    = -4;
-const static int SPC_FOTA_UPDATE_VIA_BT_TRIGGER_FAILED                     = -5;
-const static int SPC_FOTA_UPDATE_VIA_BT_UPDATE_FAILED                      = -6;
-const static int SPC_FOTA_UPDATE_VIA_BT_TRIGGER_FAILED_CAUSE_LOW_BATTERY   = -7;
+const static int FOTA_UPDATE_VIA_BT_COMMON_ERROR                       = -1;
+const static int FOTA_UPDATE_VIA_BT_WRITE_FILE_FAILED                  = -2;
+const static int FOTA_UPDATE_VIA_BT_DISK_FULL                          = -3;
+const static int FOTA_UPDATE_VIA_BT_TRANSFER_FAILED                    = -4;
+const static int FOTA_UPDATE_VIA_BT_TRIGGER_FAILED                     = -5;
+const static int FOTA_UPDATE_VIA_BT_UPDATE_FAILED                      = -6;
+const static int FOTA_UPDATE_VIA_BT_TRIGGER_FAILED_CAUSE_LOW_BATTERY   = -7;
 
-const static int SPC_REDBEND_FOTA_UPDATE                                   = 0;
-const static int SPC_SEPARATE_BIN_FOTA_UPDATE                              = 1;
-const static int SPC_ROCK_FOTA_UPDATE                                      = 4;
-const static int SPC_FBIN_FOTA_UPDATE                                      = 5;
-const static int SPC_GNSS_FOTA_UPDATE                                      = 6;
+const static int REDBEND_FOTA_UPDATE                                   = 0;
+const static int SEPARATE_BIN_FOTA_UPDATE                              = 1;
+const static int ROCK_FOTA_UPDATE                                      = 4;
+const static int FBIN_FOTA_UPDATE                                      = 5;
+const static int GNSS_FOTA_UPDATE                                      = 6;
 
 // For FOTA version
-@interface SPC_FotaVersion : NSObject
+@interface FotaVersion : NSObject
 
 @property NSString*     version;
 @property NSString*     releaseNote;
@@ -60,7 +60,7 @@ const static int SPC_GNSS_FOTA_UPDATE                                      = 6;
 
 
 #pragma mark - Custom Related Delegate
-@protocol SPC_NotifyCustomDelegate <NSObject>
+@protocol NotifyCustomDelegate <NSObject>
 
 @optional
 -(void)onReadyToSend:(BOOL)ready;
@@ -73,10 +73,10 @@ const static int SPC_GNSS_FOTA_UPDATE                                      = 6;
 @end
 
 #pragma mark - Fota related Delegate
-@protocol SPC_NotifyFotaDelegate <NSObject>
+@protocol NotifyFotaDelegate <NSObject>
 
 @optional
--(void)onFotaVersionReceived:(SPC_FotaVersion *)version;
+-(void)onFotaVersionReceived:(FotaVersion *)version;
 
 -(void)onFotaTypeReceived:(int)fotaType;
 
@@ -126,8 +126,8 @@ const static int SPC_GNSS_FOTA_UPDATE                                      = 6;
  @param data Data to write
  @param needPro Set need progress while sending
  @param pri Send data with priority
- @return If append to SPC_Session manager, return OK,
-         If sender/receiver/data is nil or length is 0, return SPC_ERROR_CODE_WRONG_PARAMETER
+ @return If append to session manager, return OK,
+         If sender/receiver/data is nil or length is 0, return ERROR_CODE_WRONG_PARAMETER
  */
 -(int)send:(NSString *)sender
    receiver:(NSString *)receiver
@@ -142,7 +142,7 @@ sendPriority:(int)pri;
 
  @param delegate Delegate to register
  */
--(void)registerCustomDelegate:(id<SPC_NotifyCustomDelegate>)delegate;
+-(void)registerCustomDelegate:(id<NotifyCustomDelegate>)delegate;
 
 
 /**
@@ -151,7 +151,7 @@ sendPriority:(int)pri;
 
  @param delegate Delegate to unregister
  */
--(void)unregisterCustomDelegate:(id<SPC_NotifyCustomDelegate>)delegate;
+-(void)unregisterCustomDelegate:(id<NotifyCustomDelegate>)delegate;
 
 
 /**
@@ -159,7 +159,7 @@ sendPriority:(int)pri;
 
  @param delegate Delegate to register
  */
--(void)registerFotaDelegate:(id<SPC_NotifyFotaDelegate>)delegate;
+-(void)registerFotaDelegate:(id<NotifyFotaDelegate>)delegate;
 
 
 /**
@@ -168,7 +168,7 @@ sendPriority:(int)pri;
 
  @param delegate Delegate to unregister
  */
--(void)unregisterFotaDelegate:(id<SPC_NotifyFotaDelegate>)delegate;
+-(void)unregisterFotaDelegate:(id<NotifyFotaDelegate>)delegate;
 
 
 /**

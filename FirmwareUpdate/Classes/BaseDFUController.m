@@ -123,7 +123,7 @@ static int bgview_tag = 9239;
 - (void)drawStateInfoView {
     
     _udStateLab = [[UILabel alloc] initWithFrame:CGRectMake(0, NavigationBarHeight + FONT(25), SCREEN_WIDTH, FONT(40))];
-    [_udStateLab setText:@"装备升级"];
+    [_udStateLab setText:@"准备升级"];
     [_udStateLab setTextAlignment:NSTextAlignmentCenter];
     [_udStateLab setTextColor:[UIColor whiteColor]];
     [_udStateLab setNumberOfLines:0];
@@ -371,7 +371,6 @@ static int white_tag = 10299;
 }
 
 - (void)updateUIFail {
-    
     [_udView updateProgress:0.0 color:[UIColor colorFromCode:0xFFFFFF inAlpha:1.0]];
     [self updateUIState:[self getStateParams:@"升级失败" andDFUState:DFUState_Retry]];
 }
@@ -441,7 +440,6 @@ static int white_tag = 10299;
 }
 
 - (void)downloadFirmware:(void(^)(void))downloadFWSuccessful {
-    
     NSLog(@"%s",__func__);
     NSString *fwURL = _fwUrl;
     if (!fwURL) {

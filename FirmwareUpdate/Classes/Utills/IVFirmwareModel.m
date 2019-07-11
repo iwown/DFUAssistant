@@ -152,6 +152,9 @@
         case 60:
             return @"P5J";
             break;
+        case 67:
+            return @"P6J";
+            break;
         case 64:
             return @"I7G1";
             break;

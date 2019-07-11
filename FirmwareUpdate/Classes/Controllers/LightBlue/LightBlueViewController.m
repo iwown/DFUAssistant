@@ -70,7 +70,7 @@
     
     _label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
     _label.backgroundColor = [UIColor whiteColor];
-    _label.text = @"设备";
+    _label.text = @"Device";
     
     [self drawUpgradeButton];
 }
@@ -205,7 +205,7 @@
     [bluetoothManager stopScan];
     [self actViewHidden];
     if ([_dataSource count] <= 0) {
-        _label.text = @"无设备";
+        _label.text = @"No Device Found";
     }
     isRefresh = NO;
     [_table reloadData];

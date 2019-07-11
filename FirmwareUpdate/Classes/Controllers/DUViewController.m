@@ -63,7 +63,7 @@
 }
 
 - (void)initParam {
-    self.titleArray = @[@"设备名称",@"Model nr.",@"Firmware",@"版本"];
+    self.titleArray = @[@"Device Name",@"Model nr.",@"Firmware",@"Version"];
     self.valueArray = [NSMutableArray arrayWithCapacity:0];
     [self.valueArray addObjectsFromArray:@[@"",@"",@"",@""]];
 }
@@ -131,7 +131,7 @@
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         [btn setFrame:CGRectMake(SCREEN_WIDTH*0.25, 20, SCREEN_WIDTH*0.5, 60)];
         [btn setBackgroundColor:[UIColor colorWithRed:92/255.0 green:193/255.0 blue:147/255.0 alpha:1]];
-        [btn setTitle:@"升级" forState:UIControlStateNormal];
+        [btn setTitle:@"Upgrade" forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(startForDFU) forControlEvents:UIControlEventTouchUpInside];
         [btn.layer setMasksToBounds:YES];
         [btn.layer setCornerRadius:5];
@@ -177,7 +177,7 @@
 
 - (void)startForDFU {
     if (!self.firmwareURL || !self.device) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Message" message:@"找不到设备或文件，无法升级" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Message" message:@"Unable to find device or file, unable to upgrade" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
         [alertController addAction:cancelAction];
         [self.navigationController presentViewController:alertController animated:YES completion:nil];

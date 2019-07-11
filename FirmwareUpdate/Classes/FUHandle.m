@@ -168,6 +168,14 @@ static FUHandle *__fuhdle = nil;
         return @36;
     }else if ([model isEqualToString:@"P2J"]){
         return @37;
+    }else if ([model isEqualToString:@"P2J2"]){
+        return @37;
+    }else if ([model isEqualToString:@"P5J"]){
+        return @60;
+    }else if ([model isEqualToString:@"P6J"]){
+        return @67;
+    }else if ([model isEqualToString:@"P1L"]){
+        return @68;
     }else if ([model isEqualToString:@"S2"]){
         return @101;
     }
