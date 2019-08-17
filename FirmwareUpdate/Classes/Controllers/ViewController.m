@@ -38,6 +38,8 @@
     
     UIButton            *_upgradeBtn;
     UIView              *_coverView;
+    
+    BOOL                __StartByAutoCycle;
 }
 
 @end
@@ -122,7 +124,7 @@
 
 - (void)selectDevice {
     DeviceConectController *con = [[DeviceConectController alloc] init];
-    con.autoUpgrading = self.autoUpgrading;
+    con.autoUpgrading = __StartByAutoCycle;
     con.uuids = self.uuids;
     con.delegate = self;
     [self.navigationController pushViewController:con animated:YES];
@@ -236,11 +238,10 @@
 }
 
 - (void)cycleUpgrading {
-    
     if (!self.autoUpgrading) {
         return;
     }
-    
+    __StartByAutoCycle = self.autoUpgrading;
     [self selectDevice];
 }
 

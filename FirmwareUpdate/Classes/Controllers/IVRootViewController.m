@@ -15,7 +15,10 @@
 #import "LightBlueViewController.h"
 #import "Toast.h"
 
-@interface IVRootViewController ()
+@interface IVRootViewController ()<UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic ,strong) UITableView *tableView;
+@property (nonatomic ,strong) NSMutableArray *dataSource;
 
 @end
 
@@ -23,39 +26,71 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[Toast imageWithText:@"Firmware Upgrade"]];
-    
-    self.title = @"Firmware Upgrade";
+    [self initData];
+    [self initUI];
+}
+
+- (void)initData {
+    self.title = @"More Upgrade";
+    _dataSource = [[NSMutableArray alloc] initWithCapacity:0];
     NSArray *arr = @[
-  @{@"btnTitle":@"DFU", @"btnSelectorMethod":@"dfuBtnClick"},
-  @{@"btnTitle":@"DFU\nColorful", @"btnSelectorMethod":@"dfuCBtnClick"},
-  @{@"btnTitle":@"ENTRY\nDFU", @"btnSelectorMethod":@"lightBlueBtnClick"},
-  @{@"btnTitle":@"SOUTA", @"btnSelectorMethod":@"soutaBtnClick"},
-  @{@"btnTitle":@"FOTA", @"btnSelectorMethod":@"fotaBtnClick"},
-  @{@"btnTitle":@"EPO", @"btnSelectorMethod":@"epoBtnClick"},
-  @{@"btnTitle":@"PB_DFU", @"btnSelectorMethod":@"pbDfuBtnClick"},
-  @{@"btnTitle":@"DFU-L\nColorful", @"btnSelectorMethod":@"dfuLoopCBtnClick"}];
-    
-    CGFloat width = SCREEN_WIDTH * 0.2;
-    int total = (int)arr.count;
-    for (int i = 0; i < total; i ++) {
-        NSDictionary *dict = arr[i];
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.titleLabel.numberOfLines = 0;
-        btn.titleLabel.textAlignment = NSTextAlignmentCenter;
-        btn.titleLabel.font = [UIFont systemFontOfSize:FONT(15)];
-        CGFloat x = SCREEN_WIDTH * (0.1 + (i%3) * 0.3);
-        CGFloat y = SCREEN_HEIGHT*0.18 + SCREEN_WIDTH * (0.1 + (i/3) * 0.3);
-        [btn setFrame:CGRectMake(x, y, width, width)];
-        [btn setTitle:dict[@"btnTitle"] forState:UIControlStateNormal];
-        CGFloat red = (i*1.0/total + 0.1) * 0.9;
-        CGFloat green = (1 - i*1.0/total) * 0.9;
-        CGFloat blue = (i*1.0/total) * 0.9;
-        [btn setBackgroundColor:[UIColor colorWithRed:red green:green blue:blue alpha:1]];
-        SEL selector = NSSelectorFromString(dict[@"btnSelectorMethod"]);
-        [btn addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:btn];
+  @{@"btnTitle":@"DFU", @"btnSelectorMethod":@"dfuBtnClick", @"btnDetail":@"dfu way for i5Plus", @"color" : [UIColor blackColor]},
+  @{@"btnTitle":@"ENTRY DFU", @"btnSelectorMethod":@"lightBlueBtnClick", @"btnDetail":@"let device(nodric platform) entry dfu status", @"color" : [UIColor cyanColor]},
+  @{@"btnTitle":@"DFU Protobuf", @"btnSelectorMethod":@"pbDfuBtnClick", @"btnDetail":@"dfu way for I7E(use protobuf protocol)", @"color" : [UIColor greenColor]},
+  @{@"btnTitle":@"DFU-L Protobuf", @"btnSelectorMethod":@"pbLoopDfuBtnClick", @"btnDetail":@"autocycle dfu way for I7E(use protobuf protocol)", @"color" : [UIColor greenColor]},
+  @{@"btnTitle":@"DFU Colorful", @"btnSelectorMethod":@"dfuCBtnClick", @"btnDetail":@"dfu way for I6HC(colorful screen)", @"color" : [UIColor redColor]},
+  @{@"btnTitle":@"DFU-L Colorful", @"btnSelectorMethod":@"dfuLoopCBtnClick", @"btnDetail":@"autocycle dfu way for I6HC(colorful screen)", @"color" : [UIColor redColor]},
+  @{@"btnTitle":@"SOUTA", @"btnSelectorMethod":@"soutaBtnClick", @"btnDetail":@"upgrade way for I6HR(black & white screen)", @"color" : [UIColor darkGrayColor]},
+  @{@"btnTitle":@"FOTA", @"btnSelectorMethod":@"fotaBtnClick", @"btnDetail":@"upgrade way for P1 sport watch(MTK platform)" , @"color" : [UIColor blueColor]},
+  @{@"btnTitle":@"EPO", @"btnSelectorMethod":@"epoBtnClick", @"btnDetail":@"epo upgrade for P1 Sport Watch", @"color" : [UIColor blueColor]}];
+    [_dataSource addObjectsFromArray:arr];
+}
+
+- (void)initUI {
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[Toast imageWithText:@"Firmware Upgrade"]];
+    [self drawTableView];
+}
+
+- (void)drawTableView {
+    _tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [_dataSource count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 79;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *Id = @"cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:Id];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:Id];
     }
+    
+    NSDictionary *dict = _dataSource[indexPath.row];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.text = [NSString stringWithFormat:@"%@",dict[@"btnTitle"]];
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:22];
+    cell.textLabel.textColor = dict[@"color"];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",dict[@"btnDetail"]];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:15];
+    [cell.detailTextLabel setNumberOfLines:0];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSDictionary *dict = _dataSource[indexPath.row];
+    SEL selector = NSSelectorFromString(dict[@"btnSelectorMethod"]);
+    [self performSelectorOnMainThread:selector withObject:nil waitUntilDone:YES];
 }
 
 - (void)lightBlueBtnClick {
@@ -86,6 +121,12 @@
 
 - (void)epoBtnClick {
     [self.navigationController pushViewController:[[EPOViewController alloc] init] animated:YES];
+}
+
+- (void)pbLoopDfuBtnClick {
+    PBViewController *pbVc = [[PBViewController alloc] init];
+    pbVc.autoUpgrading = YES;
+    [self.navigationController pushViewController:pbVc animated:YES];
 }
 
 - (void)pbDfuBtnClick {
