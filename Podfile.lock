@@ -16,7 +16,7 @@ PODS:
     - AFNetworking/NSURLSession
   - BLE3Framework (5.3.9):
     - Protobuf
-  - iOSDFULibrary (4.4.2):
+  - iOSDFULibrary (4.5.1):
     - ZIPFoundation (= 0.9.9)
   - IVBaseKit (0.0.7)
   - lottie-ios (2.5.0)
@@ -52,7 +52,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   BLE3Framework: 15c233374965dbd09e21d51d805eee28ee2b851e
-  iOSDFULibrary: 7f25ff33edd65f7d23bf6ebe4827723509ac091b
+  iOSDFULibrary: 87c6a088cf7172e3694dfaa8305e7ded5eda2547
   IVBaseKit: f105f24b9d6cd4e0ce55dc5903b68d73800497c5
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
