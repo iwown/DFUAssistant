@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D694A86F1E4B01DE37980C9ECDDB98D3"
+               BlueprintIdentifier = "1FA720EAA9491B3E0291CC94CCB076A4"
                BuildableName = "BLE3Framework"
                BlueprintName = "BLE3Framework"
                ReferencedContainer = "container:Pods.xcodeproj">

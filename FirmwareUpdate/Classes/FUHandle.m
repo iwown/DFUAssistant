@@ -14,9 +14,9 @@
 #import "FirmwareUpdate.h"
 #import <IVBaseKit/IVBaseKit.h>
 #import "FUHandle.h"
+#import "IVFirmwareModel.h"
 
-@interface FUHandle ()
-{
+@interface FUHandle () {
     NSString *_fwName;
 }
 @end
@@ -25,10 +25,8 @@
 static FUHandle *__fuhdle = nil;
 
 + (FUHandle *)handle {
-    @synchronized(__fuhdle)
-    {
-        if (!__fuhdle)
-        {
+    @synchronized(__fuhdle) {
+        if (!__fuhdle) {
             __fuhdle = [[FUHandle alloc]init];
         }
     }
@@ -36,8 +34,7 @@ static FUHandle *__fuhdle = nil;
     return __fuhdle;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
     }
@@ -45,7 +42,6 @@ static FUHandle *__fuhdle = nil;
 }
 
 - (UIViewController *)getFUVC:(NSDictionary *)mContent {
-    
     if (nil == mContent) {
         [Toast makeToast:@"Newest Version, No Need For Upgrade"];
         return nil;
@@ -108,28 +104,10 @@ static FUHandle *__fuhdle = nil;
     }
     return YES;
 }
+
 #pragma mark- Public
 - (NSNumber *)devicePlatformNumber {
-    //oadMode  :1->TI ，2->Nordic ,3->Dialog
-    NSUInteger oadMode = [self.deviceInfo oadMode];
-    switch (oadMode) {
-        case 1:
-            return @0;
-            break;
-        case 2:
-            return @1;
-            break;
-        case 3:
-            return @2;
-            break;
-        case 4:
-            return @3;
-            break;
-            
-        default:
-            return @0;
-            break;
-    }
+    return @([self.deviceInfo platformForDfu]);
 }
 
 - (NSNumber *)deviceModelNumber {
@@ -137,49 +115,8 @@ static FUHandle *__fuhdle = nil;
         return @([self.delegate fuHandleReturnModelDfu]);
     }
     NSString *model = [self.deviceInfo model];
-    //    2-i5+3, 3-i5+5, 4-i7, 5-v6, 6-i5 pro, 7-i6 pro, 8-i6 HR
-    if ([model isEqualToString:@"I5+3"]) {
-        return @2;
-    }else if ([model isEqualToString:@"I5+5"]) {
-        return @3;
-    }else if ([model isEqualToString:@"I7S"]){
-        return @4;
-    }else if ([model isEqualToString:@"V6"]){
-        return @5;
-    }else if ([model isEqualToString:@"I5PR"]){
-        return @6;
-    }else if ([model isEqualToString:@"I6"]){
-        return @7;
-    }else if ([model isEqualToString:@"I6HR"]){
-        return @8;
-    }else if ([model isEqualToString:@"I6NH"]){
-        return @9;
-    }else if ([model isEqualToString:@"I7S2"]){
-        return @14;
-    }else if ([model isEqualToString:@"I6PB"]){
-        return @17;
-    }else if ([model isEqualToString:@"I6H9"]){
-        return @21;
-    }else if ([model isEqualToString:@"i6HC"]){
-        return @24;
-    }else if ([model isEqualToString:@"R1N0"]){
-        return @35;
-    }else if ([model isEqualToString:@"I6C2"]){
-        return @36;
-    }else if ([model isEqualToString:@"P2J"]){
-        return @37;
-    }else if ([model isEqualToString:@"P2J2"]){
-        return @37;
-    }else if ([model isEqualToString:@"P5J"]){
-        return @60;
-    }else if ([model isEqualToString:@"P6J"]){
-        return @67;
-    }else if ([model isEqualToString:@"P1L"]){
-        return @68;
-    }else if ([model isEqualToString:@"S2"]){
-        return @101;
-    }
-    return @0;
+    NSDictionary *dict = [IVFirmwareModel modelMap];
+    return @([dict[model] intValue]);
 }
 
 - (NSString *)getFWName {
@@ -187,7 +124,6 @@ static FUHandle *__fuhdle = nil;
 }
 
 - (NSString *)getDeivceAlias {
-    
     if ([self.delegate respondsToSelector:@selector(fuHandleReturnAliasByModel:)]) {
         NSString *model = [_deviceInfo model];
         if (model) {
@@ -197,7 +133,6 @@ static FUHandle *__fuhdle = nil;
             }
         }
     }
-
     return @"NO ALIAS";
 }
 
@@ -208,7 +143,6 @@ static FUHandle *__fuhdle = nil;
     return nName;
 }
 
-
 - (NSString *)saveFileName:(NSString *)fileUrl {
     NSArray *mArr = [fileUrl componentsSeparatedByString:@"/"];
     NSString *name = [mArr lastObject];
@@ -217,7 +151,6 @@ static FUHandle *__fuhdle = nil;
 }
 
 - (BOOL)deleteFW {
-    
     NSString *firmwareName = [self getFWName];
     if (!firmwareName) {
         return YES;
@@ -234,14 +167,12 @@ static FUHandle *__fuhdle = nil;
 }
 
 - (NSString *)getFWPath {
-    
     NSString *firmwareName = [self getFWName];
     NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:firmwareName];
     return fullPath;
 }
 
 - (BOOL)dfuFileIsExist:(NSString *)url {
-    
     [self saveFileName:url];
     NSString *fullPath = [self getFWPath];
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -294,7 +225,6 @@ static FUHandle *__fuhdle = nil;
                           andNeedFW:(NSUInteger)needFW
                    andDeviceVersion:(NSString *)deviceVersion
                          completion:(RequestFirmwareUpdateCompletion)completion {
-    
     if (!deviceVersion || deviceVersion.length == 0) {
         completion(nil, nil);
         return;

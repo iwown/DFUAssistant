@@ -36,7 +36,6 @@
 }
 
 - (void)drawTableView {
-    
     self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -54,8 +53,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
     }
     IVFirmwareModel *fModel = [_dataSource objectAtIndex:indexPath.row];
-    cell.textLabel.text = fModel.model;
-    cell.detailTextLabel.text = fModel.fwVersion;
+    cell.textLabel.text = [[fModel.downloadLink componentsSeparatedByString:@"/"] lastObject];
+    cell.detailTextLabel.text = fModel.publishDate;
     return cell;
 }
 

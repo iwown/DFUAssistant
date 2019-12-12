@@ -79,8 +79,7 @@
 }
 
 //写文件
-+ (void)writeFile:(NSString *)str toPath:(NSString *)path
-{
++ (void)writeFile:(NSString *)str toPath:(NSString *)path {
     NSFileHandle *fileHandle = [NSFileHandle fileHandleForUpdatingAtPath:path];
     [fileHandle seekToEndOfFile];  // 将节点跳到文件的末尾
     
@@ -103,11 +102,8 @@
 }
 
 //单个文件的大小
-+ (float) fileSizeAtPath:(NSString*) filePath
-{
-    
++ (float) fileSizeAtPath:(NSString*) filePath {
     NSFileManager* manager = [NSFileManager defaultManager];
-    
     if ([manager fileExistsAtPath:filePath]){
         
         return [[manager attributesOfItemAtPath:filePath error:nil] fileSize]/1024.0;

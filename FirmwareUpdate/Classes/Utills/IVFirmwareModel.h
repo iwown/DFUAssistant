@@ -24,4 +24,7 @@
 @property (nonatomic ,strong) NSString *updateInfo;
 
 + (instancetype)getInstanceBy:(NSDictionary *)dict;
+
++ (NSDictionary *)modelMap;
+
 @end

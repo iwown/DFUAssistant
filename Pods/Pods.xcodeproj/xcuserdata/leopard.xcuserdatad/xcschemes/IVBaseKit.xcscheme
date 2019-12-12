@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "24F8D04DD996C12C9AF6E1E1E26077EA"
+               BlueprintIdentifier = "82E78A0FD7BC22FFF867273BE4DF097D"
                BuildableName = "IVBaseKit"
                BlueprintName = "IVBaseKit"
                ReferencedContainer = "container:Pods.xcodeproj">

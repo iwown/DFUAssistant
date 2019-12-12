@@ -45,6 +45,7 @@
 		AFD338CBCE6D1FB08B74EF83 /* Pods_FirmwareUpdate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E690C6D6AEAA618C9D08FB3 /* Pods_FirmwareUpdate.framework */; };
 		D6134EA4212E5627006B90E5 /* PBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6134EA3212E5627006B90E5 /* PBViewController.m */; };
 		D630060E20EB837700529427 /* BLEShareInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = D630060D20EB837700529427 /* BLEShareInstance.m */; };
+		D649277423A220D400ECFB62 /* modelNumber.plist in Resources */ = {isa = PBXBuildFile; fileRef = D649277323A220D400ECFB62 /* modelNumber.plist */; };
 		D64974A821129B5B00366AA5 /* ZGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D64974A721129B5B00366AA5 /* ZGViewController.m */; };
 		D64974AC2112AEB200366AA5 /* LightBlueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D64974AB2112AEB200366AA5 /* LightBlueViewController.m */; };
 		D64974B02113003500366AA5 /* EPOViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D64974AF2113003500366AA5 /* EPOViewController.m */; };
@@ -174,6 +175,7 @@
 		D6134EA3212E5627006B90E5 /* PBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBViewController.m; sourceTree = "<group>"; };
 		D630060C20EB837700529427 /* BLEShareInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEShareInstance.h; sourceTree = "<group>"; };
 		D630060D20EB837700529427 /* BLEShareInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEShareInstance.m; sourceTree = "<group>"; };
+		D649277323A220D400ECFB62 /* modelNumber.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = modelNumber.plist; sourceTree = "<group>"; };
 		D64974A621129B5B00366AA5 /* ZGViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGViewController.h; sourceTree = "<group>"; };
 		D64974A721129B5B00366AA5 /* ZGViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGViewController.m; sourceTree = "<group>"; };
 		D64974AA2112AEB200366AA5 /* LightBlueViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LightBlueViewController.h; sourceTree = "<group>"; };
@@ -579,6 +581,7 @@
 			isa = PBXGroup;
 			children = (
 				D6E58C7D20FF472200399E8A /*  DFULottie */,
+				D649277323A220D400ECFB62 /* modelNumber.plist */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -683,6 +686,7 @@
 				D6866903212FA93F00CE81F7 /* launch_image_App_icon.png in Resources */,
 				D6866901212FA8B300CE81F7 /* LaunchScreen.storyboard in Resources */,
 				D6E58C8F20FF472200399E8A /* imgd_5.png in Resources */,
+				D649277423A220D400ECFB62 /* modelNumber.plist in Resources */,
 				D6E58C8D20FF472200399E8A /* imgd_9.png in Resources */,
 				D6E58C9320FF472200399E8A /* imgd_3.png in Resources */,
 				D6E58C9520FF472200399E8A /* imgd_0.png in Resources */,
@@ -722,8 +726,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FirmwareUpdate/Pods-FirmwareUpdate-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
@@ -736,8 +738,6 @@
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",

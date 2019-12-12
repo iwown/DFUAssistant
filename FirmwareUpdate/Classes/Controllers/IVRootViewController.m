@@ -34,7 +34,6 @@
     self.title = @"More Upgrade";
     _dataSource = [[NSMutableArray alloc] initWithCapacity:0];
     NSArray *arr = @[
-  @{@"btnTitle":@"DFU", @"btnSelectorMethod":@"dfuBtnClick", @"btnDetail":@"dfu way for i5Plus", @"color" : [UIColor blackColor]},
   @{@"btnTitle":@"ENTRY DFU", @"btnSelectorMethod":@"lightBlueBtnClick", @"btnDetail":@"let device(nodric platform) entry dfu status", @"color" : [UIColor cyanColor]},
   @{@"btnTitle":@"DFU Protobuf", @"btnSelectorMethod":@"pbDfuBtnClick", @"btnDetail":@"dfu way for I7E(use protobuf protocol)", @"color" : [UIColor greenColor]},
   @{@"btnTitle":@"DFU-L Protobuf", @"btnSelectorMethod":@"pbLoopDfuBtnClick", @"btnDetail":@"autocycle dfu way for I7E(use protobuf protocol)", @"color" : [UIColor greenColor]},
@@ -42,7 +41,8 @@
   @{@"btnTitle":@"DFU-L Colorful", @"btnSelectorMethod":@"dfuLoopCBtnClick", @"btnDetail":@"autocycle dfu way for I6HC(colorful screen)", @"color" : [UIColor redColor]},
   @{@"btnTitle":@"SOUTA", @"btnSelectorMethod":@"soutaBtnClick", @"btnDetail":@"upgrade way for I6HR(black & white screen)", @"color" : [UIColor darkGrayColor]},
   @{@"btnTitle":@"FOTA", @"btnSelectorMethod":@"fotaBtnClick", @"btnDetail":@"upgrade way for P1 sport watch(MTK platform)" , @"color" : [UIColor blueColor]},
-  @{@"btnTitle":@"EPO", @"btnSelectorMethod":@"epoBtnClick", @"btnDetail":@"epo upgrade for P1 Sport Watch", @"color" : [UIColor blueColor]}];
+  @{@"btnTitle":@"EPO", @"btnSelectorMethod":@"epoBtnClick", @"btnDetail":@"epo upgrade for P1 Sport Watch", @"color" : [UIColor blueColor]},
+  @{@"btnTitle":@"DFU", @"btnSelectorMethod":@"dfuBtnClick", @"btnDetail":@"dfu way for i5Plus", @"color" : [UIColor blackColor]}];
     [_dataSource addObjectsFromArray:arr];
 }
 

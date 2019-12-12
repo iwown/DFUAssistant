@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>I5+3</key>
+	<integer>2</integer>
+    <key>I5+5</key>
+    <integer>3</integer>
+    <key>I7S</key>
+    <integer>4</integer>
+    <key>V6</key>
+    <integer>5</integer>
+    <key>I5PR</key>
+    <integer>6</integer>
+    <key>I6</key>
+    <integer>7</integer>
+    <key>I6HR</key>
+    <integer>8</integer>
+    <key>I6NH</key>
+    <integer>9</integer>
+    <key>I7S2</key>
+    <integer>14</integer>
+    <key>I6PB</key>
+    <integer>17</integer>
+    <key>I6H9</key>
+    <integer>21</integer>
+    <key>i6HC</key>
+    <integer>24</integer>
+    <key>R1N0</key>
+    <integer>35</integer>
+    <key>I6C2</key>
+    <integer>36</integer>
+    <key>P2J</key>
+    <integer>37</integer>
+    <key>P2J2</key>
+    <integer>37</integer>
+    <key>I7F1</key>
+    <integer>47</integer>
+    <key>I7F2</key>
+    <integer>63</integer>
+    <key>I7F3</key>
+    <integer>65</integer>
+    <key>P5J</key>
+    <integer>60</integer>
+    <key>P6J</key>
+    <integer>67</integer>
+    <key>P1L</key>
+    <integer>68</integer>
+    <key>P1MINI</key>
+    <integer>66</integer>
+    <key>I7E</key>
+    <integer>79</integer>
+    <key>CS110</key>
+    <integer>94</integer>
+    <key>CS200</key>
+    <integer>111</integer>
+    <key>le-B1</key>
+    <integer>99</integer>
+    <key>le-W1</key>
+    <integer>100</integer>
+</dict>
+</plist>

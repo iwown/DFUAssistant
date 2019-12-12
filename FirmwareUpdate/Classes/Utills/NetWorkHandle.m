@@ -8,10 +8,10 @@
 #import "IVFirmwareModel.h"
 #import "NetWorkHandle.h"
 
+
 @implementation NetWorkHandle
 
 + (NSArray <IVFirmwareModel *>*)selectFirmwareList {
-    
     //第一步，创建URL
     NSURL *url = [NSURL URLWithString:@"http://betaapi.iwown.com/venus/deviceservice/device/firmwareList?type=0"];
 

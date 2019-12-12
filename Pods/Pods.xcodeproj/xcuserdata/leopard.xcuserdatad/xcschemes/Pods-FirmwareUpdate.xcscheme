@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A5BB648B303D79D9B9C908BA6BF9CB38"
+               BlueprintIdentifier = "31B15F2DEDF2B4982C7B9CBA09DC7068"
                BuildableName = "Pods_FirmwareUpdate.framework"
                BlueprintName = "Pods-FirmwareUpdate"
                ReferencedContainer = "container:Pods.xcodeproj">
