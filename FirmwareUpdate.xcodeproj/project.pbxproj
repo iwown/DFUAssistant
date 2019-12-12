@@ -932,6 +932,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 1020;
 				DEVELOPMENT_TEAM = L855ZMKEYR;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -948,6 +949,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FirmwareUpdate/Classes/Fota",
 				);
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iwown.dfuAssistant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -962,6 +964,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 1020;
 				DEVELOPMENT_TEAM = L855ZMKEYR;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -978,6 +981,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FirmwareUpdate/Classes/Fota",
 				);
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iwown.dfuAssistant;
 				PRODUCT_NAME = "$(TARGET_NAME)";

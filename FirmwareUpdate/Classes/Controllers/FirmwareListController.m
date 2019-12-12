@@ -8,9 +8,11 @@
 #import "DownLoadViewController.h"
 #import "FirmwareListController.h"
 
-@interface FirmwareListController ()<UITableViewDelegate, UITableViewDataSource> {
+@interface FirmwareListController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate> {
     NSMutableArray *_dataSource;
     UITableView *_table;
+    
+    NSArray *__cacheDataSource;
 }
 
 @end
@@ -35,6 +37,7 @@
     [_dataSource removeAllObjects];
     NSArray *directoryContents = [FileManager scanDirWithPath:DirectoryPath];
     [_dataSource addObjectsFromArray:directoryContents];
+    __cacheDataSource = [_dataSource copy];
 }
 
 - (void)drawUI {
@@ -45,7 +48,15 @@
     _table.backgroundColor = [UIColor whiteColor];
     _table.delegate = self;
     _table.dataSource = self;
+    _table.tableHeaderView = [self uiSearchBar];
     [self.view addSubview:_table];
+}
+
+- (UISearchBar *)uiSearchBar {
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60)];
+    searchBar.delegate = self;
+    searchBar.showsCancelButton = YES;
+    return searchBar;
 }
 
 - (void)moreFirmware {
@@ -77,6 +88,26 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
         [_delegate selectFirmware:path];
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    NSLog(@"%@",searchText);
+    [_dataSource removeAllObjects];
+    if ([searchText isEqualToString:@""] ||
+        searchText == nil) {
+        [_dataSource addObjectsFromArray:__cacheDataSource];
+    }else {
+       NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self contains [cd] %@",searchText];
+       NSArray *arrays =  [[NSArray alloc] initWithArray:[__cacheDataSource filteredArrayUsingPredicate:predicate]];
+        [_dataSource addObjectsFromArray:arrays];
+    }
+    [_table reloadData];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar endEditing:YES];
+    [_dataSource addObjectsFromArray:__cacheDataSource];
+    [_table reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
