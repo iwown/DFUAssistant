@@ -16,8 +16,10 @@
 
 #import "SSZipArchive.h"
 
+#import "BLEShareInstance.h"
 
-@interface ViewController ()<FirmwareListControllerDelegate, DeviceConectControllerDelegate, SSZipArchiveDelegate>
+
+@interface ViewController ()<FirmwareListControllerDelegate, DeviceConectControllerDelegate, SSZipArchiveDelegate, UITextFieldDelegate>
 {
     UILabel             *_nameLabel;
     UILabel             *_sizeLabel;
@@ -40,6 +42,7 @@
     UIView              *_coverView;
     
     BOOL                __StartByAutoCycle;
+    NSString            *_filterWord;
 }
 
 @end
@@ -114,6 +117,15 @@
     [upgradeBtn addTarget:self action:@selector(upgradeDevice) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:upgradeBtn];
     _upgradeBtn = upgradeBtn;
+    
+    UITextField *filed = [[UITextField alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 300) / 2, SCREEN_HEIGHT - 290, 300, 30)];
+    filed.textAlignment = NSTextAlignmentCenter;
+    filed.placeholder = @"请输入设备名前缀用于动态识别";
+    filed.delegate = self;
+    [self.view addSubview:filed];
+    if (!self.autoEntryDfu) {
+        filed.hidden = YES;
+    }
 }
 
 - (void)selectFirmWare {
@@ -241,6 +253,16 @@
     if (!self.autoUpgrading) {
         return;
     }
+    if (self.autoEntryDfu) {
+        [[BLEShareInstance shareInstance] scanDeviceAndAutoDfu:_filterWord andBlock:^{
+            [self entrySelectDevice];
+        }];
+    }else {
+        [self entrySelectDevice];
+    }
+}
+
+- (void)entrySelectDevice {
     __StartByAutoCycle = self.autoUpgrading;
     [self selectDevice];
 }
@@ -374,6 +396,14 @@ static const CGFloat CSToastActivityWidth       = 50.0;
         [_coverView removeFromSuperview];
         _coverView = nil;
     }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    _filterWord = textField.text;
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
 }
 
 - (void)dealloc {

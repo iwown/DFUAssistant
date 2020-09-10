@@ -49,6 +49,8 @@ static BLEShareInstance *shareBLEInstance = nil;
     NSInteger             _lightCount;
     
     BLEAutumn             *_bleautumn;
+    
+    NSString *_isAutoDfuKey;
 }
 
 + (BLEShareInstance *)shareInstance {
@@ -83,6 +85,12 @@ static BLEShareInstance *shareBLEInstance = nil;
 - (void)scanDevice {
     [_deviceArray removeAllObjects];
     [_bleautumn startScan];
+}
+
+- (void)scanDeviceAndAutoDfu:(NSString *)keyWord andBlock:(void(^)(void))block{
+    _isAutoDfuKey = keyWord;
+    self.dfuBlock = block;
+    [self scanDevice];
 }
 
 - (void)stopScan {
@@ -215,6 +223,11 @@ static BLEShareInstance *shareBLEInstance = nil;
 
 - (void)solsticeDidConnectDevice:(ZRBlePeripheral *)device {
     NSLog(@"%s \n\n",__FUNCTION__);
+    if (_isAutoDfuKey) {
+        [self deviceFWUpdate];
+        [self dfuBlock];
+        return;
+    }
     [self setBLEState:YES];
     self.solstice = [_bleautumn solstice];
     [_bleautumn registerSolsticeEquinox:self];
@@ -229,6 +242,10 @@ static BLEShareInstance *shareBLEInstance = nil;
 }
 
 - (void)solsticeDidDiscoverDeviceWithMAC:(ZRBlePeripheral *)iwDevice {
+    if (_isAutoDfuKey && [iwDevice.deviceName containsString:_isAutoDfuKey]) {
+        [self connectDevice:iwDevice];
+        return;
+    }
 
     if (iwDevice.RSSI.integerValue < -80) {
         return;

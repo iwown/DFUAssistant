@@ -37,6 +37,7 @@
   @{@"btnTitle":@"ENTRY DFU", @"btnSelectorMethod":@"lightBlueBtnClick", @"btnDetail":@"let device(nodric platform) entry dfu status", @"color" : [UIColor cyanColor]},
   @{@"btnTitle":@"DFU Protobuf", @"btnSelectorMethod":@"pbDfuBtnClick", @"btnDetail":@"dfu way for I7E(use protobuf protocol)", @"color" : [UIColor greenColor]},
   @{@"btnTitle":@"DFU-L Protobuf", @"btnSelectorMethod":@"pbLoopDfuBtnClick", @"btnDetail":@"autocycle dfu way for I7E(use protobuf protocol)", @"color" : [UIColor greenColor]},
+  @{@"btnTitle":@"DFU-L-A Protobuf", @"btnSelectorMethod":@"pbLoopAutoDfuBtnClick", @"btnDetail":@"autocycle dfu way for I7E(entry DFU & use protobuf protocol)", @"color" : [UIColor cyanColor]},
   @{@"btnTitle":@"DFU Colorful", @"btnSelectorMethod":@"dfuCBtnClick", @"btnDetail":@"dfu way for I6HC(colorful screen)", @"color" : [UIColor redColor]},
   @{@"btnTitle":@"DFU-L Colorful", @"btnSelectorMethod":@"dfuLoopCBtnClick", @"btnDetail":@"autocycle dfu way for I6HC(colorful screen)", @"color" : [UIColor redColor]},
   @{@"btnTitle":@"SOUTA", @"btnSelectorMethod":@"soutaBtnClick", @"btnDetail":@"upgrade way for I6HR(black & white screen)", @"color" : [UIColor darkGrayColor]},
@@ -126,6 +127,13 @@
 - (void)pbLoopDfuBtnClick {
     PBViewController *pbVc = [[PBViewController alloc] init];
     pbVc.autoUpgrading = YES;
+    [self.navigationController pushViewController:pbVc animated:YES];
+}
+
+- (void)pbLoopAutoDfuBtnClick {
+    PBViewController *pbVc = [[PBViewController alloc] init];
+    pbVc.autoUpgrading = YES;
+    pbVc.autoEntryDfu = YES;
     [self.navigationController pushViewController:pbVc animated:YES];
 }
 

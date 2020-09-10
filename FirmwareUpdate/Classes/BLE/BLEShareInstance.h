@@ -42,6 +42,8 @@ UIKIT_EXTERN NSString *const kNOTICE_SYNC_HEART_RATE_END;
 
 @property (nonatomic, assign) NSInteger bleDeviceCategory;
 
+@property (nonatomic, copy) void(^dfuBlock)(void);
+
 + (BLEShareInstance *)shareInstance;
 
 + (id<BLESolstice>)bleSolstice ;
@@ -49,6 +51,7 @@ UIKIT_EXTERN NSString *const kNOTICE_SYNC_HEART_RATE_END;
 - (BLEProtocol)bleProtocol;
 
 - (void)scanDevice;
+- (void)scanDeviceAndAutoDfu:(NSString *)keyWord andBlock:(void(^)(void))block;
 
 - (void)stopScan ;
 
