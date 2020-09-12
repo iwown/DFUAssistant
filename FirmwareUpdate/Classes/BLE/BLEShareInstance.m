@@ -27,7 +27,7 @@ typedef void(^scaleSuccess)(id response);
 typedef void(^scaleFailure)(id response);
 
 static BLEShareInstance *shareBLEInstance = nil;
-@interface BLEShareInstance ()<NotifyCustomDelegate>
+@interface BLEShareInstance ()<SPC_NotifyCustomDelegate>
 
 @property (nonatomic,strong)NSMutableArray *needSetArr;
 

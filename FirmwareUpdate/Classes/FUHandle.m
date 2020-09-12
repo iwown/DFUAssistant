@@ -166,6 +166,12 @@ static FUHandle *__fuhdle = nil;
     return YES;
 }
 
+- (NSString *)getFotaTestPath {
+    NSString *firmwareName = @"image253.bin";//@"CS253_12.1.12.2.bin";
+    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/firmware/"] stringByAppendingPathComponent:firmwareName];
+    return fullPath;
+}
+
 - (NSString *)getFWPath {
     NSString *firmwareName = [self getFWName];
     NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:firmwareName];

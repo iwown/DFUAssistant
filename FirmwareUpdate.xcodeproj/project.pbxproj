@@ -57,7 +57,6 @@
 		D680CBCE2101D4F500B536C2 /* RequestFirmwareUpdateApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D680CBCD2101D4F400B536C2 /* RequestFirmwareUpdateApi.m */; };
 		D6866901212FA8B300CE81F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6866900212FA8B300CE81F7 /* LaunchScreen.storyboard */; };
 		D6866903212FA93F00CE81F7 /* launch_image_App_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D6866902212FA93F00CE81F7 /* launch_image_App_icon.png */; };
-		D68D57241F6FCF3F00CC1DCB /* libBtNotify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D68D57231F6FCF3F00CC1DCB /* libBtNotify.a */; };
 		D68D57271F6FD09D00CC1DCB /* FUHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = D68D57261F6FD09D00CC1DCB /* FUHandle.m */; };
 		D6C7280D20F8A76300CBB618 /* BaseDFUController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C7280920F8A76300CBB618 /* BaseDFUController.m */; };
 		D6C7281020F8A82200CBB618 /* YSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C7280E20F8A82100CBB618 /* YSProgressView.m */; };
@@ -80,6 +79,19 @@
 		D6E58C9420FF472200399E8A /* imgd_1.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8820FF472200399E8A /* imgd_1.png */; };
 		D6E58C9520FF472200399E8A /* imgd_0.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8920FF472200399E8A /* imgd_0.png */; };
 		D6E58C9620FF472200399E8A /* data_dfu.json in Resources */ = {isa = PBXBuildFile; fileRef = D6E58C8A20FF472200399E8A /* data_dfu.json */; };
+		D6EC8069250A718E00CBFC28 /* SPC_FotaController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EC8047250A718E00CBFC28 /* SPC_FotaController.m */; };
+		D6EC806A250A718E00CBFC28 /* SPC_FotaOperator.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EC8048250A718E00CBFC28 /* SPC_FotaOperator.m */; };
+		D6EC806C250A718E00CBFC28 /* SPC_GattLinker.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EC804F250A718E00CBFC28 /* SPC_GattLinker.m */; };
+		D6EC806D250A718E00CBFC28 /* BtNotify.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EC8050250A718E00CBFC28 /* BtNotify.m */; };
+		D6EC806E250A718E00CBFC28 /* SPC_CommandUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EC8053250A718E00CBFC28 /* SPC_CommandUtils.m */; };
+		D6EC806F250A718E00CBFC28 /* SPC_ControllerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EC8057250A718E00CBFC28 /* SPC_ControllerManager.m */; };
+		D6EC8070250A718E00CBFC28 /* SPC_Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EC8059250A718E00CBFC28 /* SPC_Controller.m */; };
+		D6EC8071250A718E00CBFC28 /* SPC_Command.c in Sources */ = {isa = PBXBuildFile; fileRef = D6EC805C250A718E00CBFC28 /* SPC_Command.c */; };
+		D6EC8072250A718E00CBFC28 /* SPC_ReadDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EC805D250A718E00CBFC28 /* SPC_ReadDataHandler.m */; };
+		D6EC8073250A718E00CBFC28 /* ReadDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EC805F250A718E00CBFC28 /* ReadDataParser.m */; };
+		D6EC8074250A718E00CBFC28 /* rc4_mtk.c in Sources */ = {isa = PBXBuildFile; fileRef = D6EC8062250A718E00CBFC28 /* rc4_mtk.c */; };
+		D6EC8075250A718E00CBFC28 /* SPC_Session.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EC8066250A718E00CBFC28 /* SPC_Session.m */; };
+		D6EC8076250A718E00CBFC28 /* SPC_SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EC8067250A718E00CBFC28 /* SPC_SessionManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -196,8 +208,6 @@
 		D680CBCD2101D4F400B536C2 /* RequestFirmwareUpdateApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestFirmwareUpdateApi.m; sourceTree = "<group>"; };
 		D6866900212FA8B300CE81F7 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D6866902212FA93F00CE81F7 /* launch_image_App_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_image_App_icon.png; sourceTree = "<group>"; };
-		D68D57221F6FCF3F00CC1DCB /* BtNotify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtNotify.h; sourceTree = "<group>"; };
-		D68D57231F6FCF3F00CC1DCB /* libBtNotify.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBtNotify.a; sourceTree = "<group>"; };
 		D68D57251F6FD09D00CC1DCB /* FUHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUHandle.h; sourceTree = "<group>"; };
 		D68D57261F6FD09D00CC1DCB /* FUHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUHandle.m; sourceTree = "<group>"; };
 		D6C7280820F8A76300CBB618 /* BaseDFUController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseDFUController.h; sourceTree = "<group>"; };
@@ -230,6 +240,33 @@
 		D6E58C8820FF472200399E8A /* imgd_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgd_1.png; sourceTree = "<group>"; };
 		D6E58C8920FF472200399E8A /* imgd_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgd_0.png; sourceTree = "<group>"; };
 		D6E58C8A20FF472200399E8A /* data_dfu.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data_dfu.json; sourceTree = "<group>"; };
+		D6EC8047250A718E00CBFC28 /* SPC_FotaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPC_FotaController.m; sourceTree = "<group>"; };
+		D6EC8048250A718E00CBFC28 /* SPC_FotaOperator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPC_FotaOperator.m; sourceTree = "<group>"; };
+		D6EC804A250A718E00CBFC28 /* SPC_FotaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPC_FotaController.h; sourceTree = "<group>"; };
+		D6EC804B250A718E00CBFC28 /* SPC_FotaOperator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPC_FotaOperator.h; sourceTree = "<group>"; };
+		D6EC804E250A718E00CBFC28 /* SPC_GattLinker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPC_GattLinker.h; sourceTree = "<group>"; };
+		D6EC804F250A718E00CBFC28 /* SPC_GattLinker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPC_GattLinker.m; sourceTree = "<group>"; };
+		D6EC8050250A718E00CBFC28 /* BtNotify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BtNotify.m; sourceTree = "<group>"; };
+		D6EC8052250A718E00CBFC28 /* SPC_LogUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPC_LogUtils.h; sourceTree = "<group>"; };
+		D6EC8053250A718E00CBFC28 /* SPC_CommandUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPC_CommandUtils.m; sourceTree = "<group>"; };
+		D6EC8054250A718E00CBFC28 /* SPC_CommandUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPC_CommandUtils.h; sourceTree = "<group>"; };
+		D6EC8056250A718E00CBFC28 /* SPC_Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPC_Controller.h; sourceTree = "<group>"; };
+		D6EC8057250A718E00CBFC28 /* SPC_ControllerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPC_ControllerManager.m; sourceTree = "<group>"; };
+		D6EC8058250A718E00CBFC28 /* SPC_ControllerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPC_ControllerManager.h; sourceTree = "<group>"; };
+		D6EC8059250A718E00CBFC28 /* SPC_Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPC_Controller.m; sourceTree = "<group>"; };
+		D6EC805A250A718E00CBFC28 /* BtNotify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtNotify.h; sourceTree = "<group>"; };
+		D6EC805C250A718E00CBFC28 /* SPC_Command.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SPC_Command.c; sourceTree = "<group>"; };
+		D6EC805D250A718E00CBFC28 /* SPC_ReadDataHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPC_ReadDataHandler.m; sourceTree = "<group>"; };
+		D6EC805E250A718E00CBFC28 /* rc4_mtk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rc4_mtk.h; sourceTree = "<group>"; };
+		D6EC805F250A718E00CBFC28 /* ReadDataParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadDataParser.m; sourceTree = "<group>"; };
+		D6EC8060250A718E00CBFC28 /* SPC_Command.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPC_Command.h; sourceTree = "<group>"; };
+		D6EC8061250A718E00CBFC28 /* ReadDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadDataParser.h; sourceTree = "<group>"; };
+		D6EC8062250A718E00CBFC28 /* rc4_mtk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rc4_mtk.c; sourceTree = "<group>"; };
+		D6EC8063250A718E00CBFC28 /* SPC_ReadDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPC_ReadDataHandler.h; sourceTree = "<group>"; };
+		D6EC8065250A718E00CBFC28 /* SPC_SessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPC_SessionManager.h; sourceTree = "<group>"; };
+		D6EC8066250A718E00CBFC28 /* SPC_Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPC_Session.m; sourceTree = "<group>"; };
+		D6EC8067250A718E00CBFC28 /* SPC_SessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPC_SessionManager.m; sourceTree = "<group>"; };
+		D6EC8068250A718E00CBFC28 /* SPC_Session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPC_Session.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,7 +278,6 @@
 				574915A51D8FD8A3006F01C3 /* libz.tbd in Frameworks */,
 				574915A31D8FD6FB006F01C3 /* Foundation.framework in Frameworks */,
 				574915A11D8FD6F2006F01C3 /* UIKit.framework in Frameworks */,
-				D68D57241F6FCF3F00CC1DCB /* libBtNotify.a in Frameworks */,
 				AFD338CBCE6D1FB08B74EF83 /* Pods_FirmwareUpdate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,8 +338,7 @@
 		5704C2481EC1B14A005A7BCC /* Fota */ = {
 			isa = PBXGroup;
 			children = (
-				D68D57221F6FCF3F00CC1DCB /* BtNotify.h */,
-				D68D57231F6FCF3F00CC1DCB /* libBtNotify.a */,
+				D6EC8045250A718D00CBFC28 /* BtNotify */,
 			);
 			path = Fota;
 			sourceTree = "<group>";
@@ -613,6 +648,88 @@
 			path = images;
 			sourceTree = "<group>";
 		};
+		D6EC8045250A718D00CBFC28 /* BtNotify */ = {
+			isa = PBXGroup;
+			children = (
+				D6EC8046250A718E00CBFC28 /* fota */,
+				D6EC804D250A718E00CBFC28 /* linker */,
+				D6EC8050250A718E00CBFC28 /* BtNotify.m */,
+				D6EC8051250A718E00CBFC28 /* utils */,
+				D6EC8055250A718E00CBFC28 /* controller */,
+				D6EC805A250A718E00CBFC28 /* BtNotify.h */,
+				D6EC805B250A718E00CBFC28 /* command */,
+				D6EC8064250A718E00CBFC28 /* session */,
+			);
+			path = BtNotify;
+			sourceTree = "<group>";
+		};
+		D6EC8046250A718E00CBFC28 /* fota */ = {
+			isa = PBXGroup;
+			children = (
+				D6EC8047250A718E00CBFC28 /* SPC_FotaController.m */,
+				D6EC8048250A718E00CBFC28 /* SPC_FotaOperator.m */,
+				D6EC804A250A718E00CBFC28 /* SPC_FotaController.h */,
+				D6EC804B250A718E00CBFC28 /* SPC_FotaOperator.h */,
+			);
+			path = fota;
+			sourceTree = "<group>";
+		};
+		D6EC804D250A718E00CBFC28 /* linker */ = {
+			isa = PBXGroup;
+			children = (
+				D6EC804E250A718E00CBFC28 /* SPC_GattLinker.h */,
+				D6EC804F250A718E00CBFC28 /* SPC_GattLinker.m */,
+			);
+			path = linker;
+			sourceTree = "<group>";
+		};
+		D6EC8051250A718E00CBFC28 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				D6EC8052250A718E00CBFC28 /* SPC_LogUtils.h */,
+				D6EC8053250A718E00CBFC28 /* SPC_CommandUtils.m */,
+				D6EC8054250A718E00CBFC28 /* SPC_CommandUtils.h */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		D6EC8055250A718E00CBFC28 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				D6EC8056250A718E00CBFC28 /* SPC_Controller.h */,
+				D6EC8057250A718E00CBFC28 /* SPC_ControllerManager.m */,
+				D6EC8058250A718E00CBFC28 /* SPC_ControllerManager.h */,
+				D6EC8059250A718E00CBFC28 /* SPC_Controller.m */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		D6EC805B250A718E00CBFC28 /* command */ = {
+			isa = PBXGroup;
+			children = (
+				D6EC805C250A718E00CBFC28 /* SPC_Command.c */,
+				D6EC805D250A718E00CBFC28 /* SPC_ReadDataHandler.m */,
+				D6EC805E250A718E00CBFC28 /* rc4_mtk.h */,
+				D6EC805F250A718E00CBFC28 /* ReadDataParser.m */,
+				D6EC8060250A718E00CBFC28 /* SPC_Command.h */,
+				D6EC8061250A718E00CBFC28 /* ReadDataParser.h */,
+				D6EC8062250A718E00CBFC28 /* rc4_mtk.c */,
+				D6EC8063250A718E00CBFC28 /* SPC_ReadDataHandler.h */,
+			);
+			path = command;
+			sourceTree = "<group>";
+		};
+		D6EC8064250A718E00CBFC28 /* session */ = {
+			isa = PBXGroup;
+			children = (
+				D6EC8065250A718E00CBFC28 /* SPC_SessionManager.h */,
+				D6EC8066250A718E00CBFC28 /* SPC_Session.m */,
+				D6EC8067250A718E00CBFC28 /* SPC_SessionManager.m */,
+				D6EC8068250A718E00CBFC28 /* SPC_Session.h */,
+			);
+			path = session;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -761,12 +878,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				5749155D1D8FCA63006F01C3 /* DFUOperationsDetails.m in Sources */,
+				D6EC806F250A718E00CBFC28 /* SPC_ControllerManager.m in Sources */,
 				5749155B1D8FCA63006F01C3 /* DFUHelper.m in Sources */,
+				D6EC8069250A718E00CBFC28 /* SPC_FotaController.m in Sources */,
 				48E227C01DD0A33700B6737C /* IVRootViewController.m in Sources */,
 				48E227AF1DD08C6F00B6737C /* DeviceStorage.m in Sources */,
 				5749155C1D8FCA63006F01C3 /* DFUOperations.m in Sources */,
 				48E227B01DD08C6F00B6737C /* GenericServiceManager.m in Sources */,
 				D680CBCE2101D4F500B536C2 /* RequestFirmwareUpdateApi.m in Sources */,
+				D6EC8072250A718E00CBFC28 /* SPC_ReadDataHandler.m in Sources */,
 				5749155A1D8FCA63006F01C3 /* BLEOperations.m in Sources */,
 				D6C7281920F8B28800CBB618 /* FOTA_DFUController.m in Sources */,
 				D64974B02113003500366AA5 /* EPOViewController.m in Sources */,
@@ -775,17 +895,22 @@
 				D650D2051F70E953006DD133 /* DFUOverView.m in Sources */,
 				D6C7281720F8B28800CBB618 /* SUOTA_DFUController.m in Sources */,
 				D6C7281820F8B28800CBB618 /* DFUViewController.m in Sources */,
+				D6EC8073250A718E00CBFC28 /* ReadDataParser.m in Sources */,
+				D6EC8076250A718E00CBFC28 /* SPC_SessionManager.m in Sources */,
 				48BF68AA1DDC49780026F5C5 /* IVFirmwareModel.m in Sources */,
 				48C61DFA1DF9900D006E1A6F /* DCViewController.m in Sources */,
+				D6EC806E250A718E00CBFC28 /* SPC_CommandUtils.m in Sources */,
 				D6C7281020F8A82200CBB618 /* YSProgressView.m in Sources */,
 				574915611D8FCA63006F01C3 /* InitData.m in Sources */,
 				48E227AE1DD08C6F00B6737C /* BluetoothManager.m in Sources */,
 				D64974AC2112AEB200366AA5 /* LightBlueViewController.m in Sources */,
+				D6EC8074250A718E00CBFC28 /* rc4_mtk.c in Sources */,
 				48EA13C31DC746F200FDEB36 /* BlueViewController.m in Sources */,
 				D64974A821129B5B00366AA5 /* ZGViewController.m in Sources */,
 				D6C7282620F8BF1A00CBB618 /* ZGDFUController.m in Sources */,
 				D6134EA4212E5627006B90E5 /* PBViewController.m in Sources */,
 				574915621D8FCA63006F01C3 /* JsonParser.m in Sources */,
+				D6EC806D250A718E00CBFC28 /* BtNotify.m in Sources */,
 				D650D2401F710162006DD133 /* ToastView.m in Sources */,
 				574915651D8FCA63006F01C3 /* Utility.m in Sources */,
 				5713B1211D92377B00D4274C /* PercentView.m in Sources */,
@@ -799,16 +924,21 @@
 				48E227B11DD08C6F00B6737C /* ParamaterStorage.m in Sources */,
 				5751D71F1D8F7DA00096D96C /* main.m in Sources */,
 				574915601D8FCA63006F01C3 /* IntelHex2BinConverter.m in Sources */,
+				D6EC806A250A718E00CBFC28 /* SPC_FotaOperator.m in Sources */,
 				48BF68A71DDC44A60026F5C5 /* NetWorkHandle.m in Sources */,
+				D6EC806C250A718E00CBFC28 /* SPC_GattLinker.m in Sources */,
 				D68D57271F6FD09D00CC1DCB /* FUHandle.m in Sources */,
 				D6C7280D20F8A76300CBB618 /* BaseDFUController.m in Sources */,
 				48E227C31DD0A7B100B6737C /* DUViewController.m in Sources */,
 				57B84E601D90CD4A00BD46AF /* ViewController.m in Sources */,
 				48E227B21DD08C6F00B6737C /* SUOTAServiceManager.m in Sources */,
+				D6EC8075250A718E00CBFC28 /* SPC_Session.m in Sources */,
 				D6C7282220F8B42D00CBB618 /* UploadFirmwareUpdateInfoApi.m in Sources */,
 				574915631D8FCA63006F01C3 /* ScannedPeripheral.m in Sources */,
 				57B84E631D90CD8100BD46AF /* FileManager.m in Sources */,
 				5749155E1D8FCA63006F01C3 /* FileOperations.m in Sources */,
+				D6EC8071250A718E00CBFC28 /* SPC_Command.c in Sources */,
+				D6EC8070250A718E00CBFC28 /* SPC_Controller.m in Sources */,
 				D6C7281F20F8B41E00CBB618 /* DownloadFirmwareUpdateInfoApi.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

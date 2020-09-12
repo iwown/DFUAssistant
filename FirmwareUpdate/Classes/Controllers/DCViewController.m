@@ -18,6 +18,7 @@ typedef enum{
 #import <BLEMidAutumn/BLEMidAutumn.h>
 #import "RequestFirmwareUpdateApi.h"
 #import "DCViewController.h"
+#import "FOTA_DFUController.h"
 
 @interface DCViewController ()<UITableViewDataSource,UITableViewDelegate,FUHandleDelegate,BLEShareInstanceDelegate>
 {
@@ -324,6 +325,10 @@ typedef enum{
 }
 
 - (void)upgradeBtnClick:(UIButton *)btn {
+    //TODO: fota 测试
+    FOTA_DFUController *dfuVC = [[FOTA_DFUController alloc]init];
+    [self.navigationController pushViewController:dfuVC animated:YES];
+    return;
     [self requestForCheckDFU];
 }
 

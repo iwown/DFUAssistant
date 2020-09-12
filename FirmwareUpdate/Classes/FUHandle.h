@@ -46,6 +46,7 @@
 - (NSString *)braceletName:(NSString *)nName;
 - (NSString *)getFWName;
 - (NSString *)getFWPath;
+- (NSString *)getFotaTestPath;
 - (BOOL)dfuFileIsExist:(NSString *)url;
 - (BOOL)downFWFromURL:(NSString *)fileURL;
 
